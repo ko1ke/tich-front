@@ -1,12 +1,12 @@
 import React from 'react';
 import GenericTemplate from '../templates/GenericTemplate';
 
-const HomePage: React.FC = () => {
+const TickerPage: React.FC = () => {
   return (
-    <GenericTemplate title="Home">
+    <GenericTemplate title="Portfolio">
       <>Contents</>
     </GenericTemplate>
   );
 };
 
-export default HomePage;
+export default TickerPage;
