@@ -54,10 +54,6 @@ export const fetchEmailUser = createAsyncThunk<
   async (user, { dispatch, rejectWithValue }) => {
     try {
       const res: any = await signInEmail(user);
-      const { idToken, accessToken, providerId } = res.credential;
-      localStorage.setItem('idToken', idToken);
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('providerId', providerId);
       dispatch(push('/'));
       const { email, uid, displayName, photoURL } = res.user;
       return { email, uid, displayName, photoURL };
@@ -76,10 +72,6 @@ export const createEmailUser = createAsyncThunk<
 >('emailUser/create', async (user, { dispatch, rejectWithValue }) => {
   try {
     const res: any = await signUpEmail(user);
-    const { idToken, accessToken, providerId } = res.credential;
-    localStorage.setItem('idToken', idToken);
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('providerId', providerId);
     dispatch(push('/'));
     const { email, uid, displayName, photoURL } = res.user;
     return { email, uid, displayName, photoURL };
@@ -97,10 +89,6 @@ export const createGoogleUser = createAsyncThunk<
 >('googleUser/create', async (_, { dispatch, rejectWithValue }) => {
   try {
     const res: any = await signInGoogle();
-    const { idToken, accessToken, providerId } = res.credential;
-    localStorage.setItem('idToken', idToken);
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('providerId', providerId);
     dispatch(push('/'));
     const { email, uid, displayName, photoURL } = res.user;
     return { email, uid, displayName, photoURL };
@@ -116,9 +104,6 @@ export const removeCurrentUser = createAsyncThunk<void, void, ThunkApiConfig>(
   async (_, { dispatch, rejectWithValue }) => {
     try {
       await signOut();
-      localStorage.removeItem('idToken');
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('providerId');
       dispatch(push('/login'));
       return;
     } catch (e) {

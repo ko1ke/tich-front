@@ -1,8 +1,8 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import TickerPage from './components/pages/PortfolioPage';
+import PortfolioPage from './components/pages/PortfolioPage';
 import HomePage from './components/pages/HomePage';
 import LogInPage from './components/pages/LogInPage';
 import SignUpPage from './components/pages/SignUpPage';
@@ -38,7 +38,7 @@ const App: React.FC = () => {
       <Route path="/" component={HomePage} exact />
       <Route path="/login" component={LogInPage} exact />
       <Route path="/sign_up" component={SignUpPage} exact />
-      <Route path="/portfolio" component={TickerPage} exact />
+      <Route path="/portfolio" component={PortfolioPage} exact />
       <Route path="/setting" component={SettingPage} exact />
       <Route render={() => <h1>Not Found...</h1>} />
     </Switch>

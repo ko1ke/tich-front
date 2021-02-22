@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme: Theme) =>
 const AuthButton = () => {
   const classes = useStyles();
   const currentUser = useSelector((state: RootState) => state.currentUser);
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const signOut = () => {
