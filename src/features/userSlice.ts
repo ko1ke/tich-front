@@ -6,11 +6,13 @@ import {
   signUpEmail,
   signInGoogle,
   signOut,
+  getIdToken,
 } from '../api/firebase';
 
 type User = {
   email?: string | null;
   uid?: string;
+  idToken?: string;
   displayName?: string | null;
   photoURL?: string | null;
   isAuthenticationError?: boolean;
@@ -54,9 +56,10 @@ export const fetchEmailUser = createAsyncThunk<
   async (user, { dispatch, rejectWithValue }) => {
     try {
       const res: any = await signInEmail(user);
+      const idToken = await getIdToken();
       dispatch(push('/'));
       const { email, uid, displayName, photoURL } = res.user;
-      return { email, uid, displayName, photoURL };
+      return { idToken, email, uid, displayName, photoURL };
     } catch (e) {
       return rejectWithValue({
         error: e,
@@ -72,9 +75,10 @@ export const createEmailUser = createAsyncThunk<
 >('emailUser/create', async (user, { dispatch, rejectWithValue }) => {
   try {
     const res: any = await signUpEmail(user);
+    const idToken = await getIdToken();
     dispatch(push('/'));
     const { email, uid, displayName, photoURL } = res.user;
-    return { email, uid, displayName, photoURL };
+    return { idToken, email, uid, displayName, photoURL };
   } catch (e) {
     return rejectWithValue({
       error: e,
@@ -89,9 +93,10 @@ export const createGoogleUser = createAsyncThunk<
 >('googleUser/create', async (_, { dispatch, rejectWithValue }) => {
   try {
     const res: any = await signInGoogle();
+    const idToken = await getIdToken();
     dispatch(push('/'));
     const { email, uid, displayName, photoURL } = res.user;
-    return { email, uid, displayName, photoURL };
+    return { idToken, email, uid, displayName, photoURL };
   } catch (e) {
     return rejectWithValue({
       error: e,
@@ -120,10 +125,12 @@ const slice = createSlice({
   initialState,
   reducers: {
     fetchCurrentUser(state, action: PayloadAction<User>) {
-      state.email = action.payload.email;
-      state.uid = action.payload.uid;
-      state.displayName = action.payload.displayName;
-      state.photoURL = action.payload.photoURL;
+      const { idToken, email, uid, displayName, photoURL } = action.payload;
+      state.idToken = idToken;
+      state.email = email;
+      state.uid = uid;
+      state.displayName = displayName;
+      state.photoURL = photoURL;
       state.isAuthenticated = true;
     },
     resetAuthenticationError(state) {
@@ -135,7 +142,8 @@ const slice = createSlice({
     builder.addCase(
       fetchEmailUser.fulfilled,
       (state, action: PayloadAction<User>) => {
-        const { email, uid, displayName, photoURL } = action.payload;
+        const { idToken, email, uid, displayName, photoURL } = action.payload;
+        state.idToken = idToken;
         state.email = email;
         state.uid = uid;
         state.displayName = displayName;
@@ -153,7 +161,8 @@ const slice = createSlice({
     builder.addCase(
       createEmailUser.fulfilled,
       (state, action: PayloadAction<User>) => {
-        const { email, uid, displayName, photoURL } = action.payload;
+        const { idToken, email, uid, displayName, photoURL } = action.payload;
+        state.idToken = idToken;
         state.email = email;
         state.uid = uid;
         state.displayName = displayName;
@@ -170,7 +179,8 @@ const slice = createSlice({
     builder.addCase(
       createGoogleUser.fulfilled,
       (state, action: PayloadAction<User>) => {
-        const { email, uid, displayName, photoURL } = action.payload;
+        const { idToken, email, uid, displayName, photoURL } = action.payload;
+        state.idToken = idToken;
         state.email = email;
         state.uid = uid;
         state.displayName = displayName;
@@ -185,6 +195,7 @@ const slice = createSlice({
       state.isAuthenticationError = true;
     });
     builder.addCase(removeCurrentUser.fulfilled, (state) => {
+      state.idToken = '';
       state.email = '';
       state.uid = '';
       state.displayName = '';

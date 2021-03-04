@@ -27,3 +27,7 @@ export const signUpEmail = async ({
 export const signOut = async () => {
   return await auth.signOut();
 };
+
+export const getIdToken = async () => {
+  return await auth.currentUser.getIdToken(false);
+};

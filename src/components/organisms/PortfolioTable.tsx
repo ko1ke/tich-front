@@ -67,7 +67,11 @@ const PortfolioTable = ({ sheet }) => {
   };
 
   const savePortfolio = () => {
-    createPortfolio({ sheet: data, uid: currentUser.uid })
+    createPortfolio({
+      sheet: data,
+      uid: currentUser.uid,
+      token: currentUser.idToken,
+    })
       .then((res) => alert(res))
       .catch((err) => {
         alert(err);

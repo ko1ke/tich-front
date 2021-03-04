@@ -18,7 +18,7 @@ const TickerPage: React.FC = () => {
 
   useEffect(() => {
     if (user?.uid) {
-      fetchPortfolios({ uid: user.uid })
+      fetchPortfolios({ uid: user.uid, token: user.idToken })
         .then((res) => {
           setPortfolio(res.data.sheet as Portfolio[]);
         })

@@ -8,6 +8,7 @@ import LogInPage from './components/pages/LogInPage';
 import SignUpPage from './components/pages/SignUpPage';
 import SettingPage from './components/pages/SettingPage';
 import { auth } from './firebase';
+import { getIdToken } from './api/firebase';
 import { fetchCurrentUser, removeCurrentUser } from './features/userSlice';
 
 const App: React.FC = () => {
@@ -16,14 +17,21 @@ const App: React.FC = () => {
   useEffect(() => {
     const unSub = auth.onAuthStateChanged((authUser) => {
       if (authUser) {
-        dispatch(
-          fetchCurrentUser({
-            uid: authUser.uid,
-            email: authUser.email,
-            photoURL: authUser.photoURL,
-            displayName: authUser.displayName,
+        getIdToken()
+          .then((idToken) => {
+            dispatch(
+              fetchCurrentUser({
+                idToken: idToken,
+                uid: authUser.uid,
+                email: authUser.email,
+                photoURL: authUser.photoURL,
+                displayName: authUser.displayName,
+              })
+            );
           })
-        );
+          .catch((err) => {
+            alert(err);
+          });
       } else {
         dispatch(removeCurrentUser());
       }
