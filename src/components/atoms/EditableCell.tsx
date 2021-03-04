@@ -22,6 +22,7 @@ const EditableCell = ({
   const classes = useStyles();
   // We need to keep and update the state of the cell normally
   const [value, setValue] = useState(initialValue);
+  const inputType = id === 'ticker' ? 'text' : 'number';
 
   const onChange = (e) => {
     setValue(e.target.value);
@@ -40,6 +41,7 @@ const EditableCell = ({
   return (
     <input
       className={classes.cell}
+      type={inputType}
       value={value}
       onChange={onChange}
       onBlur={onBlur}
