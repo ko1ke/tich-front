@@ -5,8 +5,15 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import {
+  TwitterShareButton,
+  TwitterIcon,
+  FacebookShareButton,
+  FacebookIcon,
+  RedditShareButton,
+  RedditIcon,
+} from 'react-share';
 
 const useStyles = makeStyles({
   root: {
@@ -71,9 +78,15 @@ const NewsCard = ({
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
+        <TwitterShareButton title={headline} url={linkUrl} via={'TiCh'}>
+          <TwitterIcon size={32} round={true} />
+        </TwitterShareButton>
+        <FacebookShareButton title={headline} url={linkUrl} quote={'TiCh'}>
+          <FacebookIcon size={32} round={true} />
+        </FacebookShareButton>
+        <RedditShareButton title={headline} url={linkUrl}>
+          <RedditIcon size={32} round={true} />
+        </RedditShareButton>
       </CardActions>
     </Card>
   );
