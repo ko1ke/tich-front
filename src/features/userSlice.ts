@@ -8,6 +8,7 @@ import {
   signOut,
   getIdToken,
 } from '../api/firebase';
+import { createUser } from '../api/user';
 
 type User = {
   email?: string | null;
@@ -76,8 +77,9 @@ export const createEmailUser = createAsyncThunk<
   try {
     const res: any = await signUpEmail(user);
     const idToken = await getIdToken();
-    dispatch(push('/'));
     const { email, uid, displayName, photoURL } = res.user;
+    await createUser({ token: idToken });
+    dispatch(push('/'));
     return { idToken, email, uid, displayName, photoURL };
   } catch (e) {
     return rejectWithValue({
@@ -96,6 +98,7 @@ export const createGoogleUser = createAsyncThunk<
     const idToken = await getIdToken();
     dispatch(push('/'));
     const { email, uid, displayName, photoURL } = res.user;
+    await createUser({ token: idToken });
     return { idToken, email, uid, displayName, photoURL };
   } catch (e) {
     return rejectWithValue({

@@ -48,16 +48,3 @@ export const createPortfolio = async ({
     },
   });
 };
-
-// export const signin = async ({
-//   email,
-//   password,
-// }: {
-//   email: string;
-//   password: string;
-// }) => {
-//   return await client.post('/auth/sign_in', {
-//     email,
-//     password,
-//   });
-// };
