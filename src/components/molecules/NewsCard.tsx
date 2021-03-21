@@ -1,4 +1,5 @@
 import React from 'react';
+import { format } from 'date-fns';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -74,6 +75,9 @@ const NewsCard = ({
           </Typography>
           <Typography variant="caption" display="block" align="right">
             Target symbol: {symbol}
+          </Typography>
+          <Typography variant="caption" display="block" align="right">
+            Created at: {format(originalCreatedAt, 'yyyy-MM-dd HH:mm:ss')}
           </Typography>
         </CardContent>
       </CardActionArea>

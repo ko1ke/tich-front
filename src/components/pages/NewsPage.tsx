@@ -7,6 +7,7 @@ import NewsCard from '../molecules/NewsCard';
 import GenericTemplate from '../templates/GenericTemplate';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
+import { parseISO } from 'date-fns';
 
 interface News {
   id: number;
@@ -16,7 +17,7 @@ interface News {
   symbol: string;
   linkUrl: string;
   imageUrl: string;
-  originalCreatedAt: String;
+  originalCreatedAt: Date;
 }
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -42,7 +43,7 @@ const NewsPage: React.FC = () => {
               symbol: d.symbol,
               linkUrl: d.linkUrl,
               imageUrl: d.imageUrl,
-              originalCreatedAt: d.originalCreatedAt,
+              originalCreatedAt: parseISO(d.originalCreatedAt),
             };
           });
           setNews(data);
