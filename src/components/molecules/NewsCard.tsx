@@ -22,6 +22,17 @@ const useStyles = makeStyles({
   },
 });
 
+interface News {
+  id: number;
+  headline: string;
+  body: string;
+  fetchedFrom: string;
+  symbol: string;
+  linkUrl: string;
+  imageUrl: string;
+  originalCreatedAt: Date;
+}
+
 const NewsCard = ({
   headline,
   body,

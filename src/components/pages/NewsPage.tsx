@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../features/userSlice';
@@ -8,6 +9,8 @@ import GenericTemplate from '../templates/GenericTemplate';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import { parseISO } from 'date-fns';
+import Loader from '../molecules/Loader';
+import Pagination from '@material-ui/lab/Pagination';
 
 interface News {
   id: number;
@@ -19,6 +22,48 @@ interface News {
   imageUrl: string;
   originalCreatedAt: Date;
 }
+
+interface Page {
+  currentPage: number;
+  nextPage: number;
+  prevPage: number;
+  totalPages: number;
+  isFirstPage: boolean;
+  isLastPage: boolean;
+}
+
+interface DataQueryParams {
+  page: number;
+  symbol: string;
+}
+
+const DEFAULT_PAGE = 1;
+const DEFAULT_SYMBOL = '';
+const supportedParams = ['page', 'symbol'];
+
+const getQueryParams = (urlParams: URLSearchParams): DataQueryParams => {
+  const obj: any = Array.from(urlParams)
+    .filter((param) => supportedParams.includes(param[0]))
+    .map((param) => {
+      return {
+        [param[0]]: param[1],
+      };
+    })
+    .reduce((acc, cur) => ({ ...acc, ...cur }), {});
+
+  const keys = Object.keys(obj);
+
+  if (!keys.includes('page')) {
+    obj.page = DEFAULT_PAGE;
+  }
+
+  if (!keys.includes('symbol')) {
+    obj.symbol = DEFAULT_SYMBOL;
+  }
+
+  return obj as DataQueryParams;
+};
+
 const useStyles = makeStyles((theme) => ({
   title: {
     margin: '10px 0',
@@ -28,13 +73,32 @@ const useStyles = makeStyles((theme) => ({
 const NewsPage: React.FC = () => {
   const classes = useStyles();
   const user = useSelector(selectUser);
+  const history = useHistory();
+  const location = useLocation();
+
+  const urlParams = useMemo(() => {
+    return new URLSearchParams(location.search);
+  }, [location.search]);
+
+  const queryParams = useMemo(() => {
+    return getQueryParams(urlParams);
+  }, [urlParams]);
+
   const [news, setNews] = useState<News[]>(null);
+  const [page, setPage] = useState<Page>({
+    currentPage: 1,
+    nextPage: null,
+    prevPage: null,
+    totalPages: null,
+    isFirstPage: null,
+    isLastPage: null,
+  });
 
   useEffect(() => {
     if (user?.uid) {
-      fetchNews({ uid: user.uid, token: user.idToken })
+      fetchNews({ uid: user.uid, token: user.idToken, params: queryParams })
         .then((res) => {
-          const data: News[] = res.data.map((d) => {
+          const contents: News[] = res.data.contents.map((d) => {
             return {
               id: d.id,
               headline: d.headline,
@@ -46,18 +110,42 @@ const NewsPage: React.FC = () => {
               originalCreatedAt: parseISO(d.originalCreatedAt),
             };
           });
-          setNews(data);
+          setNews(contents);
+          setPage(res.data.page as Page);
         })
         .catch((err) => {
           alert(err);
         });
     }
-  }, [user]);
+  }, [queryParams, user]);
+
+  const updateURL = () => {
+    // remove explicit page (if default) for cleaner url (getQueryParams() will default to page DEFAULT_PAGE)
+    if (urlParams.get('page') === `${DEFAULT_PAGE}`) {
+      urlParams.delete('page');
+    }
+    // remove explicit symbol (if default) for cleaner url (getQueryParams() will default to limit DEFAULT_SYMBOL)
+    if (urlParams.get('symbol') === `${DEFAULT_SYMBOL}`) {
+      urlParams.delete('symbol');
+    }
+    history.push({
+      pathname: location.pathname,
+      search: `?${urlParams}`,
+    });
+  };
+
+  const handleChangePage = (
+    _event: React.ChangeEvent<unknown>,
+    newPage: number
+  ) => {
+    urlParams.set('page', newPage.toString());
+    updateURL();
+  };
 
   return (
     <GenericTemplate title="News">
       <GridList cols={3} cellHeight="auto">
-        {news &&
+        {news ? (
           news.map((n) => {
             return (
               <GridListTile key={n.id} cols={1} className={classes.title}>
@@ -72,8 +160,16 @@ const NewsPage: React.FC = () => {
                 />
               </GridListTile>
             );
-          })}
+          })
+        ) : (
+          <Loader />
+        )}
       </GridList>
+      <Pagination
+        count={page.totalPages}
+        page={+queryParams.page}
+        onChange={handleChangePage}
+      />
     </GenericTemplate>
   );
 };
