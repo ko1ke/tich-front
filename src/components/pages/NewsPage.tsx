@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
@@ -75,6 +75,7 @@ const NewsPage: React.FC = () => {
   const user = useSelector(selectUser);
   const history = useHistory();
   const location = useLocation();
+  const mainRef = useRef(null);
 
   const urlParams = useMemo(() => {
     return new URLSearchParams(location.search);
@@ -140,10 +141,14 @@ const NewsPage: React.FC = () => {
   ) => {
     urlParams.set('page', newPage.toString());
     updateURL();
+    mainRef.current.scrollTo({
+      top: 0,
+      left: 0,
+    });
   };
 
   return (
-    <GenericTemplate title="News">
+    <GenericTemplate title="News" ref={mainRef}>
       <GridList cols={3} cellHeight="auto">
         {news ? (
           news.map((n) => {
@@ -165,11 +170,13 @@ const NewsPage: React.FC = () => {
           <Loader />
         )}
       </GridList>
-      <Pagination
-        count={page.totalPages}
-        page={+queryParams.page}
-        onChange={handleChangePage}
-      />
+      {news && (
+        <Pagination
+          count={page.totalPages}
+          page={+queryParams.page}
+          onChange={handleChangePage}
+        />
+      )}
     </GenericTemplate>
   );
 };

@@ -59,37 +59,36 @@ export interface GenericTemplateProps {
   title: string;
 }
 
-const GenericTemplate: React.FC<GenericTemplateProps> = ({
-  children,
-  title,
-}) => {
-  const classes = useStyles();
+const GenericTemplate = React.forwardRef(
+  (props: GenericTemplateProps, ref?: React.LegacyRef<HTMLElement>) => {
+    const classes = useStyles();
 
-  return (
-    <ThemeProvider theme={theme}>
-      <div className={classes.root}>
-        <CssBaseline />
-        <TopBar />
-        <SideBar />
-        <main className={classes.content}>
-          <div className={classes.appBarSpacer} />
-          <Container maxWidth="lg" className={classes.container}>
-            <Typography
-              component="h2"
-              variant="h5"
-              color="inherit"
-              noWrap
-              className={classes.pageTitle}
-            >
-              {title}
-            </Typography>
-            {children}
-          </Container>
-        </main>
-        <UserSnack />
-      </div>
-    </ThemeProvider>
-  );
-};
+    return (
+      <ThemeProvider theme={theme}>
+        <div className={classes.root}>
+          <CssBaseline />
+          <TopBar />
+          <SideBar />
+          <main className={classes.content} ref={ref}>
+            <div className={classes.appBarSpacer} />
+            <Container maxWidth="lg" className={classes.container}>
+              <Typography
+                component="h2"
+                variant="h5"
+                color="inherit"
+                noWrap
+                className={classes.pageTitle}
+              >
+                {props.title}
+              </Typography>
+              {props.children}
+            </Container>
+          </main>
+          <UserSnack />
+        </div>
+      </ThemeProvider>
+    );
+  }
+);
 
 export default GenericTemplate;
