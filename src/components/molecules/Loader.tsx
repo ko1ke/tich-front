@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(2),
     },
     textAlign: 'center',
-    margin: '45vh auto 0',
+    margin: '35vh auto 0',
     transform: 'translateY(-50%)',
   },
 }));
