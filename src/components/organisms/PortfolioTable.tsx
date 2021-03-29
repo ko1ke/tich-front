@@ -27,10 +27,17 @@ const PortfolioTable = ({ sheet }) => {
         Cell: EditableCell,
       },
     ],
+    // eslint-disable-next-line
     []
   );
 
-  const [data, setData] = useState(useMemo(() => sheet, []));
+  const [data, setData] = useState(
+    useMemo(
+      () => sheet,
+      // eslint-disable-next-line
+      []
+    )
+  );
 
   const reorder = (list, startIndex, endIndex) => {
     const result = [...list];

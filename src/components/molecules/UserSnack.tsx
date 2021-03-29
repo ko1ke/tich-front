@@ -18,7 +18,7 @@ const UserSnack: React.FC = () => {
       setOpen(true);
       dispatch(resetAuthenticationError());
     }
-  }, [user]);
+  }, [user, dispatch]);
 
   const handleClose = (_e?: React.SyntheticEvent, reason?: string) => {
     if (reason === 'clickaway') {

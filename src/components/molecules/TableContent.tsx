@@ -57,11 +57,11 @@ const EnhancedTable: React.FC<EnhancedTableProp> = ({
     setData(newData);
   };
 
-  const editHandler = (item, index) => {
-    const newData = [...data];
-    newData[index] = item;
-    setData(newData);
-  };
+  // const editHandler = (item, index) => {
+  //   const newData = [...data];
+  //   newData[index] = item;
+  //   setData(newData);
+  // };
 
   // Render the UI for your table
   return (

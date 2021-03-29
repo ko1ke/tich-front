@@ -4,7 +4,7 @@ import { GoogleLoginButton } from 'react-social-login-buttons';
 import { useDispatch } from 'react-redux';
 import { createGoogleUser } from '../../features/userSlice';
 
-const GoogleLoginForm = () => {
+const GoogleLoginForm: React.FC = () => {
   const dispatch = useDispatch();
 
   const handleOnClick = () => {

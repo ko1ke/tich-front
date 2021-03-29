@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EmailSignUpForm = () => {
+const EmailSignUpForm: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 

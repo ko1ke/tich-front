@@ -4,7 +4,6 @@ import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
 import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store';
 import { removeCurrentUser } from '../../features/userSlice';
@@ -24,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const AuthButton = () => {
+const AuthButton: React.FC = () => {
   const classes = useStyles();
   const currentUser = useSelector((state: RootState) => state.currentUser);
   const dispatch = useDispatch();

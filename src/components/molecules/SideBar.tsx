@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const SideBar = () => {
+const SideBar: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const drawer = useSelector((state: RootState) => state.drawer);

@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 });
 
 interface News {
-  id: number;
+  id?: number;
   headline: string;
   body: string;
   fetchedFrom: string;
@@ -33,7 +33,7 @@ interface News {
   originalCreatedAt: Date;
 }
 
-const NewsCard = ({
+const NewsCard: React.FC<News> = ({
   headline,
   body,
   fetchedFrom,
