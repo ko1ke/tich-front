@@ -15,6 +15,7 @@ import LabelIcon from '@material-ui/icons/Label';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import SettingsIcon from '@material-ui/icons/Settings';
+import AnnouncementIcon from '@material-ui/icons/Announcement';
 import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 
@@ -90,6 +91,14 @@ const SideBar: React.FC = () => {
               <HomeIcon />
             </ListItemIcon>
             <ListItemText primary="TopPage" />
+          </ListItem>
+        </Link>
+        <Link to="/news" className={classes.link}>
+          <ListItem button>
+            <ListItemIcon>
+              <AnnouncementIcon />
+            </ListItemIcon>
+            <ListItemText primary="News" />
           </ListItem>
         </Link>
         <Link to="/portfolio" className={classes.link}>
