@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../features/userSlice';
 import { fetchNews } from '../../api/news';
+import { fetchTickers } from '../../api/ticker';
 import NewsCard from '../molecules/NewsCard';
 import GenericTemplate from '../templates/GenericTemplate';
 import GridList from '@material-ui/core/GridList';
@@ -11,6 +12,11 @@ import GridListTile from '@material-ui/core/GridListTile';
 import { parseISO } from 'date-fns';
 import Loader from '../molecules/Loader';
 import Pagination from '@material-ui/lab/Pagination';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 interface News {
   id: number;
@@ -94,6 +100,7 @@ const NewsPage: React.FC = () => {
     isFirstPage: null,
     isLastPage: null,
   });
+  const [tickers, setTickers] = useState<string[]>([]);
 
   useEffect(() => {
     if (user?.uid) {
@@ -119,6 +126,18 @@ const NewsPage: React.FC = () => {
         });
     }
   }, [queryParams, user]);
+
+  useEffect(() => {
+    if (user?.uid) {
+      fetchTickers({ uid: user.uid, token: user.idToken })
+        .then((res) => {
+          setTickers(res.data as string[]);
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    }
+  }, [user]);
 
   const updateURL = () => {
     // remove explicit page (if default) for cleaner url (getQueryParams() will default to page DEFAULT_PAGE)
@@ -147,8 +166,38 @@ const NewsPage: React.FC = () => {
     });
   };
 
+  const handleChangeSymbol = (event: React.ChangeEvent<{ value: unknown }>) => {
+    urlParams.set('symbol', event.target.value as string);
+    // reset page param
+    urlParams.set('page', '1');
+    updateURL();
+  };
+
   return (
     <GenericTemplate title="News" ref={mainRef}>
+      {tickers && (
+        <FormControl>
+          <InputLabel id="select-helper-label">Ticker Symbol</InputLabel>
+          <Select
+            labelId="select-helper-label"
+            id="simple-select-helper"
+            value={queryParams.symbol}
+            onChange={handleChangeSymbol}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {tickers.map((ticker) => (
+              <MenuItem key={ticker} value={ticker}>
+                {ticker}
+              </MenuItem>
+            ))}
+          </Select>
+          <FormHelperText>
+            Select a symbol to show the articles related
+          </FormHelperText>
+        </FormControl>
+      )}
       <GridList cols={3} cellHeight="auto">
         {news ? (
           news.map((n) => {
