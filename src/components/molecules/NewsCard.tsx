@@ -84,9 +84,11 @@ const NewsCard: React.FC<News> = ({
           <Typography variant="caption" display="block" align="right">
             Source: {fetchedFrom}
           </Typography>
-          <Typography variant="caption" display="block" align="right">
-            Target symbol: {symbol}
-          </Typography>
+          {symbol && (
+            <Typography variant="caption" display="block" align="right">
+              Target symbol: {symbol}
+            </Typography>
+          )}
           <Typography variant="caption" display="block" align="right">
             Created at: {format(originalCreatedAt, 'yyyy-MM-dd HH:mm:ss')}
           </Typography>
