@@ -10,7 +10,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import AuthButton from './AuthButton';
+import AuthButton from '../molecules/AuthButton';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>

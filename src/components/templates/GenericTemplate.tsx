@@ -6,7 +6,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import TopBar from '../molecules/TopBar';
+import TopBar from '../organisms/TopBar';
 import SideBar from '../organisms/SideBar';
 import UserSnack from '../molecules/UserSnack';
 
