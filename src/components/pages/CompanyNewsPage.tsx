@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../features/userSlice';
-import { fetchNews } from '../../api/news';
+import { fetchCompanyNews } from '../../api/companyNews';
 import { fetchTickers } from '../../api/ticker';
 import NewsCard from '../molecules/NewsCard';
 import GenericTemplate from '../templates/GenericTemplate';
@@ -104,7 +104,11 @@ const NewsPage: React.FC = () => {
 
   useEffect(() => {
     if (user?.uid) {
-      fetchNews({ uid: user.uid, token: user.idToken, params: queryParams })
+      fetchCompanyNews({
+        uid: user.uid,
+        token: user.idToken,
+        params: queryParams,
+      })
         .then((res) => {
           const contents: News[] = res.data.contents.map((d) => {
             return {

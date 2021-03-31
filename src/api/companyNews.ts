@@ -11,7 +11,7 @@ const generateQueryString = (obj: any): string => {
     .join('&');
 };
 
-export const fetchNews = async ({
+export const fetchCompanyNews = async ({
   uid,
   token,
   params,
@@ -31,6 +31,6 @@ export const fetchNews = async ({
     },
     responseType: 'json',
   });
-  const url = `/news?${generateQueryString(params)}`;
+  const url = `/news/companies?${generateQueryString(params)}`;
   return await client.get(url);
 };

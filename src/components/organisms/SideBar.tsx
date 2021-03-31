@@ -80,7 +80,7 @@ const SideBar: React.FC = () => {
         <LinkListItem to="/" title="TopPage">
           <HomeIcon />
         </LinkListItem>
-        <LinkListItem to="/news" title="News">
+        <LinkListItem to="/company_news" title="Company News">
           <AnnouncementIcon />
         </LinkListItem>
         <LinkListItem to="/portfolio" title="Portfolio">
