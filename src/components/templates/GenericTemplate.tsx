@@ -7,7 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import TopBar from '../molecules/TopBar';
-import SideBar from '../molecules/SideBar';
+import SideBar from '../organisms/SideBar';
 import UserSnack from '../molecules/UserSnack';
 
 const theme = createMuiTheme({
