@@ -12,7 +12,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import HomeIcon from '@material-ui/icons/Home';
 import LabelIcon from '@material-ui/icons/Label';
 import SettingsIcon from '@material-ui/icons/Settings';
-import AnnouncementIcon from '@material-ui/icons/Announcement';
+import LocationCityIcon from '@material-ui/icons/LocationCity';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import IconButton from '@material-ui/core/IconButton';
 
 const drawerWidth = 240;
@@ -80,8 +81,11 @@ const SideBar: React.FC = () => {
         <LinkListItem to="/" title="TopPage">
           <HomeIcon />
         </LinkListItem>
+        <LinkListItem to="/market_news" title="Market News">
+          <AttachMoneyIcon />
+        </LinkListItem>
         <LinkListItem to="/company_news" title="Company News">
-          <AnnouncementIcon />
+          <LocationCityIcon />
         </LinkListItem>
         <LinkListItem to="/portfolio" title="Portfolio">
           <LabelIcon />

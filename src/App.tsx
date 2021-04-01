@@ -8,6 +8,7 @@ import LogInPage from './components/pages/LogInPage';
 import SignUpPage from './components/pages/SignUpPage';
 import SettingPage from './components/pages/SettingPage';
 import CompanyNewsPage from './components/pages/CompanyNewsPage';
+import MarketNewsPage from './components/pages/MarketNewsPage';
 import { auth } from './firebase';
 import { getIdToken } from './api/firebase';
 import { fetchCurrentUser, removeCurrentUser } from './features/userSlice';
@@ -49,6 +50,7 @@ const App: React.FC = () => {
       <Route path="/sign_up" component={SignUpPage} exact />
       <Route path="/portfolio" component={PortfolioPage} exact />
       <Route path="/company_news" component={CompanyNewsPage} exact />
+      <Route path="/market_news" component={MarketNewsPage} exact />
       <Route path="/setting" component={SettingPage} exact />
       <Route render={() => <h1>Not Found...</h1>} />
     </Switch>
