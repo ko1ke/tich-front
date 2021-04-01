@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { selectUser } from '../../features/userSlice';
 import { fetchCompanyNews } from '../../api/companyNews';
 import { fetchTickers } from '../../api/ticker';
+import TickerSelect from '../molecules/TickerSelect';
 import NewsCard from '../molecules/NewsCard';
 import GenericTemplate from '../templates/GenericTemplate';
 import GridList from '@material-ui/core/GridList';
@@ -12,11 +13,6 @@ import GridListTile from '@material-ui/core/GridListTile';
 import { parseISO } from 'date-fns';
 import Loader from '../molecules/Loader';
 import Pagination from '@material-ui/lab/Pagination';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 
 interface News {
   id: number;
@@ -178,29 +174,13 @@ const NewsPage: React.FC = () => {
   };
 
   return (
-    <GenericTemplate title="News" ref={mainRef}>
+    <GenericTemplate title="Company News" ref={mainRef}>
       {tickers && (
-        <FormControl>
-          <InputLabel id="select-helper-label">Ticker Symbol</InputLabel>
-          <Select
-            labelId="select-helper-label"
-            id="simple-select-helper"
-            value={queryParams.symbol}
-            onChange={handleChangeSymbol}
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            {tickers.map((ticker) => (
-              <MenuItem key={ticker} value={ticker}>
-                {ticker}
-              </MenuItem>
-            ))}
-          </Select>
-          <FormHelperText>
-            Select a symbol to show the articles related
-          </FormHelperText>
-        </FormControl>
+        <TickerSelect
+          tickers={tickers}
+          value={queryParams.symbol}
+          handler={handleChangeSymbol}
+        />
       )}
       <GridList cols={3} cellHeight="auto">
         {news ? (
