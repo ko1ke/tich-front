@@ -79,7 +79,7 @@ const PortfolioTable = ({ sheet }) => {
       uid: currentUser.uid,
       token: currentUser.idToken,
     })
-      .then((res) => alert(res))
+      .then((res) => setData(res.data.sheet))
       .catch((err) => {
         alert(err);
       });

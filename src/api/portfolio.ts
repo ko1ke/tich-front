@@ -44,7 +44,7 @@ export const createPortfolio = async ({
   });
   return await client.post('/portfolios', {
     portfolio: {
-      sheet: JSON.stringify(sheet),
+      sheet,
     },
   });
 };
