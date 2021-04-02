@@ -22,6 +22,14 @@ const PortfolioTable = ({ sheet }) => {
         Cell: EditableCell,
       },
       {
+        Header: 'Current price',
+        accessor: 'price',
+      },
+      {
+        Header: 'Change',
+        accessor: 'change',
+      },
+      {
         Header: 'Note',
         accessor: 'note',
         Cell: EditableCell,
