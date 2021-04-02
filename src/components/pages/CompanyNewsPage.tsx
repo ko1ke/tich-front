@@ -34,6 +34,11 @@ interface Page {
   isLastPage: boolean;
 }
 
+interface Ticker {
+  symbol: string;
+  formalName: string;
+}
+
 interface DataQueryParams {
   page: number;
   symbol: string;
@@ -96,7 +101,7 @@ const NewsPage: React.FC = () => {
     isFirstPage: null,
     isLastPage: null,
   });
-  const [tickers, setTickers] = useState<string[]>([]);
+  const [tickers, setTickers] = useState<Ticker[]>([]);
 
   useEffect(() => {
     if (user?.uid) {
@@ -131,7 +136,7 @@ const NewsPage: React.FC = () => {
     if (user?.uid) {
       fetchTickers({ uid: user.uid, token: user.idToken })
         .then((res) => {
-          setTickers(res.data as string[]);
+          setTickers(res.data as Ticker[]);
         })
         .catch((err) => {
           alert(err);

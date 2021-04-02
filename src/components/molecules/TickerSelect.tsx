@@ -5,8 +5,13 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
-export interface TickerSelectProps {
-  tickers: string[];
+interface Ticker {
+  symbol: string;
+  formalName: string;
+}
+
+interface TickerSelectProps {
+  tickers: Ticker[];
   value: string;
   handler: (
     event: React.ChangeEvent<{
@@ -33,8 +38,8 @@ const TickerSelect: React.FC<TickerSelectProps> = ({
           <em>None</em>
         </MenuItem>
         {tickers.map((ticker) => (
-          <MenuItem key={ticker} value={ticker}>
-            {ticker}
+          <MenuItem key={ticker.symbol} value={ticker.symbol}>
+            {`${ticker.symbol} (${ticker.formalName})`}
           </MenuItem>
         ))}
       </Select>
