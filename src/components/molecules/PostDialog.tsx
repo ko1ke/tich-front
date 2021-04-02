@@ -16,8 +16,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 const initialItem: Item = {
   ticker: '',
-  number: null,
-  unitPrice: null,
+  note: '',
+  targetPrice: 0,
 };
 
 const PostDialog: React.FC<Props> = ({
@@ -82,19 +82,19 @@ const PostDialog: React.FC<Props> = ({
           />
           <TextField
             margin="dense"
-            label="Unit price"
+            label="Target price"
             type="number"
             fullWidth
-            value={item.unitPrice}
-            onChange={handleChange('unitPrice')}
+            value={item.targetPrice}
+            onChange={handleChange('targetPrice')}
           />
           <TextField
             margin="dense"
-            label="Number"
-            type="number"
+            label="Note"
+            type="text"
             fullWidth
-            value={item.number}
-            onChange={handleChange('number')}
+            value={item.note}
+            onChange={handleChange('note')}
           />
         </DialogContent>
         <DialogActions>
@@ -118,8 +118,8 @@ type Props = {
 
 type Item = {
   ticker: string;
-  number: number | null;
-  unitPrice: number | null;
+  note: string;
+  targetPrice: number | null;
 };
 
 export default PostDialog;

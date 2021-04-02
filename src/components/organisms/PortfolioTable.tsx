@@ -17,13 +17,13 @@ const PortfolioTable = ({ sheet }) => {
         Cell: EditableCell,
       },
       {
-        Header: 'Unit Price',
-        accessor: 'unitPrice',
+        Header: 'Target Price',
+        accessor: 'targetPrice',
         Cell: EditableCell,
       },
       {
-        Header: 'Number',
-        accessor: 'number',
+        Header: 'Note',
+        accessor: 'note',
         Cell: EditableCell,
       },
     ],

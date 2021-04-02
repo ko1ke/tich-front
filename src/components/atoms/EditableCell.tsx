@@ -22,12 +22,10 @@ const EditableCell = ({
   const classes = useStyles();
   // We need to keep and update the state of the cell normally
   const [value, setValue] = useState(initialValue);
-  const inputType = id === 'ticker' ? 'text' : 'number';
+  const inputType = id === 'targetPrice' ? 'number' : 'text';
 
   const onChange = (e) => {
-    const input =
-      inputType === 'text' ? e.target.value : Number(e.target.value);
-    setValue(input);
+    setValue(e.target.value);
   };
 
   // We'll only update the external data when the input is blurred

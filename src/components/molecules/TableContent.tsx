@@ -47,7 +47,7 @@ const EnhancedTable: React.FC<EnhancedTableProp> = ({
     }
   );
 
-  const deleteHandler = (index, id) => {
+  const deleteHandler = (index, id) => {    
     const newData = data.filter((_, i) => ![index].includes(i));
     setData(newData);
   };
@@ -66,7 +66,7 @@ const EnhancedTable: React.FC<EnhancedTableProp> = ({
   // Render the UI for your table
   return (
     <TableContainer>
-      <TableToolbar addHandler={addHandler} title={'Add portfolio'} />
+      <TableToolbar addHandler={addHandler} title={'Add'} />
       <MaUTable size="small" {...getTableProps()}>
         <TableHead>
           {headerGroups.map((headerGroup) => (
