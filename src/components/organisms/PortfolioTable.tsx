@@ -49,6 +49,22 @@ const PortfolioTable = ({ sheet }) => {
         accessor: 'change',
       },
       {
+        id: 'link-to-chart',
+        Header: 'Link to Charts',
+        accessor: 'symbol',
+        Cell: ({ cell: { value } }) => {
+          return (
+            <a
+              href={`https://www.marketwatch.com/investing/stock/${value?.toLowerCase()}/charts`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {`Click to open MarketWatch`}
+            </a>
+          );
+        },
+      },
+      {
         Header: 'Note',
         accessor: 'note',
         Cell: EditableCell,
