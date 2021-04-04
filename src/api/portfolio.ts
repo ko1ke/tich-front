@@ -31,7 +31,11 @@ export const createPortfolio = async ({
   token: string;
   sheet: any;
 }) => {
-  sheet.map((item) => (item['targetPrice'] = Number(item['targetPrice'])));
+  sheet.map((item) => ({
+    symbol: item['symbol'],
+    targetPrice: Number(item['targetPrice']),
+    note: item['note'],
+  }));
   const client = axios.create({
     baseURL: `${process.env.REACT_APP_BASE_URL}`,
     headers: {
