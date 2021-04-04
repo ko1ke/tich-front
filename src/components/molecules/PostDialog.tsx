@@ -12,7 +12,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import TickerSelect from './TickerSelect';
 
 const initialItem: Item = {
-  ticker: '',
+  symbol: '',
   note: '',
   targetPrice: 0,
 };
@@ -72,9 +72,9 @@ const PostDialog: React.FC<Props> = ({ addHandler, tickers }: Props) => {
         <DialogContent>
           <TickerSelect
             tickers={tickers}
-            value={item.ticker}
+            value={item.symbol}
             helperText={'Select a symbol'}
-            handler={handleChange('ticker')}
+            handler={handleChange('symbol')}
           />
           <TextField
             margin="dense"
@@ -112,7 +112,7 @@ type Props = {
 };
 
 type Item = {
-  ticker: string;
+  symbol: string;
   note: string;
   targetPrice: number | null;
 };

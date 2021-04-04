@@ -31,8 +31,8 @@ const PortfolioTable = ({ sheet }) => {
   const columns = useMemo(
     () => [
       {
-        Header: 'Ticker',
-        accessor: 'ticker',
+        Header: 'Symbol',
+        accessor: 'symbol',
         Cell: TickerSelectableCell,
       },
       {
