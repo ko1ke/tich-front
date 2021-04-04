@@ -133,16 +133,14 @@ const NewsPage: React.FC = () => {
   }, [queryParams, user]);
 
   useEffect(() => {
-    if (user?.uid) {
-      fetchTickers({ uid: user.uid, token: user.idToken })
-        .then((res) => {
-          setTickers(res.data as Ticker[]);
-        })
-        .catch((err) => {
-          alert(err);
-        });
-    }
-  }, [user]);
+    fetchTickers()
+      .then((res) => {
+        setTickers(res.data as Ticker[]);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }, []);
 
   const updateURL = () => {
     // remove explicit page (if default) for cleaner url (getQueryParams() will default to page DEFAULT_PAGE)
