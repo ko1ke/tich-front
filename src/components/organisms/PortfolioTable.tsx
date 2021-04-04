@@ -2,6 +2,7 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { fetchTickers } from '../../api/ticker';
 import TableContent from '../molecules/TableContent';
 import EditableCell from '../atoms/EditableCell';
+import TickerSelectableCell from '../atoms/TickerSelectableCell';
 import SaveButton from '../atoms/SaveButton';
 import { createPortfolio } from '../../api/portfolio';
 import { useSelector } from 'react-redux';
@@ -13,7 +14,7 @@ interface Ticker {
 }
 
 const PortfolioTable = ({ sheet }) => {
-  const [tickers, setTickers] = useState<Ticker[]>();
+  const [tickers, setTickers] = useState<Ticker[]>([]);
 
   useEffect(() => {
     fetchTickers()
@@ -32,7 +33,7 @@ const PortfolioTable = ({ sheet }) => {
       {
         Header: 'Ticker',
         accessor: 'ticker',
-        Cell: EditableCell,
+        Cell: TickerSelectableCell,
       },
       {
         Header: 'Target Price',
