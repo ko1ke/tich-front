@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../features/userSlice';
 import { fetchPortfolios } from '../../api/portfolio';
+import Loader from '../molecules/Loader';
 import GenericTemplate from '../templates/GenericTemplate';
 import PortfolioTable from '../organisms/PortfolioTable';
 
@@ -30,7 +31,7 @@ const PortfolioPage: React.FC = () => {
 
   return (
     <GenericTemplate title="Portfolio">
-      {portfolio && <PortfolioTable sheet={portfolio} />}
+      {portfolio ? <PortfolioTable sheet={portfolio} /> : <Loader />}
     </GenericTemplate>
   );
 };
