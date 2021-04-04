@@ -18,6 +18,7 @@ const EnhancedTable: React.FC<EnhancedTableProp> = ({
   setData,
   onDragEnd,
   updateData,
+  tickers,
 }: EnhancedTableProp) => {
   const { getTableProps, headerGroups, prepareRow, rows } = useTable(
     {
@@ -25,6 +26,7 @@ const EnhancedTable: React.FC<EnhancedTableProp> = ({
       data,
       autoResetPage: false,
       updateData,
+      tickers,
     },
     useSortBy,
     (hooks) => {
@@ -47,7 +49,7 @@ const EnhancedTable: React.FC<EnhancedTableProp> = ({
     }
   );
 
-  const deleteHandler = (index, id) => {    
+  const deleteHandler = (index, id) => {
     const newData = data.filter((_, i) => ![index].includes(i));
     setData(newData);
   };
@@ -57,16 +59,10 @@ const EnhancedTable: React.FC<EnhancedTableProp> = ({
     setData(newData);
   };
 
-  // const editHandler = (item, index) => {
-  //   const newData = [...data];
-  //   newData[index] = item;
-  //   setData(newData);
-  // };
-
   // Render the UI for your table
   return (
     <TableContainer>
-      <TableToolbar addHandler={addHandler} title={'Add'} />
+      <TableToolbar addHandler={addHandler} title={'Add'} tickers={tickers} />
       <MaUTable size="small" {...getTableProps()}>
         <TableHead>
           {headerGroups.map((headerGroup) => (
@@ -101,6 +97,7 @@ const EnhancedTable: React.FC<EnhancedTableProp> = ({
 type EnhancedTableProp = {
   columns: any[];
   data: any[];
+  tickers: any[];
   setData: Function;
   onDragEnd: Function;
   updateData: Function;

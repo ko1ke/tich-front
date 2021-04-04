@@ -14,11 +14,15 @@ const useToolbarStyles = makeStyles((theme) => ({
   },
 }));
 
-const TableToolbar: React.FC<Props> = ({ addHandler, title }: Props) => {
+const TableToolbar: React.FC<Props> = ({
+  addHandler,
+  title,
+  tickers,
+}: Props) => {
   const classes = useToolbarStyles();
   return (
     <Toolbar>
-      <PostDialog addHandler={addHandler} />
+      <PostDialog addHandler={addHandler} tickers={tickers} />
       <Typography className={classes.title} variant="h6">
         {title}
       </Typography>
@@ -29,6 +33,7 @@ const TableToolbar: React.FC<Props> = ({ addHandler, title }: Props) => {
 type Props = {
   addHandler: Function;
   title: string;
+  tickers: any;
 };
 
 export default TableToolbar;

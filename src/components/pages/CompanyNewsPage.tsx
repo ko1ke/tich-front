@@ -182,6 +182,7 @@ const NewsPage: React.FC = () => {
         <TickerSelect
           tickers={tickers}
           value={queryParams.symbol}
+          helperText={'Select a symbol to show the related articles'}
           handler={handleChangeSymbol}
         />
       )}

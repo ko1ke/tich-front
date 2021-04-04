@@ -12,7 +12,7 @@ interface Portfolio {
   note: string;
 }
 
-const TickerPage: React.FC = () => {
+const PortfolioPage: React.FC = () => {
   const user = useSelector(selectUser);
   const [portfolio, setPortfolio] = useState<Portfolio[]>(null);
 
@@ -35,4 +35,4 @@ const TickerPage: React.FC = () => {
   );
 };
 
-export default TickerPage;
+export default PortfolioPage;

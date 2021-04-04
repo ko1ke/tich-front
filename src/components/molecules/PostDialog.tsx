@@ -9,10 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
-// import Select from '@material-ui/core/Select';
-// import FormControl from '@material-ui/core/FormControl';
-// import InputLabel from '@material-ui/core/InputLabel';
-// import MenuItem from '@material-ui/core/MenuItem';
+import TickerSelect from './TickerSelect';
 
 const initialItem: Item = {
   ticker: '',
@@ -20,12 +17,13 @@ const initialItem: Item = {
   targetPrice: 0,
 };
 
-const PostDialog: React.FC<Props> = ({
-  addHandler,
-  itemOfRow,
-  selectedRowId,
-}: Props) => {
-  const [item, setItem] = useState({ ...initialItem, ...itemOfRow });
+interface Ticker {
+  symbol: string;
+  formalName: string;
+}
+
+const PostDialog: React.FC<Props> = ({ addHandler, tickers }: Props) => {
+  const [item, setItem] = useState({ ...initialItem });
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -72,13 +70,11 @@ const PostDialog: React.FC<Props> = ({
       >
         <DialogTitle id="form-dialog-title">{title}</DialogTitle>
         <DialogContent>
-          <TextField
-            margin="dense"
-            label="Ticker"
-            type="text"
-            fullWidth
+          <TickerSelect
+            tickers={tickers}
             value={item.ticker}
-            onChange={handleChange('ticker')}
+            helperText={'Select a symbol'}
+            handler={handleChange('ticker')}
           />
           <TextField
             margin="dense"
@@ -112,8 +108,7 @@ const PostDialog: React.FC<Props> = ({
 
 type Props = {
   addHandler?: Function;
-  itemOfRow?: object;
-  selectedRowId?: number;
+  tickers?: Ticker[];
 };
 
 type Item = {

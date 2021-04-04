@@ -13,6 +13,7 @@ interface Ticker {
 interface TickerSelectProps {
   tickers: Ticker[];
   value: string;
+  helperText: string;
   handler: (
     event: React.ChangeEvent<{
       value: unknown;
@@ -24,9 +25,10 @@ const TickerSelect: React.FC<TickerSelectProps> = ({
   tickers,
   value,
   handler,
+  helperText,
 }) => {
   return (
-    <FormControl>
+    <FormControl fullWidth>
       <InputLabel id="select-helper-label">Ticker Symbol</InputLabel>
       <Select
         labelId="select-helper-label"
@@ -43,9 +45,7 @@ const TickerSelect: React.FC<TickerSelectProps> = ({
           </MenuItem>
         ))}
       </Select>
-      <FormHelperText>
-        Select a symbol to show the articles related
-      </FormHelperText>
+      <FormHelperText>{helperText}</FormHelperText>
     </FormControl>
   );
 };

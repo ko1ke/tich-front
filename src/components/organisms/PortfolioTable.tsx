@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
+import { fetchTickers } from '../../api/ticker';
 import TableContent from '../molecules/TableContent';
 import EditableCell from '../atoms/EditableCell';
 import SaveButton from '../atoms/SaveButton';
@@ -6,7 +7,24 @@ import { createPortfolio } from '../../api/portfolio';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 
+interface Ticker {
+  symbol: string;
+  formalName: string;
+}
+
 const PortfolioTable = ({ sheet }) => {
+  const [tickers, setTickers] = useState<Ticker[]>();
+
+  useEffect(() => {
+    fetchTickers()
+      .then((res) => {
+        setTickers(res.data as Ticker[]);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }, []);
+
   const currentUser = useSelector((state: RootState) => state.currentUser);
 
   const columns = useMemo(
@@ -101,6 +119,7 @@ const PortfolioTable = ({ sheet }) => {
         setData={setData}
         onDragEnd={onDragEnd}
         updateData={updateData}
+        tickers={tickers}
       />
       <SaveButton buttonText={'Save'} saveFunc={savePortfolio} />
     </>
