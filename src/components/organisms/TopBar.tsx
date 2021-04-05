@@ -11,6 +11,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import AuthButton from '../molecules/AuthButton';
+import Logo from '../../images/logo.png';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
@@ -100,7 +101,7 @@ const TopBar = () => {
           noWrap
           className={classes.title}
         >
-          TiCh
+          <img src={Logo} alt="TiCh Logo" height="auto" width="55" />
         </Typography>
         <AuthButton />
       </Toolbar>
