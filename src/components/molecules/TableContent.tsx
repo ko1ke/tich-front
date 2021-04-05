@@ -10,6 +10,9 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteDialog from './DeleteDialog';
 import Tbody from './Tbody';
+import { createPortfolio } from '../../api/portfolio';
+import { RootState } from '../../store';
+import { useSelector } from 'react-redux';
 import { useSortBy, useTable } from 'react-table';
 
 const EnhancedTable: React.FC<EnhancedTableProp> = ({
@@ -38,7 +41,6 @@ const EnhancedTable: React.FC<EnhancedTableProp> = ({
             <div>
               <DeleteDialog
                 deleteHandler={deleteHandler}
-                itemOfRow={row.original}
                 selectedRowId={row.index}
               />
             </div>
@@ -49,14 +51,32 @@ const EnhancedTable: React.FC<EnhancedTableProp> = ({
     }
   );
 
+  const currentUser = useSelector((state: RootState) => state.currentUser);
+
   const deleteHandler = (index, id) => {
-    const newData = data.filter((_, i) => ![index].includes(i));
-    setData(newData);
+    const newData = [...data].filter((_, i) => ![index].includes(i));
+    createPortfolio({
+      sheet: newData,
+      uid: currentUser.uid,
+      token: currentUser.idToken,
+    })
+      .then((res) => setData(res.data.sheet))
+      .catch((err) => {
+        alert(err);
+      });
   };
 
   const addHandler = (item) => {
     const newData = data.concat(item);
-    setData(newData);
+    createPortfolio({
+      sheet: newData,
+      uid: currentUser.uid,
+      token: currentUser.idToken,
+    })
+      .then((res) => setData(res.data.sheet))
+      .catch((err) => {
+        alert(err);
+      });
   };
 
   // Render the UI for your table

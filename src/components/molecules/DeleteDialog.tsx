@@ -13,7 +13,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 const DeleteDialog: React.FC<Props> = ({
   deleteHandler,
   selectedRowId,
-  itemOfRow,
 }: Props) => {
   const [open, setOpen] = React.useState(false);
 
@@ -26,7 +25,7 @@ const DeleteDialog: React.FC<Props> = ({
   };
 
   const handleDelete = () => {
-    deleteHandler(selectedRowId, itemOfRow.id);
+    deleteHandler(selectedRowId);
     setOpen(false);
   };
 
@@ -64,9 +63,6 @@ const DeleteDialog: React.FC<Props> = ({
 type Props = {
   deleteHandler: Function;
   selectedRowId: number;
-  itemOfRow: {
-    id: string;
-  };
 };
 
 export default DeleteDialog;

@@ -11,12 +11,7 @@ const TickerSelectableCell = ({
   const [value, setValue] = useState(initialValue);
 
   const onChange = (e) => {
-    setValue(e.target.value);
-  };
-
-  // We'll only update the external data when the input is blurred
-  const onBlur = () => {
-    updateData(index, id, value);
+    updateData(index, id, e.target.value);
   };
 
   // If the initialValue is changed externall, sync it up with our state
@@ -25,7 +20,7 @@ const TickerSelectableCell = ({
   }, [initialValue]);
 
   return (
-    <select value={value} onChange={onChange} onBlur={onBlur}>
+    <select value={value} onChange={onChange}>
       <option value=""> &nbsp;</option>
       {tickers.map((ticker) => (
         <option key={ticker.symbol} value={ticker.symbol}>
