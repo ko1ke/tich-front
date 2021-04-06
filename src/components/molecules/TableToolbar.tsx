@@ -31,7 +31,7 @@ const TableToolbar: React.FC<Props> = ({
 };
 
 type Props = {
-  addHandler: Function;
+  addHandler: (item: any) => void;
   title: string;
   tickers: any;
 };

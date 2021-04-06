@@ -1,21 +1,33 @@
 import React, { useState } from 'react';
 
+import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
-import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
-import TickerSelect from './TickerSelect';
+import { PortfolioProps } from '../../typings';
+import { Form, Field } from 'react-final-form';
+import TextInput from '../atoms/TextInput';
+import SelectInput from '../atoms/SelectInput';
+import { required, composeValidators } from '../../utils/validator';
+import MenuItem from '@material-ui/core/MenuItem';
 
-const initialItem: Item = {
-  symbol: '',
-  note: '',
-  targetPrice: 0,
-};
+const useStyles = makeStyles((theme) => ({
+  fields: {
+    '& > *': {
+      marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(1),
+    },
+  },
+  buttons: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+}));
 
 interface Ticker {
   symbol: string;
@@ -23,7 +35,7 @@ interface Ticker {
 }
 
 const PostDialog: React.FC<Props> = ({ addHandler, tickers }: Props) => {
-  const [item, setItem] = useState({ ...initialItem });
+  const classes = useStyles();
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -34,87 +46,114 @@ const PostDialog: React.FC<Props> = ({ addHandler, tickers }: Props) => {
     setOpen(false);
   };
 
-  const handleAdd = (event) => {
-    addHandler(item);
-    setItem(initialItem);
+  const onSubmit = (values: PortfolioProps) => {
+    addHandler(values);
     setOpen(false);
   };
 
-  const handleChange = (name) => ({ target: { value } }) => {
-    setItem({ ...item, [name]: value });
-  };
-
-  let icon: JSX.Element;
-  let title: string;
-  let key: string;
-  let handler: (event: any) => void;
-
-  icon = (
-    <Tooltip title="Add">
-      <AddIcon />
-    </Tooltip>
-  );
-  title = 'Add';
-  key = `add`;
-  handler = handleAdd;
-
   return (
     <>
-      <IconButton onClick={handleClickOpen}>{icon}</IconButton>
+      <IconButton onClick={handleClickOpen}>
+        <Tooltip title="Add">
+          <AddIcon />
+        </Tooltip>
+      </IconButton>
       <Dialog
-        key={key}
+        key={'add'}
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
         fullWidth
       >
-        <DialogTitle id="form-dialog-title">{title}</DialogTitle>
+        <DialogTitle id="form-dialog-title">Add</DialogTitle>
         <DialogContent>
-          <TickerSelect
-            tickers={tickers}
-            value={item.symbol}
-            helperText={'Select a symbol'}
-            handler={handleChange('symbol')}
-          />
-          <TextField
-            margin="dense"
-            label="Target price"
-            type="number"
-            fullWidth
-            value={item.targetPrice}
-            onChange={handleChange('targetPrice')}
-          />
-          <TextField
-            margin="dense"
-            label="Note"
-            type="text"
-            fullWidth
-            value={item.note}
-            onChange={handleChange('note')}
+          <Form
+            onSubmit={onSubmit}
+            keepDirtyOnReinitialize={true}
+            initialValues={{ symbol: '', note: '', targetPrice: '' }}
+            render={({
+              handleSubmit,
+              form,
+              submitting,
+              pristine,
+              valid,
+              values,
+            }) => (
+              <form onSubmit={handleSubmit}>
+                <div className={classes.fields}>
+                  <div>
+                    <Field<string>
+                      validate={composeValidators(required)}
+                      name="symbol"
+                      component={SelectInput}
+                      placeholder="Symbol"
+                      inputLabel="Symbol"
+                      fullWidth
+                    >
+                      {tickers.map((ticker) => (
+                        <MenuItem key={ticker.symbol} value={ticker.symbol}>
+                          {`${ticker.symbol} (${ticker.formalName})`}
+                        </MenuItem>
+                      ))}
+                    </Field>
+                  </div>
+                  <div>
+                    <Field<string>
+                      name="targetPrice"
+                      type="number"
+                      component={TextInput}
+                      placeholder="Target price"
+                      label="Target price"
+                      fullWidth
+                    />
+                  </div>
+                  <div>
+                    <Field<string>
+                      name="note"
+                      label="Note"
+                      parse={(x) => x}
+                      component={TextInput}
+                      placeholder="Note"
+                      fullWidth
+                    />
+                  </div>
+                </div>
+                <div className={classes.buttons}>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    disabled={submitting || pristine || !valid}
+                  >
+                    Submit
+                  </Button>
+                  <Button
+                    variant="contained"
+                    onClick={handleClose}
+                    color="secondary"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="contained"
+                    onClick={form.reset as () => void}
+                    disabled={submitting || pristine}
+                  >
+                    Reset
+                  </Button>
+                </div>
+              </form>
+            )}
           />
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handler} color="primary">
-            OK
-          </Button>
-        </DialogActions>
       </Dialog>
     </>
   );
 };
 
 type Props = {
-  addHandler?: Function;
+  addHandler?: (item: any) => void;
   tickers?: Ticker[];
-};
-
-type Item = {
-  symbol: string;
-  note: string;
-  targetPrice: number | null;
 };
 
 export default PostDialog;

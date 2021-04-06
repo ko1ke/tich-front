@@ -21,7 +21,6 @@ const TickerSelectableCell = ({
 
   return (
     <select value={value} onChange={onChange}>
-      <option value=""> &nbsp;</option>
       {tickers.map((ticker) => (
         <option key={ticker.symbol} value={ticker.symbol}>
           {ticker.symbol}
