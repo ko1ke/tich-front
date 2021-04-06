@@ -4,6 +4,8 @@ export interface AuthProps {
   password_confirmation?: string;
 }
 
-export interface UserState {
-  username: string;
+export interface PortfolioProps {
+  symbol: string;
+  note: string;
+  targetPrice: string;
 }

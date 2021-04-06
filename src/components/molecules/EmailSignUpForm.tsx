@@ -7,6 +7,12 @@ import TextInput from '../atoms/TextInput';
 import Button from '@material-ui/core/Button';
 import { createEmailUser } from '../../features/userSlice';
 import { AuthProps } from '../../typings';
+import {
+  required,
+  mustBeEmail,
+  minLength,
+  composeValidators,
+} from '../../utils/validator';
 
 const useStyles = makeStyles((theme) => ({
   fields: {
@@ -44,11 +50,19 @@ const EmailSignUpForm: React.FC = () => {
       <Form
         onSubmit={onSubmit}
         initialValues={{ email: '', password: '' }}
-        render={({ handleSubmit, form, submitting, pristine, values }) => (
+        render={({
+          handleSubmit,
+          form,
+          submitting,
+          pristine,
+          valid,
+          values,
+        }) => (
           <form onSubmit={handleSubmit}>
             <div className={classes.fields}>
               <div>
                 <Field<string>
+                  validate={composeValidators(required, mustBeEmail)}
                   name="email"
                   component={TextInput}
                   placeholder="email"
@@ -56,6 +70,7 @@ const EmailSignUpForm: React.FC = () => {
               </div>
               <div>
                 <Field<string>
+                  validate={composeValidators(required, minLength(6))}
                   name="password"
                   type="password"
                   component={TextInput}
@@ -68,7 +83,7 @@ const EmailSignUpForm: React.FC = () => {
                 type="submit"
                 variant="contained"
                 color="primary"
-                disabled={submitting || pristine}
+                disabled={submitting || pristine || !valid}
               >
                 Submit
               </Button>
