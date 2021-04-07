@@ -7,6 +7,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
+import LazyLoad from 'react-lazyload';
 import {
   TwitterShareButton,
   TwitterIcon,
@@ -56,12 +57,14 @@ const NewsCard: React.FC<News> = ({
     >
       <CardActionArea>
         {imageUrl && (
-          <CardMedia
-            component="img"
-            alt="Sorry, image not found"
-            height="140"
-            src={imageUrl}
-          />
+          <LazyLoad>
+            <CardMedia
+              component="img"
+              alt="Sorry, image not found"
+              height="140"
+              src={imageUrl}
+            />
+          </LazyLoad>
         )}
 
         <CardContent>
