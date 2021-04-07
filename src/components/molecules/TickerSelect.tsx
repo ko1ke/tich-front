@@ -37,7 +37,10 @@ const TickerSelect: React.FC<TickerSelectProps> = ({
         onChange={handler}
       >
         <MenuItem value="">
-          <em>None</em>
+          <em>All symbols</em>
+        </MenuItem>
+        <MenuItem value="FAVORITES">
+          <em>Your Favorites (ticker symbols in your portfolio)</em>
         </MenuItem>
         {tickers.map((ticker) => (
           <MenuItem key={ticker.symbol} value={ticker.symbol}>
