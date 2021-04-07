@@ -3,8 +3,8 @@ import GenericTemplate from '../templates/GenericTemplate';
 
 const HomePage: React.FC = () => {
   return (
-    <GenericTemplate title="Home">
-      <>Contents</>
+    <GenericTemplate>
+      <></>
     </GenericTemplate>
   );
 };

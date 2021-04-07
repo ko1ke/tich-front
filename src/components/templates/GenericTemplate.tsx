@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface GenericTemplateProps {
   children: React.ReactNode;
-  title: string;
+  title?: string;
 }
 
 const GenericTemplate = React.forwardRef(
@@ -55,15 +55,17 @@ const GenericTemplate = React.forwardRef(
           <main className={classes.content} ref={ref}>
             <div className={classes.appBarSpacer} />
             <Container maxWidth="lg" className={classes.container}>
-              <Typography
-                component="h2"
-                variant="h5"
-                color="inherit"
-                noWrap
-                className={classes.pageTitle}
-              >
-                {props.title}
-              </Typography>
+              {props.title && (
+                <Typography
+                  component="h2"
+                  variant="h5"
+                  color="inherit"
+                  noWrap
+                  className={classes.pageTitle}
+                >
+                  {props.title}
+                </Typography>
+              )}
               {props.children}
             </Container>
           </main>
