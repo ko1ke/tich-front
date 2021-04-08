@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+  useRef,
+} from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { fetchMarketNews } from '../../api/marketNews';
@@ -111,7 +117,7 @@ const NewsPage: React.FC = () => {
       });
   }, [queryParams]);
 
-  const updateURL = () => {
+  const updateURL = useCallback(() => {
     // remove explicit page (if default) for cleaner url (getQueryParams() will default to page DEFAULT_PAGE)
     if (urlParams.get('page') === `${DEFAULT_PAGE}`) {
       urlParams.delete('page');
@@ -122,19 +128,19 @@ const NewsPage: React.FC = () => {
       pathname: location.pathname,
       search: `?${urlParams}`,
     });
-  };
+  }, [urlParams, history, location]);
 
-  const handleChangePage = (
-    _event: React.ChangeEvent<unknown>,
-    newPage: number
-  ) => {
-    urlParams.set('page', newPage.toString());
-    updateURL();
-    mainRef.current.scrollTo({
-      top: 0,
-      left: 0,
-    });
-  };
+  const handleChangePage = useCallback(
+    (_event: React.ChangeEvent<unknown>, newPage: number) => {
+      urlParams.set('page', newPage.toString());
+      updateURL();
+      mainRef.current.scrollTo({
+        top: 0,
+        left: 0,
+      });
+    },
+    [updateURL, urlParams]
+  );
 
   return (
     <GenericTemplate title="Market News" ref={mainRef}>
