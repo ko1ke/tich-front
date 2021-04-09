@@ -121,25 +121,13 @@ const PostDialog: React.FC<Props> = ({ addHandler, tickers }: Props) => {
                 <div className={classes.buttons}>
                   <Button
                     type="submit"
-                    variant="contained"
                     color="primary"
                     disabled={submitting || pristine || !valid}
                   >
                     Submit
                   </Button>
-                  <Button
-                    variant="contained"
-                    onClick={handleClose}
-                    color="secondary"
-                  >
+                  <Button onClick={handleClose} color="secondary">
                     Cancel
-                  </Button>
-                  <Button
-                    variant="contained"
-                    onClick={form.reset as () => void}
-                    disabled={submitting || pristine}
-                  >
-                    Reset
                   </Button>
                 </div>
               </form>

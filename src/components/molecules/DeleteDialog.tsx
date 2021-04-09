@@ -48,11 +48,11 @@ const DeleteDialog: React.FC<Props> = ({
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
           <Button onClick={handleDelete} color="primary">
             OK
+          </Button>
+          <Button onClick={handleClose} color="secondary">
+            Cancel
           </Button>
         </DialogActions>
       </Dialog>

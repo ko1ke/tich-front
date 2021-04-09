@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    padding: theme.spacing(2.5),
   },
 }));
 
@@ -65,7 +65,7 @@ const EmailLoginForm: React.FC = () => {
                   validate={composeValidators(required, mustBeEmail)}
                   name="email"
                   component={TextInput}
-                  placeholder="email"
+                  placeholder="Email"
                 />
               </div>
               <div>

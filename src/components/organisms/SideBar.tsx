@@ -22,9 +22,6 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       display: 'flex',
     },
-    toolbar: {
-      paddingRight: 24,
-    },
     toolbarIcon: {
       display: 'flex',
       alignItems: 'center',
