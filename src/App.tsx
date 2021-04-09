@@ -12,9 +12,14 @@ import MarketNewsPage from './components/pages/MarketNewsPage';
 import { auth } from './firebase';
 import { getIdToken } from './api/firebase';
 import { fetchCurrentUser, removeCurrentUser } from './features/userSlice';
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { openDrawer, closeDrawer } from './features/drawerSlice';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
+  const theme = useTheme();
+  const downSm = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
     const unSub = auth.onAuthStateChanged((authUser) => {
@@ -42,6 +47,14 @@ const App: React.FC = () => {
       unSub();
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    if (downSm) {
+      dispatch(closeDrawer());
+    } else {
+      dispatch(openDrawer());
+    }
+  }, [dispatch, downSm]);
 
   return (
     <Switch>
