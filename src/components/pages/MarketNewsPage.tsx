@@ -8,6 +8,8 @@ import React, {
 import { useHistory, useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { fetchMarketNews } from '../../api/marketNews';
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import NewsCard from '../molecules/NewsCard';
 import GenericTemplate from '../templates/GenericTemplate';
 import GridList from '@material-ui/core/GridList';
@@ -73,6 +75,9 @@ const NewsPage: React.FC = () => {
   const history = useHistory();
   const location = useLocation();
   const mainRef = useRef(null);
+  const theme = useTheme();
+  const downSm = useMediaQuery(theme.breakpoints.down('sm'));
+  const downMd = useMediaQuery(theme.breakpoints.down('md'));
 
   const urlParams = useMemo(() => {
     return new URLSearchParams(location.search);
@@ -144,7 +149,7 @@ const NewsPage: React.FC = () => {
 
   return (
     <GenericTemplate title="Market News" ref={mainRef}>
-      <GridList cols={3} cellHeight="auto">
+      <GridList cols={downSm ? 1 : downMd ? 2 : 3} cellHeight="auto">
         {news ? (
           news.map((n) => {
             return (

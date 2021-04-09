@@ -12,6 +12,8 @@ import { selectUser } from '../../features/userSlice';
 import { fetchCompanyNews } from '../../api/companyNews';
 import { fetchTickers } from '../../api/ticker';
 import TickerSelect from '../molecules/TickerSelect';
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import NewsCard from '../molecules/NewsCard';
 import GenericTemplate from '../templates/GenericTemplate';
 import GridList from '@material-ui/core/GridList';
@@ -89,6 +91,9 @@ const NewsPage: React.FC = () => {
   const history = useHistory();
   const location = useLocation();
   const mainRef = useRef(null);
+  const theme = useTheme();
+  const downSm = useMediaQuery(theme.breakpoints.down('sm'));
+  const downMd = useMediaQuery(theme.breakpoints.down('md'));
 
   const urlParams = useMemo(() => {
     return new URLSearchParams(location.search);
@@ -192,7 +197,7 @@ const NewsPage: React.FC = () => {
           handler={handleChangeSymbol}
         />
       )}
-      <GridList cols={3} cellHeight="auto">
+      <GridList cols={downSm ? 1 : downMd ? 2 : 3} cellHeight="auto">
         {news ? (
           news.map((n) => {
             return (
