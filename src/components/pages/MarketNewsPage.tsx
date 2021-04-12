@@ -17,6 +17,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import { parseISO } from 'date-fns';
 import Loader from '../molecules/Loader';
 import Pagination from '@material-ui/lab/Pagination';
+import KeywordSearchForm from '../molecules/KeywordSearchForm';
 
 interface News {
   id: number;
@@ -40,10 +41,12 @@ interface Page {
 
 interface DataQueryParams {
   page: number;
+  keyword: string;
 }
 
 const DEFAULT_PAGE = 1;
-const supportedParams = ['page'];
+const DEFAULT_KEYWORD = '';
+const supportedParams = ['page', 'keyword'];
 
 const getQueryParams = (urlParams: URLSearchParams): DataQueryParams => {
   const obj: any = Array.from(urlParams)
@@ -59,6 +62,10 @@ const getQueryParams = (urlParams: URLSearchParams): DataQueryParams => {
 
   if (!keys.includes('page')) {
     obj.page = DEFAULT_PAGE;
+  }
+
+  if (!keys.includes('keyword')) {
+    obj.keyword = DEFAULT_KEYWORD;
   }
 
   return obj as DataQueryParams;
@@ -127,8 +134,10 @@ const NewsPage: React.FC = () => {
     if (urlParams.get('page') === `${DEFAULT_PAGE}`) {
       urlParams.delete('page');
     }
-    // remove explicit symbol (if default) for cleaner url (getQueryParams() will default to limit DEFAULT_SYMBOL)
-
+    // remove explicit keyword (if default) for cleaner url (getQueryParams() will default to limit DEFAULT_KEYWORD)
+    if (urlParams.get('keyword') === `${DEFAULT_KEYWORD}`) {
+      urlParams.delete('keyword');
+    }
     history.push({
       pathname: location.pathname,
       search: `?${urlParams}`,
@@ -147,8 +156,16 @@ const NewsPage: React.FC = () => {
     [updateURL, urlParams]
   );
 
+  const handleChangeKeyword = (value: string) => {
+    urlParams.set('keyword', value);
+    // reset page param
+    urlParams.set('page', '1');
+    updateURL();
+  };
+
   return (
     <GenericTemplate title="Market News" ref={mainRef}>
+      <KeywordSearchForm handler={handleChangeKeyword} />
       <GridList cols={downSm ? 1 : downMd ? 2 : 3} cellHeight="auto">
         {news ? (
           news.map((n) => {

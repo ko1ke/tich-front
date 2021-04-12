@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export interface DataQueryParams {
   page: number;
+  keyword: string;
 }
 
 const generateQueryString = (obj: any): string => {
