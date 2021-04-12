@@ -187,12 +187,14 @@ const NewsPage: React.FC = () => {
           <Loader />
         )}
       </GridList>
-      {news && (
+      {news ? (
         <Pagination
           count={page.totalPages}
           page={+queryParams.page}
           onChange={handleChangePage}
         />
+      ) : (
+        page.totalPages === 0 && <>Articles not found.</>
       )}
     </GenericTemplate>
   );
