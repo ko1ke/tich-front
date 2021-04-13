@@ -69,7 +69,7 @@ const NewsCard: React.FC<News> = ({
 
         <CardContent>
           {headline && (
-            <Typography gutterBottom variant="h5" component="h2">
+            <Typography gutterBottom variant="h6" component="h2">
               {headline}
             </Typography>
           )}
