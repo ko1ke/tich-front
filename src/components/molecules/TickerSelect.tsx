@@ -1,9 +1,10 @@
 import React from 'react';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import NativeSelect from '@material-ui/core/NativeSelect';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../features/userSlice';
 
 interface Ticker {
   symbol: string;
@@ -21,33 +22,38 @@ interface TickerSelectProps {
   ) => void;
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      backgroundColor: theme.palette.background.paper,
+      padding: '4px 8px',
+      marginBottom: theme.spacing(2),
+    },
+  })
+);
+
 const TickerSelect: React.FC<TickerSelectProps> = ({
   tickers,
   value,
   handler,
   helperText,
 }) => {
+  const classes = useStyles();
+  const user = useSelector(selectUser);
+
   return (
-    <FormControl fullWidth>
-      <InputLabel id="select-helper-label">Ticker Symbol</InputLabel>
-      <Select
-        labelId="select-helper-label"
-        id="simple-select-helper"
-        value={value}
-        onChange={handler}
-      >
-        <MenuItem value="">
-          <em>All symbols</em>
-        </MenuItem>
-        <MenuItem value="FAVORITES">
-          <em>Your Favorites (ticker symbols in your portfolio)</em>
-        </MenuItem>
+    <FormControl fullWidth className={classes.root}>
+      <NativeSelect value={value} onChange={handler}>
+        <option value="">All symbols</option>
+        <option value="FAVORITES" disabled={!user?.isAuthenticated}>
+          😊 Your Favorites (ticker symbols in your portfolio)
+        </option>
         {tickers.map((ticker) => (
-          <MenuItem key={ticker.symbol} value={ticker.symbol}>
+          <option key={ticker.symbol} value={ticker.symbol}>
             {`${ticker.symbol} (${ticker.formalName})`}
-          </MenuItem>
+          </option>
         ))}
-      </Select>
+      </NativeSelect>
       <FormHelperText>{helperText}</FormHelperText>
     </FormControl>
   );
