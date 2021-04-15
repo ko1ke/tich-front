@@ -4,7 +4,7 @@ import GenericTemplate from '../templates/GenericTemplate';
 const SettingPage = () => {
   return (
     <GenericTemplate title="Setting">
-      <>Contents</>
+      <>Not planned yet</>
     </GenericTemplate>
   );
 };

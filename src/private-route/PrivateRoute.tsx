@@ -3,7 +3,7 @@ import { Route, Redirect, RouteProps } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 
-export const PrivateRoute: React.FC<RouteProps> = (props) => {
+const PrivateRoute: React.FC<RouteProps> = (props) => {
   const currentUser = useSelector((state: RootState) => state.currentUser);
   return currentUser.isAuthenticated ? (
     <Route {...props} />
@@ -11,3 +11,5 @@ export const PrivateRoute: React.FC<RouteProps> = (props) => {
     <Redirect to="/login" />
   );
 };
+
+export default PrivateRoute;

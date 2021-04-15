@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import PrivateRoute from './private-route/PrivateRoute';
 import { useDispatch } from 'react-redux';
 
 import PortfolioPage from './components/pages/PortfolioPage';
@@ -61,10 +62,10 @@ const App: React.FC = () => {
       <Route path="/" component={HomePage} exact />
       <Route path="/login" component={LogInPage} exact />
       <Route path="/sign_up" component={SignUpPage} exact />
-      <Route path="/portfolio" component={PortfolioPage} exact />
       <Route path="/company_news" component={CompanyNewsPage} exact />
       <Route path="/market_news" component={MarketNewsPage} exact />
-      <Route path="/setting" component={SettingPage} exact />
+      <PrivateRoute path="/portfolio" component={PortfolioPage} exact />
+      <PrivateRoute path="/setting" component={SettingPage} exact />
       <Route render={() => <h1>Not Found...</h1>} />
     </Switch>
   );
