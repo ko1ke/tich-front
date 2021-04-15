@@ -115,30 +115,32 @@ const NewsPage: React.FC = () => {
   const [tickers, setTickers] = useState<Ticker[]>([]);
 
   useEffect(() => {
-    fetchCompanyNews({
-      uid: user?.uid,
-      token: user?.idToken,
-      params: queryParams,
-    })
-      .then((res) => {
-        const contents: News[] = res.data.contents.map((d) => {
-          return {
-            id: d.id,
-            headline: d.headline,
-            body: d.body,
-            fetchedFrom: d.fetchedFrom,
-            symbol: d.symbol,
-            linkUrl: d.linkUrl,
-            imageUrl: d.imageUrl,
-            originalCreatedAt: parseISO(d.originalCreatedAt),
-          };
-        });
-        setNews(contents);
-        setPage(res.data.page as Page);
+    if (user) {
+      fetchCompanyNews({
+        uid: user.uid,
+        token: user.idToken,
+        params: queryParams,
       })
-      .catch((err) => {
-        alert(err);
-      });
+        .then((res) => {
+          const contents: News[] = res.data.contents.map((d) => {
+            return {
+              id: d.id,
+              headline: d.headline,
+              body: d.body,
+              fetchedFrom: d.fetchedFrom,
+              symbol: d.symbol,
+              linkUrl: d.linkUrl,
+              imageUrl: d.imageUrl,
+              originalCreatedAt: parseISO(d.originalCreatedAt),
+            };
+          });
+          setNews(contents);
+          setPage(res.data.page as Page);
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    }
   }, [queryParams, user]);
 
   useEffect(() => {
