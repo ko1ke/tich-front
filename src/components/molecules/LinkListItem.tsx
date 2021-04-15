@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme: Theme) =>
     link: {
       textDecoration: 'none',
       color: theme.palette.text.secondary,
+      cursor: (disabled) => (disabled ? 'default' : 'pointer'),
     },
   })
 );
@@ -18,14 +19,20 @@ export interface LinkListItemProps {
   children: React.ReactNode;
   to: string;
   title: string;
+  disabled?: boolean;
 }
 
-const LinkListItem: React.FC<LinkListItemProps> = ({ children, to, title }) => {
-  const classes = useStyles();
+const LinkListItem: React.FC<LinkListItemProps> = ({
+  children,
+  to,
+  title,
+  disabled = false,
+}) => {
+  const classes = useStyles(disabled);
 
   return (
-    <Link to={to} className={classes.link}>
-      <ListItem button>
+    <Link to={disabled ? '#' : to} className={classes.link}>
+      <ListItem button disabled={disabled}>
         <ListItemIcon>{children}</ListItemIcon>
         <ListItemText primary={title} />
       </ListItem>

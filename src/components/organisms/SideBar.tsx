@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { selectUser } from '../../features/userSlice';
 import { closeDrawer } from '../../features/drawerSlice';
 import { RootState } from '../../store';
 import clsx from 'clsx';
@@ -54,6 +55,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const SideBar: React.FC = () => {
   const classes = useStyles();
+  const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const drawer = useSelector((state: RootState) => state.drawer);
 
@@ -78,16 +80,24 @@ const SideBar: React.FC = () => {
         <LinkListItem to="/" title="TopPage">
           <HomeIcon />
         </LinkListItem>
-        <LinkListItem to="/market_news" title="Market News">
-          <AttachMoneyIcon />
-        </LinkListItem>
         <LinkListItem to="/company_news" title="Company News">
           <LocationCityIcon />
         </LinkListItem>
-        <LinkListItem to="/portfolio" title="Portfolio">
+        <LinkListItem to="/market_news" title="Market News">
+          <AttachMoneyIcon />
+        </LinkListItem>
+        <LinkListItem
+          to="/portfolio"
+          title="Portfolio"
+          disabled={!user?.isAuthenticated}
+        >
           <LabelIcon />
         </LinkListItem>
-        <LinkListItem to="/setting" title="Setting">
+        <LinkListItem
+          to="/setting"
+          title="Setting"
+          disabled={!user?.isAuthenticated}
+        >
           <SettingsIcon />
         </LinkListItem>
       </List>
