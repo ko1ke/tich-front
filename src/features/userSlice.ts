@@ -109,10 +109,9 @@ export const createGoogleUser = createAsyncThunk<
 
 export const removeCurrentUser = createAsyncThunk<void, void, ThunkApiConfig>(
   'currentUser/remove',
-  async (_, { dispatch, rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       await signOut();
-      dispatch(push('/login'));
       return;
     } catch (e) {
       return rejectWithValue({
