@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
@@ -30,7 +31,14 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const KeywordSearchForm = ({ handler }) => {
   const classes = useStyles();
+  const location = useLocation();
   const [value, setValue] = useState('');
+
+  useEffect(() => {
+    // fill the value from searchParams 'keyword' when reloaded or accessed directly with url
+    const searchParams = new URLSearchParams(location.search);
+    setValue(searchParams.get('keyword'));
+  }, []);
 
   const onSubmit = (event: React.FormEvent<unknown>) => {
     event.preventDefault();
