@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { useSelector, useDispatch } from 'react-redux';
@@ -18,6 +18,10 @@ const UserSnack: React.FC = () => {
       setOpen(true);
       dispatch(resetAuthenticationError());
     }
+    if (user.isAuthenticationError === false && user.isAuthenticated === true) {
+      setOpen(true);
+      dispatch(resetAuthenticationError());
+    }
   }, [user, dispatch]);
 
   const handleClose = (_e?: React.SyntheticEvent, reason?: string) => {
@@ -27,10 +31,22 @@ const UserSnack: React.FC = () => {
     setOpen(false);
   };
 
+  const alertMessage = useMemo(() => {
+    if (user.isAuthenticated === false && user.error) {
+      return user.error?.message || 'Error occurred';
+    }
+    if (user.isAuthenticated === true && user.success) {
+      return user.success?.message || 'Success';
+    }
+  }, [user]);
+
   return (
     <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-      <Alert onClose={handleClose} severity="error">
-        {user.error ? user.error.message : 'Error occurred'}
+      <Alert
+        onClose={handleClose}
+        severity={user.isAuthenticated ? 'success' : 'error'}
+      >
+        {alertMessage}
       </Alert>
     </Snackbar>
   );

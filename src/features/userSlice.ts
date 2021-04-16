@@ -18,7 +18,8 @@ type User = {
   photoURL?: string | null;
   isAuthenticationError?: boolean;
   isAuthenticated?: boolean;
-  error?: any;
+  error?: { message?: string };
+  success?: { message?: string };
 };
 
 type UserAuthentication = {
@@ -42,7 +43,6 @@ type ThunkApiConfig = {
 
 const initialState: User = {
   isAuthenticated: false,
-  isAuthenticationError: false,
 };
 
 // 非同期通信はcreateSliceで定義できないので、予めcreateAsyncThunkで作成しておく
@@ -63,7 +63,7 @@ export const fetchEmailUser = createAsyncThunk<
       return { idToken, email, uid, displayName, photoURL };
     } catch (e) {
       return rejectWithValue({
-        error: e,
+        error: { message: e?.message },
       });
     }
   }
@@ -83,7 +83,7 @@ export const createEmailUser = createAsyncThunk<
     return { idToken, email, uid, displayName, photoURL };
   } catch (e) {
     return rejectWithValue({
-      error: e,
+      error: { message: e?.message },
     });
   }
 });
@@ -102,7 +102,7 @@ export const createGoogleUser = createAsyncThunk<
     return { idToken, email, uid, displayName, photoURL };
   } catch (e) {
     return rejectWithValue({
-      error: e,
+      error: { message: e?.message },
     });
   }
 });
@@ -115,7 +115,7 @@ export const removeCurrentUser = createAsyncThunk<void, void, ThunkApiConfig>(
       return;
     } catch (e) {
       return rejectWithValue({
-        error: e,
+        error: { message: e?.message },
       });
     }
   }
@@ -136,7 +136,7 @@ const slice = createSlice({
       state.isAuthenticated = true;
     },
     resetAuthenticationError(state) {
-      state.isAuthenticationError = false;
+      state.isAuthenticationError = null;
     },
   },
   extraReducers(builder) {
@@ -152,6 +152,7 @@ const slice = createSlice({
         state.photoURL = photoURL;
         state.isAuthenticationError = false;
         state.isAuthenticated = true;
+        state.success = { message: 'Log in as an email user' };
       }
     );
     // fetchEmailUser内でrejectWithValue関数が呼ばれると発火
@@ -171,6 +172,7 @@ const slice = createSlice({
         state.photoURL = photoURL;
         state.isAuthenticationError = false;
         state.isAuthenticated = true;
+        state.success = { message: 'Created an account as an email user' };
       }
     );
     builder.addCase(createEmailUser.rejected, (state, action) => {
@@ -189,6 +191,7 @@ const slice = createSlice({
         state.photoURL = photoURL;
         state.isAuthenticationError = false;
         state.isAuthenticated = true;
+        state.success = { message: 'Log in as a Google user' };
       }
     );
     builder.addCase(createGoogleUser.rejected, (state, action) => {
@@ -204,6 +207,7 @@ const slice = createSlice({
       state.photoURL = '';
       state.isAuthenticationError = false;
       state.isAuthenticated = false;
+      state.success = { message: 'Logged out' };
     });
     builder.addCase(removeCurrentUser.rejected, (state, action) => {
       console.error(action.payload?.error);
