@@ -41,10 +41,27 @@ const PortfolioTable = ({ sheet }) => {
     {
       Header: 'Current price',
       accessor: 'price',
+      Cell: (cell) =>
+        cell.value > cell.row.original.targetPrice ? (
+          <span style={{ color: 'green' }}>{cell.value}👍</span>
+        ) : (
+          <span style={{ color: 'red' }}>{cell.value}</span>
+        ),
     },
     {
       Header: 'Change',
       accessor: 'change',
+      Cell: ({ cell: { value } }) =>
+        value > 0 ? (
+          <span style={{ color: 'green' }}>{value}👍</span>
+        ) : (
+          <span style={{ color: 'red' }}>{value}</span>
+        ),
+    },
+    {
+      Header: 'Note',
+      accessor: 'note',
+      Cell: EditableCell,
     },
     {
       id: 'link-to-chart',
@@ -61,11 +78,6 @@ const PortfolioTable = ({ sheet }) => {
           </a>
         );
       },
-    },
-    {
-      Header: 'Note',
-      accessor: 'note',
-      Cell: EditableCell,
     },
   ];
 
