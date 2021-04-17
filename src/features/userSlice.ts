@@ -42,7 +42,7 @@ type ThunkApiConfig = {
 };
 
 const initialState: User = {
-  isAuthenticated: false,
+  isAuthenticated: null,
 };
 
 // 非同期通信はcreateSliceで定義できないので、予めcreateAsyncThunkで作成しておく

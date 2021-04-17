@@ -5,10 +5,14 @@ import { RootState } from '../store';
 
 const PrivateRoute: React.FC<RouteProps> = (props) => {
   const currentUser = useSelector((state: RootState) => state.currentUser);
-  return currentUser.isAuthenticated ? (
+
+  return currentUser.isAuthenticated === true ? (
     <Route {...props} />
-  ) : (
+  ) : currentUser.isAuthenticated === false ? (
     <Redirect to="/login" />
+  ) : (
+    // null case
+    <>Verifying authentication...</>
   );
 };
 
