@@ -37,7 +37,7 @@ const KeywordSearchForm = ({ handler }) => {
   useEffect(() => {
     // fill the value from searchParams 'keyword' when reloaded or accessed directly with url
     const searchParams = new URLSearchParams(location.search);
-    setValue(searchParams.get('keyword'));
+    setValue(searchParams.get('keyword') || '');
   }, []);
 
   const onSubmit = (event: React.FormEvent<unknown>) => {
