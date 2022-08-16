@@ -7,6 +7,8 @@ import React, {
 } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../features/userSlice';
 import { fetchMarketNews } from '../../api/marketNews';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -20,7 +22,7 @@ import Pagination from '@material-ui/lab/Pagination';
 import KeywordSearchForm from '../molecules/KeywordSearchForm';
 
 interface News {
-  id: number;
+  id: string;
   headline: string;
   body: string;
   fetchedFrom: string;
@@ -28,6 +30,7 @@ interface News {
   linkUrl: string;
   imageUrl: string;
   originalCreatedAt: Date;
+  favoredByCurrentUser: boolean;
 }
 
 interface Page {
@@ -79,6 +82,7 @@ const useStyles = makeStyles((theme) => ({
 
 const NewsPage: React.FC = () => {
   const classes = useStyles();
+  const user = useSelector(selectUser);
   const history = useHistory();
   const location = useLocation();
   const mainRef = useRef(null);
@@ -105,29 +109,34 @@ const NewsPage: React.FC = () => {
   });
 
   useEffect(() => {
-    fetchMarketNews({
-      params: queryParams,
-    })
-      .then((res) => {
-        const contents: News[] = res.data.contents.map((d) => {
-          return {
-            id: d.id,
-            headline: d.headline,
-            body: d.body,
-            fetchedFrom: d.fetchedFrom,
-            symbol: d.symbol,
-            linkUrl: d.linkUrl,
-            imageUrl: d.imageUrl,
-            originalCreatedAt: parseISO(d.originalCreatedAt),
-          };
-        });
-        setNews(contents);
-        setPage(res.data.page as Page);
+    if (user) {
+      fetchMarketNews({
+        uid: user.uid,
+        token: user.idToken,
+        params: queryParams,
       })
-      .catch((err) => {
-        alert(err);
-      });
-  }, [queryParams]);
+        .then((res) => {
+          const contents: News[] = res.data.contents.map((d) => {
+            return {
+              id: d.id,
+              headline: d.headline,
+              body: d.body,
+              fetchedFrom: d.fetchedFrom,
+              symbol: d.symbol,
+              linkUrl: d.linkUrl,
+              imageUrl: d.imageUrl,
+              originalCreatedAt: parseISO(d.originalCreatedAt),
+              favoredByCurrentUser: d.favoredByCurrentUser,
+            };
+          });
+          setNews(contents);
+          setPage(res.data.page as Page);
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    }
+  }, [queryParams, user]);
 
   const updateURL = useCallback(() => {
     // remove explicit page (if default) for cleaner url (getQueryParams() will default to page DEFAULT_PAGE)
@@ -172,6 +181,7 @@ const NewsPage: React.FC = () => {
             return (
               <GridListTile key={n.id} cols={1} className={classes.title}>
                 <NewsCard
+                  id={n.id}
                   headline={n.headline}
                   body={n.body}
                   fetchedFrom={n.fetchedFrom}
@@ -179,6 +189,7 @@ const NewsPage: React.FC = () => {
                   linkUrl={n.linkUrl}
                   imageUrl={n.imageUrl}
                   originalCreatedAt={n.originalCreatedAt}
+                  favoredByCurrentUser={n.favoredByCurrentUser}
                 />
               </GridListTile>
             );

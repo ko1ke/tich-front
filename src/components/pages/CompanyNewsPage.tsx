@@ -23,7 +23,7 @@ import Loader from '../molecules/Loader';
 import Pagination from '@material-ui/lab/Pagination';
 
 interface News {
-  id: number;
+  id: string;
   headline: string;
   body: string;
   fetchedFrom: string;
@@ -31,6 +31,7 @@ interface News {
   linkUrl: string;
   imageUrl: string;
   originalCreatedAt: Date;
+  favoredByCurrentUser: boolean;
 }
 
 interface Page {
@@ -132,6 +133,7 @@ const NewsPage: React.FC = () => {
               linkUrl: d.linkUrl,
               imageUrl: d.imageUrl,
               originalCreatedAt: parseISO(d.originalCreatedAt),
+              favoredByCurrentUser: d.favoredByCurrentUser,
             };
           });
           setNews(contents);
@@ -203,6 +205,7 @@ const NewsPage: React.FC = () => {
             return (
               <GridListTile key={n.id} cols={1} className={classes.title}>
                 <NewsCard
+                  id={n.id}
                   headline={n.headline}
                   body={n.body}
                   fetchedFrom={n.fetchedFrom}
@@ -210,6 +213,7 @@ const NewsPage: React.FC = () => {
                   linkUrl={n.linkUrl}
                   imageUrl={n.imageUrl}
                   originalCreatedAt={n.originalCreatedAt}
+                  favoredByCurrentUser={n.favoredByCurrentUser}
                 />
               </GridListTile>
             );

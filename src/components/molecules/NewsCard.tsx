@@ -7,6 +7,10 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../features/userSlice';
+import Box from '@material-ui/core/Box';
+import FavButton from '../atoms/FavButton';
 import LazyLoad from 'react-lazyload';
 import {
   TwitterShareButton,
@@ -24,7 +28,7 @@ const useStyles = makeStyles({
 });
 
 interface News {
-  id?: number;
+  id: string;
   headline: string;
   body: string;
   fetchedFrom: string;
@@ -32,9 +36,11 @@ interface News {
   linkUrl: string;
   imageUrl: string;
   originalCreatedAt: Date;
+  favoredByCurrentUser: boolean;
 }
 
 const NewsCard: React.FC<News> = ({
+  id,
   headline,
   body,
   fetchedFrom,
@@ -42,8 +48,10 @@ const NewsCard: React.FC<News> = ({
   linkUrl,
   imageUrl,
   originalCreatedAt,
+  favoredByCurrentUser,
 }) => {
   const classes = useStyles();
+  const user = useSelector(selectUser);
 
   const complementAsHtml = (text) => {
     const innerHTML = { __html: text };
@@ -107,6 +115,9 @@ const NewsCard: React.FC<News> = ({
         <RedditShareButton title={headline} url={linkUrl}>
           <RedditIcon size={32} round={true} />
         </RedditShareButton>
+        <Box style={{ marginLeft: 'auto' }}>
+          {!user?.uid ? <></> : <FavButton isFavorite={favoredByCurrentUser} />}
+        </Box>
       </CardActions>
     </Card>
   );

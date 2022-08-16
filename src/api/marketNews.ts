@@ -12,8 +12,12 @@ const generateQueryString = (obj: any): string => {
 };
 
 export const fetchMarketNews = async ({
+  uid,
+  token,
   params,
 }: {
+  uid: string;
+  token: string;
   params: DataQueryParams;
 }) => {
   const client = axios.create({
@@ -21,6 +25,9 @@ export const fetchMarketNews = async ({
     headers: {
       'Content-Type': 'application/json',
       'X-Requested-With': 'XMLHttpRequest',
+      Authorization: `Bearer ${token}`,
+      uid: uid,
+      withCredentials: true,
     },
     responseType: 'json',
   });
