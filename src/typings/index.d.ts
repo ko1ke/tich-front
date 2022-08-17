@@ -9,3 +9,39 @@ export interface PortfolioProps {
   note: string;
   targetPrice: string;
 }
+
+export interface News {
+  id: number;
+  headline: string;
+  body: string;
+  fetchedFrom: string;
+  symbol: string;
+  linkUrl: string;
+  imageUrl: string;
+  originalCreatedAt: Date;
+  favoredByCurrentUser: boolean;
+}
+
+export interface Page {
+  currentPage: number;
+  nextPage: number;
+  prevPage: number;
+  totalPages: number;
+  isFirstPage: boolean;
+  isLastPage: boolean;
+}
+
+export interface MarketNewsQueryParams {
+  page: number;
+  keyword: string;
+}
+
+export interface CompanyNewsQueryParams {
+  page: number;
+  symbol: string;
+}
+
+export interface Ticker {
+  symbol: string;
+  formalName: string;
+}

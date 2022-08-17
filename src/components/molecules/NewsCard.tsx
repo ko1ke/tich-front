@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import { selectUser } from '../../features/userSlice';
 import Box from '@material-ui/core/Box';
 import FavButton from '../atoms/FavButton';
+import { News } from '../../typings';
 import LazyLoad from 'react-lazyload';
 import {
   TwitterShareButton,
@@ -26,18 +27,6 @@ const useStyles = makeStyles({
     maxWidth: 345,
   },
 });
-
-interface News {
-  id: string;
-  headline: string;
-  body: string;
-  fetchedFrom: string;
-  symbol: string;
-  linkUrl: string;
-  imageUrl: string;
-  originalCreatedAt: Date;
-  favoredByCurrentUser: boolean;
-}
 
 const NewsCard: React.FC<News> = ({
   id,

@@ -1,78 +1,15 @@
-import React, {
-  useEffect,
-  useState,
-  useMemo,
-  useCallback,
-  useRef,
-} from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { useSelector } from 'react-redux';
-import { selectUser } from '../../features/userSlice';
-import { fetchMarketNews } from '../../api/marketNews';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import NewsCard from '../molecules/NewsCard';
 import GenericTemplate from '../templates/GenericTemplate';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-import { parseISO } from 'date-fns';
 import Loader from '../molecules/Loader';
 import Pagination from '@material-ui/lab/Pagination';
 import KeywordSearchForm from '../molecules/KeywordSearchForm';
-
-interface News {
-  id: string;
-  headline: string;
-  body: string;
-  fetchedFrom: string;
-  symbol: string;
-  linkUrl: string;
-  imageUrl: string;
-  originalCreatedAt: Date;
-  favoredByCurrentUser: boolean;
-}
-
-interface Page {
-  currentPage: number;
-  nextPage: number;
-  prevPage: number;
-  totalPages: number;
-  isFirstPage: boolean;
-  isLastPage: boolean;
-}
-
-interface DataQueryParams {
-  page: number;
-  keyword: string;
-}
-
-const DEFAULT_PAGE = 1;
-const DEFAULT_KEYWORD = '';
-const supportedParams = ['page', 'keyword'];
-
-const getQueryParams = (urlParams: URLSearchParams): DataQueryParams => {
-  const obj: any = Array.from(urlParams)
-    .filter((param) => supportedParams.includes(param[0]))
-    .map((param) => {
-      return {
-        [param[0]]: param[1],
-      };
-    })
-    .reduce((acc, cur) => ({ ...acc, ...cur }), {});
-
-  const keys = Object.keys(obj);
-
-  if (!keys.includes('page')) {
-    obj.page = DEFAULT_PAGE;
-  }
-
-  if (!keys.includes('keyword')) {
-    obj.keyword = DEFAULT_KEYWORD;
-  }
-
-  return obj as DataQueryParams;
-};
+import useMarketNews from '../../hooks/useMarketNews';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -82,98 +19,20 @@ const useStyles = makeStyles((theme) => ({
 
 const NewsPage: React.FC = () => {
   const classes = useStyles();
-  const user = useSelector(selectUser);
-  const history = useHistory();
-  const location = useLocation();
-  const mainRef = useRef(null);
   const theme = useTheme();
   const downSm = useMediaQuery(theme.breakpoints.down('sm'));
   const downMd = useMediaQuery(theme.breakpoints.down('md'));
-
-  const urlParams = useMemo(() => {
-    return new URLSearchParams(location.search);
-  }, [location.search]);
-
-  const queryParams = useMemo(() => {
-    return getQueryParams(urlParams);
-  }, [urlParams]);
-
-  const [news, setNews] = useState<News[]>(null);
-  const [page, setPage] = useState<Page>({
-    currentPage: 1,
-    nextPage: null,
-    prevPage: null,
-    totalPages: null,
-    isFirstPage: null,
-    isLastPage: null,
-  });
-
-  useEffect(() => {
-    if (user) {
-      fetchMarketNews({
-        uid: user.uid,
-        token: user.idToken,
-        params: queryParams,
-      })
-        .then((res) => {
-          const contents: News[] = res.data.contents.map((d) => {
-            return {
-              id: d.id,
-              headline: d.headline,
-              body: d.body,
-              fetchedFrom: d.fetchedFrom,
-              symbol: d.symbol,
-              linkUrl: d.linkUrl,
-              imageUrl: d.imageUrl,
-              originalCreatedAt: parseISO(d.originalCreatedAt),
-              favoredByCurrentUser: d.favoredByCurrentUser,
-            };
-          });
-          setNews(contents);
-          setPage(res.data.page as Page);
-        })
-        .catch((err) => {
-          alert(err);
-        });
-    }
-  }, [queryParams, user]);
-
-  const updateURL = useCallback(() => {
-    // remove explicit page (if default) for cleaner url (getQueryParams() will default to page DEFAULT_PAGE)
-    if (urlParams.get('page') === `${DEFAULT_PAGE}`) {
-      urlParams.delete('page');
-    }
-    // remove explicit keyword (if default) for cleaner url (getQueryParams() will default to limit DEFAULT_KEYWORD)
-    if (urlParams.get('keyword') === `${DEFAULT_KEYWORD}`) {
-      urlParams.delete('keyword');
-    }
-    history.push({
-      pathname: location.pathname,
-      search: `?${urlParams}`,
-    });
-  }, [urlParams, history, location]);
-
-  const handleChangePage = useCallback(
-    (_event: React.ChangeEvent<unknown>, newPage: number) => {
-      urlParams.set('page', newPage.toString());
-      updateURL();
-      mainRef.current.scrollTo({
-        top: 0,
-        left: 0,
-      });
-    },
-    [updateURL, urlParams]
-  );
-
-  const handleChangeKeyword = (value: string) => {
-    urlParams.set('keyword', value);
-    // reset page param
-    urlParams.set('page', '1');
-    updateURL();
-  };
+  const {
+    news,
+    page,
+    scrollRef,
+    queryParams,
+    handleChangeKeyword,
+    handleChangePage,
+  } = useMarketNews();
 
   return (
-    <GenericTemplate title="Market News" ref={mainRef}>
+    <GenericTemplate title="Market News" ref={scrollRef}>
       <KeywordSearchForm handler={handleChangeKeyword} />
       <GridList cols={downSm ? 1 : downMd ? 2 : 3} cellHeight="auto">
         {news ? (
