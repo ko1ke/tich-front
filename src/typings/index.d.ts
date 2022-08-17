@@ -41,6 +41,8 @@ export interface CompanyNewsQueryParams {
   symbol: string;
 }
 
+export interface FavoriteNewsQueryParams extends MarketNewsQueryParams {}
+
 export interface Ticker {
   symbol: string;
   formalName: string;

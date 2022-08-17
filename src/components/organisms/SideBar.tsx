@@ -15,6 +15,7 @@ import LabelIcon from '@material-ui/icons/Label';
 import SettingsIcon from '@material-ui/icons/Settings';
 import LocationCityIcon from '@material-ui/icons/LocationCity';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import IconButton from '@material-ui/core/IconButton';
 
 const drawerWidth = 240;
@@ -85,6 +86,13 @@ const SideBar: React.FC = () => {
         </LinkListItem>
         <LinkListItem to="/market_news" title="Market News">
           <AttachMoneyIcon />
+        </LinkListItem>
+        <LinkListItem
+          to="/favorite_news"
+          title="Favorite News"
+          disabled={!user?.isAuthenticated}
+        >
+          <FavoriteIcon />
         </LinkListItem>
         <LinkListItem
           to="/portfolio"
