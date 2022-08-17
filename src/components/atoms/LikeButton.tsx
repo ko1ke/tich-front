@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
     border: 'none',
     outline: 'none',
     background: 'transparent',
+    cursor: 'pointer',
   },
 }));
 
@@ -25,15 +26,9 @@ const FavButton: React.FC<Props> = ({ isFavorite, handleChangeLike }) => {
     handleChangeLike();
   };
 
-  if (isFavorite)
-    return (
-      <button className={classes.button} type="button" onClick={onClickButton}>
-        <FavoriteIcon color="error" />
-      </button>
-    );
   return (
     <button className={classes.button} type="button" onClick={onClickButton}>
-      <FavoriteBorderIcon />
+      {isFavorite ? <FavoriteIcon color="secondary" /> : <FavoriteBorderIcon />}
     </button>
   );
 };
