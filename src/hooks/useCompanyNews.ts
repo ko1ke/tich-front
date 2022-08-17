@@ -12,6 +12,7 @@ import { selectUser } from '../features/userSlice';
 import { News, Page, CompanyNewsQueryParams, Ticker } from '../typings';
 import { fetchCompanyNews } from '../api/companyNews';
 import { fetchTickers } from '../api/ticker';
+import { createFavorite, deleteFavorite } from '../api/favorite';
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_SYMBOL = '';
@@ -101,6 +102,40 @@ const useCompanyNews = () => {
     updateURL();
   };
 
+  const handleChangeLike = (newsId: number, isLiked: boolean) => {
+    if (isLiked) {
+      deleteFavorite({
+        uid: user.uid,
+        token: user.idToken,
+        newsId,
+      })
+        .then(() => {
+          const index = news.findIndex((n) => n.id === newsId);
+          const newNews = [...news];
+          newNews[index] = { ...newNews[index], favoredByCurrentUser: false };
+          setNews(newNews);
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    } else {
+      createFavorite({
+        uid: user.uid,
+        token: user.idToken,
+        newsId,
+      })
+        .then(() => {
+          const index = news.findIndex((n) => n.id === newsId);
+          const newNews = [...news];
+          newNews[index] = { ...newNews[index], favoredByCurrentUser: true };
+          setNews(newNews);
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    }
+  };
+
   useEffect(() => {
     if (user) {
       fetchCompanyNews({
@@ -149,6 +184,7 @@ const useCompanyNews = () => {
     scrollRef,
     handleChangePage,
     handleChangeSymbol,
+    handleChangeLike,
   };
 };
 

@@ -29,6 +29,7 @@ const NewsPage: React.FC = () => {
     queryParams,
     handleChangeKeyword,
     handleChangePage,
+    handleChangeLike,
   } = useMarketNews();
 
   return (
@@ -49,6 +50,7 @@ const NewsPage: React.FC = () => {
                   imageUrl={n.imageUrl}
                   originalCreatedAt={n.originalCreatedAt}
                   favoredByCurrentUser={n.favoredByCurrentUser}
+                  handleChangeLike={handleChangeLike}
                 />
               </GridListTile>
             );

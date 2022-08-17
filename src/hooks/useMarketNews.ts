@@ -11,6 +11,7 @@ import { parseISO } from 'date-fns';
 import { selectUser } from '../features/userSlice';
 import { fetchMarketNews } from '../api/marketNews';
 import { News, Page, MarketNewsQueryParams } from '../typings';
+import { createFavorite, deleteFavorite } from '../api/favorite';
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_KEYWORD = '';
@@ -99,6 +100,40 @@ const useMarketNews = () => {
     updateURL();
   };
 
+  const handleChangeLike = (newsId: number, isLiked: boolean) => {
+    if (isLiked) {
+      deleteFavorite({
+        uid: user.uid,
+        token: user.idToken,
+        newsId,
+      })
+        .then(() => {
+          const index = news.findIndex((n) => n.id === newsId);
+          const newNews = [...news];
+          newNews[index] = { ...newNews[index], favoredByCurrentUser: false };
+          setNews(newNews);
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    } else {
+      createFavorite({
+        uid: user.uid,
+        token: user.idToken,
+        newsId,
+      })
+        .then(() => {
+          const index = news.findIndex((n) => n.id === newsId);
+          const newNews = [...news];
+          newNews[index] = { ...newNews[index], favoredByCurrentUser: true };
+          setNews(newNews);
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    }
+  };
+
   useEffect(() => {
     if (user) {
       fetchMarketNews({
@@ -135,6 +170,7 @@ const useMarketNews = () => {
     scrollRef,
     handleChangePage,
     handleChangeKeyword,
+    handleChangeLike,
   };
 };
 

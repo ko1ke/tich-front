@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../features/userSlice';
 import Box from '@material-ui/core/Box';
-import FavButton from '../atoms/FavButton';
+import LikeButton from '../atoms/LikeButton';
 import { News } from '../../typings';
 import LazyLoad from 'react-lazyload';
 import {
@@ -28,7 +28,11 @@ const useStyles = makeStyles({
   },
 });
 
-const NewsCard: React.FC<News> = ({
+interface NewsCardProps extends News {
+  handleChangeLike: (newsId: number, isLiked: boolean) => void;
+}
+
+const NewsCard: React.FC<NewsCardProps> = ({
   id,
   headline,
   body,
@@ -38,6 +42,7 @@ const NewsCard: React.FC<News> = ({
   imageUrl,
   originalCreatedAt,
   favoredByCurrentUser,
+  handleChangeLike,
 }) => {
   const classes = useStyles();
   const user = useSelector(selectUser);
@@ -105,7 +110,16 @@ const NewsCard: React.FC<News> = ({
           <RedditIcon size={32} round={true} />
         </RedditShareButton>
         <Box style={{ marginLeft: 'auto' }}>
-          {!user?.uid ? <></> : <FavButton isFavorite={favoredByCurrentUser} />}
+          {!user?.uid ? (
+            <></>
+          ) : (
+            <LikeButton
+              isFavorite={favoredByCurrentUser}
+              handleChangeLike={() =>
+                handleChangeLike(id, favoredByCurrentUser)
+              }
+            />
+          )}
         </Box>
       </CardActions>
     </Card>

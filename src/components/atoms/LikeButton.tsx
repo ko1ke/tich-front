@@ -5,6 +5,7 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
 type Props = {
   isFavorite: boolean;
+  handleChangeLike: () => void;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -15,17 +16,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FavButton: React.FC<Props> = ({ isFavorite }) => {
+const FavButton: React.FC<Props> = ({ isFavorite, handleChangeLike }) => {
   const classes = useStyles();
+  const onClickButton = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+    handleChangeLike();
+  };
 
   if (isFavorite)
     return (
-      <button className={classes.button}>
+      <button className={classes.button} type="button" onClick={onClickButton}>
         <FavoriteIcon color="error" />
       </button>
     );
   return (
-    <button className={classes.button}>
+    <button className={classes.button} type="button" onClick={onClickButton}>
       <FavoriteBorderIcon />
     </button>
   );
