@@ -3,6 +3,7 @@ import { Container, Typography } from '@material-ui/core';
 import FeatureCard from '../molecules/FeatureCard';
 import LocationCityIcon from '@material-ui/icons/LocationCity';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import LabelIcon from '@material-ui/icons/Label';
 
 const iconSize = 30;
@@ -27,6 +28,16 @@ const features = [
       'share article by SNS (twitter, Facebook, reddit) easy',
     ],
     icon: <AttachMoneyIcon style={{ fontSize: iconSize }} />,
+  },
+  {
+    color: '#F44336',
+    headline: 'Favorite News',
+    lead: 'Read articles you liked by clicking/tapping heart icons',
+    body: [
+      'search articles by single keyword',
+      'share article by SNS (twitter, Facebook, reddit) easy',
+    ],
+    icon: <FavoriteIcon style={{ fontSize: iconSize }} />,
   },
   {
     color: '#0091EA',
