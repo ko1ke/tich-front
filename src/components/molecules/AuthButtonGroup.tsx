@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const AuthButton: React.FC = () => {
+const AuthButtonGroup: React.FC = () => {
   const classes = useStyles();
   const currentUser = useSelector((state: RootState) => state.currentUser);
   const dispatch = useDispatch();
@@ -56,4 +56,4 @@ const AuthButton: React.FC = () => {
   );
 };
 
-export default AuthButton;
+export default AuthButtonGroup;

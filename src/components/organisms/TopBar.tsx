@@ -10,7 +10,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import AuthButton from '../molecules/AuthButton';
+import AuthButtonGroup from '../molecules/AuthButtonGroup';
 import Logo from '../../images/logo.png';
 
 const drawerWidth = 240;
@@ -103,7 +103,7 @@ const TopBar = () => {
         >
           <img src={Logo} alt="TiCh Logo" height="auto" width="55" />
         </Typography>
-        <AuthButton />
+        <AuthButtonGroup />
       </Toolbar>
     </AppBar>
   );
