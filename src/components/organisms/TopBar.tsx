@@ -12,6 +12,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import AuthButtonGroup from '../molecules/AuthButtonGroup';
 import Logo from '../../images/logo.png';
+import BuyMeCoffeeButton from '../atoms/BuyMeCoffeeButton';
+import { createTip } from '../../api/tip';
+declare const Stripe;
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
@@ -71,10 +74,22 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-const TopBar = () => {
+const TopBar: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const drawer = useSelector((state: RootState) => state.drawer);
+  const handleTip = () => {
+    createTip()
+      .then((res) => {
+        const stripe = new Stripe(`${process.env.REACT_APP_STRIPE_KEY}`);
+        stripe.redirectToCheckout({
+          sessionId: res.data.id,
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
 
   return (
     <AppBar
@@ -104,6 +119,7 @@ const TopBar = () => {
           <img src={Logo} alt="TiCh Logo" height="auto" width="55" />
         </Typography>
         <AuthButtonGroup />
+        <BuyMeCoffeeButton handleTip={handleTip} />
       </Toolbar>
     </AppBar>
   );

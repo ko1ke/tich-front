@@ -11,6 +11,7 @@ import SettingPage from './components/pages/SettingPage';
 import CompanyNewsPage from './components/pages/CompanyNewsPage';
 import MarketNewsPage from './components/pages/MarketNewsPage';
 import FavoriteNewsPage from './components/pages/FavoriteNewsPage';
+import PaymentPage from './components/pages/PaymentPage';
 import { auth } from './firebase';
 import { getIdToken } from './api/firebase';
 import { fetchCurrentUser, removeCurrentUser } from './features/userSlice';
@@ -68,6 +69,7 @@ const App: React.FC = () => {
       <PrivateRoute path="/favorite_news" component={FavoriteNewsPage} exact />
       <PrivateRoute path="/portfolio" component={PortfolioPage} exact />
       <PrivateRoute path="/setting" component={SettingPage} exact />
+      <PrivateRoute path="/payment" component={PaymentPage} exact />
       <Route render={() => <h1>Not Found...</h1>} />
     </Switch>
   );
