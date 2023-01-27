@@ -1,9 +1,5 @@
 import axios from 'axios';
-
-export interface DataQueryParams {
-  page: number;
-  symbol: string;
-}
+import { NewsResponse, CompanyNewsQueryParams } from '../typings';
 
 const generateQueryString = (obj: any): string => {
   return Object.keys(obj)
@@ -18,7 +14,7 @@ export const fetchCompanyNews = async ({
 }: {
   uid: string;
   token: string;
-  params: DataQueryParams;
+  params: CompanyNewsQueryParams;
 }) => {
   const client = axios.create({
     baseURL: `${process.env.REACT_APP_BASE_URL}`,
@@ -32,5 +28,5 @@ export const fetchCompanyNews = async ({
     responseType: 'json',
   });
   const url = `/news/companies?${generateQueryString(params)}`;
-  return await client.get(url);
+  return await client.get<NewsResponse>(url);
 };

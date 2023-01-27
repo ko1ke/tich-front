@@ -1,15 +1,9 @@
-import React, {
-  useEffect,
-  useState,
-  useMemo,
-  useCallback,
-  useRef,
-} from 'react';
+import React, { useMemo, useCallback, useRef } from 'react';
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { parseISO } from 'date-fns';
 import { selectUser } from '../features/userSlice';
-import { News, Page, CompanyNewsQueryParams } from '../typings';
+import { CompanyNewsQueryParams, NewsResponse } from '../typings';
 import { fetchCompanyNews } from '../api/companyNews';
 import { createFavorite, deleteFavorite } from '../api/favorite';
 
@@ -22,16 +16,7 @@ const useCompanyNews = () => {
   const history = useHistory();
   const location = useLocation();
   const scrollRef = useRef<HTMLElement>(null);
-
-  const [news, setNews] = useState<News[]>(null);
-  const [page, setPage] = useState<Page>({
-    currentPage: 1,
-    nextPage: null,
-    prevPage: null,
-    totalPages: null,
-    isFirstPage: null,
-    isLastPage: null,
-  });
+  const queryClient = useQueryClient();
 
   const getQueryParams = (
     urlParams: URLSearchParams
@@ -93,85 +78,71 @@ const useCompanyNews = () => {
     [updateURL, urlParams]
   );
 
-  const handleChangeSymbol = (event: React.ChangeEvent<{ value: unknown }>) => {
-    urlParams.set('symbol', event.target.value as string);
-    // reset page param
-    urlParams.set('page', '1');
-    updateURL();
-  };
+  const handleChangeSymbol = useCallback(
+    (event: React.ChangeEvent<{ value: unknown }>) => {
+      urlParams.set('symbol', event.target.value as string);
+      // reset page param
+      urlParams.set('page', '1');
+      updateURL();
+    },
+    [urlParams, updateURL]
+  );
 
-  const handleChangeLike = (newsId: number, isLiked: boolean) => {
-    if (isLiked) {
-      deleteFavorite({
+  const toggleLikeMutation = useMutation(
+    async ({ newsId, isLiked }: { newsId: number; isLiked: boolean }) => {
+      const toggleFn = isLiked ? deleteFavorite : createFavorite;
+
+      await toggleFn({
         uid: user.uid,
         token: user.idToken,
         newsId,
-      })
-        .then(() => {
-          const index = news.findIndex((n) => n.id === newsId);
-          const newNews = [...news];
-          newNews[index] = { ...newNews[index], favoredByCurrentUser: false };
-          setNews(newNews);
-        })
-        .catch((err) => {
-          alert(err);
-        });
-    } else {
-      createFavorite({
-        uid: user.uid,
-        token: user.idToken,
-        newsId,
-      })
-        .then(() => {
-          const index = news.findIndex((n) => n.id === newsId);
-          const newNews = [...news];
-          newNews[index] = { ...newNews[index], favoredByCurrentUser: true };
-          setNews(newNews);
-        })
-        .catch((err) => {
-          alert(err);
-        });
+      });
+    },
+    {
+      onSuccess: (_res, variables) => {
+        const previousNews = queryClient.getQueryData<NewsResponse>([
+          'company_news',
+          queryParams,
+        ]);
+        const index = previousNews.contents.findIndex(
+          (n) => n.id === variables.newsId
+        );
+        const newNews = { ...previousNews };
+        newNews.contents[index].favoredByCurrentUser = !variables.isLiked;
+        queryClient.setQueryData(['company_news', queryParams], newNews);
+      },
+      onError: (err: any) => {
+        console.log(err);
+      },
     }
-  };
+  );
 
-  useEffect(() => {
-    if (user) {
-      fetchCompanyNews({
+  const { data, isError, isLoading } = useQuery({
+    queryKey: ['company_news', queryParams],
+    cacheTime: 0,
+    enabled: !!user && user.isAuthenticated !== null,
+    queryFn: async () => {
+      const { data } = await fetchCompanyNews({
         uid: user.uid,
         token: user.idToken,
         params: queryParams,
-      })
-        .then((res) => {
-          const contents: News[] = res.data.contents.map((d) => {
-            return {
-              id: d.id,
-              headline: d.headline,
-              body: d.body,
-              fetchedFrom: d.fetchedFrom,
-              symbol: d.symbol,
-              linkUrl: d.linkUrl,
-              imageUrl: d.imageUrl,
-              originalCreatedAt: parseISO(d.originalCreatedAt),
-              favoredByCurrentUser: d.favoredByCurrentUser,
-            };
-          });
-          setNews(contents);
-          setPage(res.data.page as Page);
-        })
-        .catch((err) => {
-          alert(err);
-        });
-    }
-  }, [queryParams, user]);
+      });
+      return data;
+    },
+    onError: (err: any) => {
+      console.log(err);
+    },
+  });
 
   return {
-    news,
-    page,
+    data,
+    isLoading,
+    isError,
     queryParams,
     scrollRef,
     handleChangePage,
     handleChangeSymbol,
-    handleChangeLike,
+    toggleLikeMutation,
   };
 };
 

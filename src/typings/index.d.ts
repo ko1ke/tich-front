@@ -18,7 +18,7 @@ export interface News {
   symbol: string;
   linkUrl: string;
   imageUrl: string;
-  originalCreatedAt: Date;
+  originalCreatedAt: string;
   favoredByCurrentUser: boolean;
 }
 
@@ -46,4 +46,9 @@ export interface FavoriteNewsQueryParams extends MarketNewsQueryParams {}
 export interface Ticker {
   symbol: string;
   formalName: string;
+}
+
+interface NewsResponse {
+  contents: News[];
+  page: Page;
 }

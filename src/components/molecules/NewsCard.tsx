@@ -1,5 +1,4 @@
 import React from 'react';
-import { format } from 'date-fns';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -29,7 +28,7 @@ const useStyles = makeStyles({
 });
 
 interface NewsCardProps extends News {
-  handleChangeLike: (newsId: number, isLiked: boolean) => void;
+  handleChangeLike: Function;
 }
 
 const NewsCard: React.FC<NewsCardProps> = ({
@@ -95,7 +94,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
             </Typography>
           )}
           <Typography variant="caption" display="block" align="right">
-            Created at: {format(originalCreatedAt, 'yyyy-MM-dd HH:mm:ss')}
+            Created at: {originalCreatedAt}
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -116,7 +115,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
             <LikeButton
               isFavorite={favoredByCurrentUser}
               handleChangeLike={() =>
-                handleChangeLike(id, favoredByCurrentUser)
+                handleChangeLike({ newsId: id, isLiked: favoredByCurrentUser })
               }
             />
           )}

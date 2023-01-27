@@ -10,6 +10,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import Loader from '../molecules/Loader';
 import Pagination from '@material-ui/lab/Pagination';
 import useCompanyNews from '../../hooks/useCompanyNews';
+import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -23,14 +24,22 @@ const NewsPage: React.FC = () => {
   const downSm = useMediaQuery(theme.breakpoints.down('sm'));
   const downMd = useMediaQuery(theme.breakpoints.down('md'));
   const {
-    news,
-    page,
-    scrollRef,
+    data,
+    isLoading,
+    isError,
     queryParams,
+    scrollRef,
     handleChangeSymbol,
     handleChangePage,
-    handleChangeLike,
+    toggleLikeMutation,
   } = useCompanyNews();
+
+  if (isError)
+    return (
+      <Alert variant="filled" severity="error">
+        Error!
+      </Alert>
+    );
 
   return (
     <GenericTemplate title="Company News" ref={scrollRef}>
@@ -40,8 +49,8 @@ const NewsPage: React.FC = () => {
         handler={handleChangeSymbol}
       />
       <GridList cols={downSm ? 1 : downMd ? 2 : 3} cellHeight="auto">
-        {news ? (
-          news.map((n) => {
+        {data &&
+          data.contents.map((n) => {
             return (
               <GridListTile key={n.id} cols={1} className={classes.title}>
                 <NewsCard
@@ -54,23 +63,21 @@ const NewsPage: React.FC = () => {
                   imageUrl={n.imageUrl}
                   originalCreatedAt={n.originalCreatedAt}
                   favoredByCurrentUser={n.favoredByCurrentUser}
-                  handleChangeLike={handleChangeLike}
+                  handleChangeLike={toggleLikeMutation.mutate}
                 />
               </GridListTile>
             );
-          })
-        ) : (
-          <Loader />
-        )}
+          })}
+        {isLoading && <Loader />}
       </GridList>
-      {news ? (
+      {data ? (
         <Pagination
-          count={page.totalPages}
+          count={data.page.totalPages}
           page={+queryParams.page}
           onChange={handleChangePage}
         />
       ) : (
-        page.totalPages === 0 && <>Articles not found.</>
+        data?.page.totalPages === 0 && <>Articles not found.</>
       )}
     </GenericTemplate>
   );
