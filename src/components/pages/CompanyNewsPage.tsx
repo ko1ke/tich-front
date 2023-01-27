@@ -24,7 +24,6 @@ const NewsPage: React.FC = () => {
   const downMd = useMediaQuery(theme.breakpoints.down('md'));
   const {
     news,
-    tickers,
     page,
     scrollRef,
     queryParams,
@@ -35,14 +34,11 @@ const NewsPage: React.FC = () => {
 
   return (
     <GenericTemplate title="Company News" ref={scrollRef}>
-      {tickers && (
-        <TickerSelect
-          tickers={tickers}
-          value={queryParams.symbol}
-          helperText={'Select a symbol to show the related articles'}
-          handler={handleChangeSymbol}
-        />
-      )}
+      <TickerSelect
+        value={queryParams.symbol}
+        helperText={'Select a symbol to show the related articles'}
+        handler={handleChangeSymbol}
+      />
       <GridList cols={downSm ? 1 : downMd ? 2 : 3} cellHeight="auto">
         {news ? (
           news.map((n) => {

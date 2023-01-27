@@ -1,4 +1,5 @@
 import axios from 'axios';
+import type { Ticker } from '../typings';
 
 export const fetchTickers = async () => {
   const client = axios.create({
@@ -10,5 +11,5 @@ export const fetchTickers = async () => {
     responseType: 'json',
   });
   const url = '/tickers';
-  return await client.get(url);
+  return await client.get<Ticker[]>(url);
 };

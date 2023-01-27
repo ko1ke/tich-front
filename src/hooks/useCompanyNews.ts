@@ -9,9 +9,8 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { parseISO } from 'date-fns';
 import { selectUser } from '../features/userSlice';
-import { News, Page, CompanyNewsQueryParams, Ticker } from '../typings';
+import { News, Page, CompanyNewsQueryParams } from '../typings';
 import { fetchCompanyNews } from '../api/companyNews';
-import { fetchTickers } from '../api/ticker';
 import { createFavorite, deleteFavorite } from '../api/favorite';
 
 const DEFAULT_PAGE = 1;
@@ -33,7 +32,6 @@ const useCompanyNews = () => {
     isFirstPage: null,
     isLastPage: null,
   });
-  const [tickers, setTickers] = useState<Ticker[]>([]);
 
   const getQueryParams = (
     urlParams: URLSearchParams
@@ -166,20 +164,9 @@ const useCompanyNews = () => {
     }
   }, [queryParams, user]);
 
-  useEffect(() => {
-    fetchTickers()
-      .then((res) => {
-        setTickers(res.data as Ticker[]);
-      })
-      .catch((err) => {
-        alert(err);
-      });
-  }, []);
-
   return {
     news,
     page,
-    tickers,
     queryParams,
     scrollRef,
     handleChangePage,

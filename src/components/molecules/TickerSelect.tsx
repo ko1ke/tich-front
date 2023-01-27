@@ -5,14 +5,9 @@ import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../features/userSlice';
-
-interface Ticker {
-  symbol: string;
-  formalName: string;
-}
+import useQueryTickers from '../../hooks/useQueryTickers';
 
 interface TickerSelectProps {
-  tickers: Ticker[];
   value: string;
   helperText: string;
   handler: (
@@ -33,13 +28,13 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const TickerSelect: React.FC<TickerSelectProps> = ({
-  tickers,
   value,
   handler,
   helperText,
 }) => {
   const classes = useStyles();
   const user = useSelector(selectUser);
+  const { data: tickers } = useQueryTickers();
 
   return (
     <FormControl fullWidth className={classes.root}>
@@ -48,11 +43,12 @@ const TickerSelect: React.FC<TickerSelectProps> = ({
         <option value="FAVORITES" disabled={!user?.isAuthenticated}>
           😊 Your Favorites (ticker symbols in your portfolio)
         </option>
-        {tickers.map((ticker) => (
-          <option key={ticker.symbol} value={ticker.symbol}>
-            {`${ticker.symbol} (${ticker.formalName})`}
-          </option>
-        ))}
+        {tickers &&
+          tickers.map((ticker) => (
+            <option key={ticker.symbol} value={ticker.symbol}>
+              {`${ticker.symbol} (${ticker.formalName})`}
+            </option>
+          ))}
       </NativeSelect>
       <FormHelperText>{helperText}</FormHelperText>
     </FormControl>
