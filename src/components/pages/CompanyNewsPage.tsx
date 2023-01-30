@@ -10,7 +10,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import Loader from '../molecules/Loader';
 import Pagination from '@material-ui/lab/Pagination';
 import useCompanyNews from '../../hooks/useCompanyNews';
-import { Alert } from '@material-ui/lab';
+import ErrorPage from './ErrorPage';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -34,12 +34,7 @@ const NewsPage: React.FC = () => {
     toggleLikeMutation,
   } = useCompanyNews();
 
-  if (isError)
-    return (
-      <Alert variant="filled" severity="error">
-        Error!
-      </Alert>
-    );
+  if (isError) return <ErrorPage />;
 
   return (
     <GenericTemplate title="Company News" ref={scrollRef}>

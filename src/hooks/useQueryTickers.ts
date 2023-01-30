@@ -9,7 +9,7 @@ const useQueryTickers = () => {
       return data;
     },
     onError: (err: any) => {
-      alert(err);
+      console.log(err);
     },
   });
   return { data };

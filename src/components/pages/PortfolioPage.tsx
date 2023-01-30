@@ -5,6 +5,7 @@ import { fetchPortfolios } from '../../api/portfolio';
 import Loader from '../molecules/Loader';
 import GenericTemplate from '../templates/GenericTemplate';
 import PortfolioTable from '../organisms/PortfolioTable';
+import ErrorPage from './ErrorPage';
 
 interface Portfolio {
   ticker: string;
@@ -15,6 +16,7 @@ interface Portfolio {
 
 const PortfolioPage: React.FC = () => {
   const user = useSelector(selectUser);
+  const [hasError, setHasError] = useState(false);
   const [portfolio, setPortfolio] = useState<Portfolio[]>(null);
 
   useEffect(() => {
@@ -23,11 +25,14 @@ const PortfolioPage: React.FC = () => {
         .then((res) => {
           setPortfolio(res.data.sheet as Portfolio[]);
         })
-        .catch((err) => {
-          alert(err);
+        .catch((err: any) => {
+          console.log(err);
+          setHasError(true);
         });
     }
   }, [user]);
+
+  if (hasError === true) return <ErrorPage />;
 
   return (
     <GenericTemplate title="Portfolio">

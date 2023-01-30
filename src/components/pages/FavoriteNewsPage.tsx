@@ -10,7 +10,7 @@ import Loader from '../molecules/Loader';
 import Pagination from '@material-ui/lab/Pagination';
 import KeywordSearchForm from '../molecules/KeywordSearchForm';
 import useFavoriteNews from '../../hooks/useFavoriteNews';
-import { Alert } from '@material-ui/lab';
+import ErrorPage from './ErrorPage';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -34,12 +34,7 @@ const NewsPage: React.FC = () => {
     toggleLikeMutation,
   } = useFavoriteNews();
 
-  if (isError)
-    return (
-      <Alert variant="filled" severity="error">
-        Error!
-      </Alert>
-    );
+  if (isError) return <ErrorPage />;
 
   return (
     <GenericTemplate title="Favorite News" ref={scrollRef}>
