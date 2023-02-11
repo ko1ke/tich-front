@@ -4,12 +4,12 @@ import LocalCafeIcon from '@material-ui/icons/LocalCafe';
 import Tooltip from '@material-ui/core/Tooltip';
 
 type Props = {
-  handleTip: () => void;
+  handleChip: () => void;
 };
 
-const BuyMeCoffeeButton: React.FC<Props> = ({ handleTip }) => {
+const BuyMeCoffeeButton: React.FC<Props> = ({ handleChip }) => {
   const onClickButton = () => {
-    handleTip();
+    handleChip();
   };
 
   return (

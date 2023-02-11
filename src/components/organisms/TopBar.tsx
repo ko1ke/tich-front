@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import AuthButtonGroup from '../molecules/AuthButtonGroup';
 import Logo from '../../images/logo.png';
 import BuyMeCoffeeButton from '../atoms/BuyMeCoffeeButton';
-import { createTip } from '../../api/tip';
+import { createChip } from '../../api/chip';
 declare const Stripe;
 
 const drawerWidth = 240;
@@ -78,8 +78,8 @@ const TopBar: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const drawer = useSelector((state: RootState) => state.drawer);
-  const handleTip = () => {
-    createTip()
+  const handleChip = () => {
+    createChip()
       .then((res) => {
         const stripe = new Stripe(`${process.env.REACT_APP_STRIPE_KEY}`);
         stripe.redirectToCheckout({
@@ -119,7 +119,7 @@ const TopBar: React.FC = () => {
           <img src={Logo} alt="TiCh Logo" height="auto" width="55" />
         </Typography>
         <AuthButtonGroup />
-        <BuyMeCoffeeButton handleTip={handleTip} />
+        <BuyMeCoffeeButton handleChip={handleChip} />
       </Toolbar>
     </AppBar>
   );

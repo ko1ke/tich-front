@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const createTip = async () => {
+export const createChip = async () => {
   const client = axios.create({
     baseURL: `${process.env.REACT_APP_BASE_URL}`,
     headers: {
@@ -11,5 +11,5 @@ export const createTip = async () => {
     responseType: 'json',
   });
 
-  return await client.post('/tips');
+  return await client.post('/chips');
 };
