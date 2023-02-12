@@ -56,7 +56,7 @@ export const fetchEmailUser = createAsyncThunk<
   // 第二引数でthunkAPIを受け取る
   async (user, { dispatch, rejectWithValue }) => {
     try {
-      const res: any = await signInEmail(user);
+      const res = await signInEmail(user);
       const idToken = await getIdToken();
       dispatch(push('/'));
       const { email, uid, displayName, photoURL } = res.user;
@@ -75,7 +75,7 @@ export const createEmailUser = createAsyncThunk<
   ThunkApiConfig
 >('emailUser/create', async (user, { dispatch, rejectWithValue }) => {
   try {
-    const res: any = await signUpEmail(user);
+    const res = await signUpEmail(user);
     const idToken = await getIdToken();
     const { email, uid, displayName, photoURL } = res.user;
     await createUser({ token: idToken });
@@ -94,7 +94,7 @@ export const createGoogleUser = createAsyncThunk<
   ThunkApiConfig
 >('googleUser/create', async (_, { dispatch, rejectWithValue }) => {
   try {
-    const res: any = await signInGoogle();
+    const res = await signInGoogle();
     const idToken = await getIdToken();
     dispatch(push('/'));
     const { email, uid, displayName, photoURL } = res.user;
