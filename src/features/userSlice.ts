@@ -9,31 +9,7 @@ import {
   getIdToken,
 } from '../api/firebase';
 import { createUser } from '../api/user';
-
-type User = {
-  email?: string | null;
-  uid?: string;
-  idToken?: string;
-  displayName?: string | null;
-  photoURL?: string | null;
-  isAuthenticationError?: boolean;
-  isAuthenticated?: boolean;
-  error?: { message?: string };
-  success?: { message?: string };
-};
-
-type UserAuthentication = {
-  email?: string;
-  uid?: string;
-  displayName?: string;
-  photoURL?: string;
-};
-
-type UserCredential = {
-  email: string;
-  password: string;
-  password_confirmation?: string;
-};
+import type { User, UserAuthentication, UserCredential } from '../typings';
 
 type ThunkApiConfig = {
   rejectValue: {

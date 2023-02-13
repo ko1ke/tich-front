@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { User } from '../typings';
 
 export const createUser = async ({ token }: { token: string }) => {
   const client = axios.create({
@@ -11,7 +12,7 @@ export const createUser = async ({ token }: { token: string }) => {
     },
     responseType: 'json',
   });
-  return await client.post('/users');
+  return await client.post<User>('/users');
 };
 
 export const rankUpUser = async ({
@@ -32,5 +33,5 @@ export const rankUpUser = async ({
     },
     responseType: 'json',
   });
-  return await client.put('/users/rank_up');
+  return await client.put<User>('/users/rank_up');
 };

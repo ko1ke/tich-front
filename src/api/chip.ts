@@ -11,5 +11,5 @@ export const createChip = async () => {
     responseType: 'json',
   });
 
-  return await client.post('/chips');
+  return await client.post<{ id: string }>('/chips');
 };

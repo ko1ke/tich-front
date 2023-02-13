@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { PortfolioProps } from '../typings';
+import { PortfolioProps, Portfolio } from '../typings';
 
 export const fetchPortfolios = async ({
   uid,
@@ -20,7 +20,7 @@ export const fetchPortfolios = async ({
     responseType: 'json',
   });
 
-  return await client.get('/portfolios');
+  return await client.get<Portfolio>('/portfolios');
 };
 
 export const createPortfolio = async ({
@@ -43,7 +43,7 @@ export const createPortfolio = async ({
     },
     responseType: 'json',
   });
-  return await client.post('/portfolios', {
+  return await client.post<Portfolio>('/portfolios', {
     portfolio: {
       sheet: sheet.map((item) => ({
         symbol: item['symbol'],

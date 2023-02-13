@@ -3,7 +3,7 @@ import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../features/userSlice';
-import { CompanyNewsQueryParams, NewsResponse } from '../typings';
+import { CompanyNewsQueryParams, NewsPage } from '../typings';
 import { fetchCompanyNews } from '../api/companyNews';
 import { createFavorite, deleteFavorite } from '../api/favorite';
 
@@ -100,7 +100,7 @@ const useCompanyNews = () => {
     },
     {
       onSuccess: (_res, variables) => {
-        const previousNews = queryClient.getQueryData<NewsResponse>([
+        const previousNews = queryClient.getQueryData<NewsPage>([
           'company_news',
           queryParams,
         ]);

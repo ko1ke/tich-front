@@ -4,7 +4,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../features/userSlice';
 import { fetchMarketNews } from '../api/marketNews';
-import { MarketNewsQueryParams, NewsResponse } from '../typings';
+import { MarketNewsQueryParams, NewsPage } from '../typings';
 import { createFavorite, deleteFavorite } from '../api/favorite';
 
 const DEFAULT_PAGE = 1;
@@ -100,7 +100,7 @@ const useMarketNews = () => {
     },
     {
       onSuccess: (_res, variables) => {
-        const previousNews = queryClient.getQueryData<NewsResponse>([
+        const previousNews = queryClient.getQueryData<NewsPage>([
           'market_news',
           queryParams,
         ]);

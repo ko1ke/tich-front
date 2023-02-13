@@ -20,7 +20,7 @@ export const createFavorite = async ({
     },
     responseType: 'json',
   });
-  return await client.post('/favorites', {
+  return await client.post<void>('/favorites', {
     favorite: {
       news_id: newsId,
     },
@@ -47,5 +47,5 @@ export const deleteFavorite = async ({
     },
     responseType: 'json',
   });
-  return await client.delete(`/favorites/${newsId}`);
+  return await client.delete<void>(`/favorites/${newsId}`);
 };

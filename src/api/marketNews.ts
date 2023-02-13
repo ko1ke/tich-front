@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { MarketNewsQueryParams, NewsResponse } from '../typings';
+import { MarketNewsQueryParams, NewsPage } from '../typings';
 import { generateQueryString } from '../utils/query';
 
 export const fetchMarketNews = async ({
@@ -23,5 +23,5 @@ export const fetchMarketNews = async ({
     responseType: 'json',
   });
   const url = `/news/markets?${generateQueryString(params)}`;
-  return await client.get<NewsResponse>(url);
+  return await client.get<NewsPage>(url);
 };

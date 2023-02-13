@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FavoriteNewsQueryParams, NewsResponse } from '../typings';
+import { FavoriteNewsQueryParams, NewsPage } from '../typings';
 import { generateQueryString } from '../utils/query';
 
 export const fetchFavoriteNews = async ({
@@ -23,5 +23,5 @@ export const fetchFavoriteNews = async ({
     responseType: 'json',
   });
   const url = `/news?${generateQueryString(params)}`;
-  return await client.get<NewsResponse>(url);
+  return await client.get<NewsPage>(url);
 };

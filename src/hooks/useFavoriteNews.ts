@@ -4,7 +4,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../features/userSlice';
 import { fetchFavoriteNews } from '../api/favoriteNews';
-import { FavoriteNewsQueryParams, NewsResponse } from '../typings';
+import { FavoriteNewsQueryParams, NewsPage } from '../typings';
 import { createFavorite, deleteFavorite } from '../api/favorite';
 
 const DEFAULT_PAGE = 1;
@@ -100,7 +100,7 @@ const useFavoriteNews = () => {
     },
     {
       onSuccess: (_res, variables) => {
-        const previousNews = queryClient.getQueryData<NewsResponse>([
+        const previousNews = queryClient.getQueryData<NewsPage>([
           'favorite_news',
           queryParams,
         ]);

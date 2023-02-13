@@ -9,6 +9,17 @@ export interface PortfolioProps {
   note: string;
   targetPrice: string;
 }
+export interface PortfolioItem {
+  unitPrice: number;
+  change: number;
+  ticker: string;
+  note: string;
+  targetPrice: number;
+}
+
+export interface Portfolio {
+  sheet: PortfolioItem[];
+}
 
 export interface News {
   id: number;
@@ -48,7 +59,32 @@ export interface Ticker {
   formalName: string;
 }
 
-interface NewsResponse {
+export interface NewsPage {
   contents: News[];
   page: Page;
+}
+
+export interface User {
+  email?: string | null;
+  uid?: string;
+  idToken?: string;
+  displayName?: string | null;
+  photoURL?: string | null;
+  isAuthenticationError?: boolean;
+  isAuthenticated?: boolean;
+  error?: { message?: string };
+  success?: { message?: string };
+}
+
+export interface UserAuthentication {
+  email?: string;
+  uid?: string;
+  displayName?: string;
+  photoURL?: string;
+}
+
+export interface UserCredential {
+  email: string;
+  password: string;
+  password_confirmation?: string;
 }
