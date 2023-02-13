@@ -1,11 +1,6 @@
 import axios from 'axios';
 import { NewsResponse, CompanyNewsQueryParams } from '../typings';
-
-const generateQueryString = (obj: any): string => {
-  return Object.keys(obj)
-    .map((key) => `${key}=${obj[key]}`)
-    .join('&');
-};
+import { generateQueryString } from '../utils/query';
 
 export const fetchCompanyNews = async ({
   uid,

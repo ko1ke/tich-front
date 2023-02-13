@@ -1,11 +1,6 @@
 import axios from 'axios';
 import { FavoriteNewsQueryParams, NewsResponse } from '../typings';
-
-const generateQueryString = (obj: any): string => {
-  return Object.keys(obj)
-    .map((key) => `${key}=${obj[key]}`)
-    .join('&');
-};
+import { generateQueryString } from '../utils/query';
 
 export const fetchFavoriteNews = async ({
   uid,
