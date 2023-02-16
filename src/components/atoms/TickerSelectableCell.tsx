@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 
 const TickerSelectableCell = ({
-  value: initialValue,
+  getValue,
   row: { index },
   column: { id },
-  tickers,
-  updateData, // This is a custom function that we supplied to our table instance
+  table,
 }) => {
+  const initialValue = getValue();
+
   // We need to keep and update the state of the cell normally
   const [value, setValue] = useState(initialValue);
 
   const onChange = (e) => {
-    updateData(index, id, e.target.value);
+    table.options.meta?.updateData(index, id, e.target.value);
   };
 
   // If the initialValue is changed externall, sync it up with our state
@@ -21,7 +22,7 @@ const TickerSelectableCell = ({
 
   return (
     <select value={value} onChange={onChange}>
-      {tickers.map((ticker) => (
+      {table.options.meta?.tickers.map((ticker) => (
         <option key={ticker.symbol} value={ticker.symbol}>
           {ticker.symbol}
         </option>

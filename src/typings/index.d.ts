@@ -10,9 +10,9 @@ export interface PortfolioProps {
   targetPrice: string;
 }
 export interface PortfolioItem {
-  unitPrice: number;
+  price: number;
   change: number;
-  ticker: string;
+  symbol: string;
   note: string;
   targetPrice: number;
 }

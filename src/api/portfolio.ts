@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { PortfolioProps, Portfolio } from '../typings';
+import { Portfolio, PortfolioItem } from '../typings';
 
 export const fetchPortfolios = async ({
   uid,
@@ -30,7 +30,7 @@ export const createPortfolio = async ({
 }: {
   uid: string;
   token: string;
-  sheet: PortfolioProps[];
+  sheet: PortfolioItem[];
 }) => {
   const client = axios.create({
     baseURL: `${process.env.REACT_APP_BASE_URL}`,
