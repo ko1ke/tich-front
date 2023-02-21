@@ -10,7 +10,7 @@ const Template: ComponentStory<typeof BuyMeCoffeeButton> = (args) => (
   <BuyMeCoffeeButton {...args} />
 );
 
-export const Inherit = Template.bind({});
-Inherit.args = {
+export const Default = Template.bind({});
+Default.args = {
   handleChip: () => alert('chip!'),
 };
