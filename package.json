@@ -37,7 +37,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "scaffold": "hygen generator components"
   },
   "eslintConfig": {
     "extends": [
@@ -88,6 +89,7 @@
     "@types/react-redux": "^7.1.15",
     "@types/react-router-dom": "^5.1.7",
     "babel-plugin-named-exports-order": "^0.0.2",
+    "hygen": "^6.2.11",
     "prop-types": "^15.8.1",
     "webpack": "^5.75.0"
   }
