@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FavButton: React.FC<Props> = ({ isFavorite, handleChangeLike }) => {
+const LikeButton: React.FC<Props> = ({ isFavorite, handleChangeLike }) => {
   const classes = useStyles();
   const onClickButton = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -33,4 +33,4 @@ const FavButton: React.FC<Props> = ({ isFavorite, handleChangeLike }) => {
   );
 };
 
-export default FavButton;
+export default LikeButton;
