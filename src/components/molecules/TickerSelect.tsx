@@ -8,7 +8,7 @@ import { selectUser } from '../../features/userSlice';
 import useQueryTickers from '../../hooks/useQueryTickers';
 
 interface TickerSelectProps {
-  value: string;
+  selectValue: string;
   helperText: string;
   handler: (
     event: React.ChangeEvent<{
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const TickerSelect: React.FC<TickerSelectProps> = ({
-  value,
+  selectValue,
   handler,
   helperText,
 }) => {
@@ -38,7 +38,7 @@ const TickerSelect: React.FC<TickerSelectProps> = ({
 
   return (
     <FormControl fullWidth className={classes.root}>
-      <NativeSelect value={value} onChange={handler}>
+      <NativeSelect value={selectValue} onChange={handler}>
         <option value="">All symbols</option>
         <option value="FAVORITES" disabled={!user?.isAuthenticated}>
           😊 Your Favorites (ticker symbols in your portfolio)
