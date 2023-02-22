@@ -90,7 +90,12 @@
     "@types/react-router-dom": "^5.1.7",
     "babel-plugin-named-exports-order": "^0.0.2",
     "hygen": "^6.2.11",
+    "msw": "^1.0.1",
+    "msw-storybook-addon": "^1.7.0",
     "prop-types": "^15.8.1",
     "webpack": "^5.75.0"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
