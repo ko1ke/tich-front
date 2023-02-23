@@ -6,43 +6,48 @@ import Grid from '@material-ui/core/Grid';
 import { Link as RouterLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    mainFeaturedPost: {
-      position: 'relative',
-      backgroundColor: theme.palette.grey[800],
-      color: theme.palette.common.white,
-      marginBottom: theme.spacing(4),
-      backgroundImage: 'url(https://source.unsplash.com/1024x768/?investing)',
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'center',
-    },
-    overlay: {
-      position: 'absolute',
-      top: 0,
-      bottom: 0,
-      right: 0,
-      left: 0,
-      backgroundColor: 'rgba(0,0,0,.3)',
-    },
-    mainFeaturedPostContent: {
-      position: 'relative',
-      padding: theme.spacing(3),
-      [theme.breakpoints.up('md')]: {
-        padding: theme.spacing(6),
-        paddingRight: 0,
-      },
-    },
-    authLinkWrapper: {
-      padding: theme.spacing(0.5),
-      backgroundColor: 'rgba(255,255,255,.4)',
-      color: 'rgba(255,255,255,.5)',
-    },
-  })
-);
+type Props = {
+  backgroundUrl?: string;
+};
 
-export default function HeroSection() {
+const HeroSection: React.FC<Props> = ({
+  backgroundUrl = 'https://source.unsplash.com/1024x768/?investing',
+}) => {
+  const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+      mainFeaturedPost: {
+        position: 'relative',
+        backgroundColor: theme.palette.grey[800],
+        color: theme.palette.common.white,
+        marginBottom: theme.spacing(4),
+        backgroundImage: `url(${backgroundUrl})`,
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+      },
+      overlay: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        right: 0,
+        left: 0,
+        backgroundColor: 'rgba(0,0,0,.3)',
+      },
+      mainFeaturedPostContent: {
+        position: 'relative',
+        padding: theme.spacing(3),
+        [theme.breakpoints.up('md')]: {
+          padding: theme.spacing(6),
+          paddingRight: 0,
+        },
+      },
+      authLinkWrapper: {
+        padding: theme.spacing(0.5),
+        backgroundColor: 'rgba(255,255,255,.4)',
+        color: 'rgba(255,255,255,.5)',
+      },
+    })
+  );
   const classes = useStyles();
 
   return (
@@ -51,7 +56,7 @@ export default function HeroSection() {
       {
         <img
           style={{ display: 'none' }}
-          src={`url(https://source.unsplash.com/1024x768/?investing)`}
+          src={`url(${backgroundUrl})`}
           alt={'hero'}
         />
       }
@@ -82,4 +87,6 @@ export default function HeroSection() {
       </Grid>
     </Paper>
   );
-}
+};
+
+export default HeroSection;

@@ -16,7 +16,11 @@ export default {
   ],
 } as ComponentMeta<typeof HeroSection>;
 
-const Template: ComponentStory<typeof HeroSection> = () => <HeroSection />;
+const Template: ComponentStory<typeof HeroSection> = (args) => (
+  <HeroSection {...args} />
+);
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  backgroundUrl: 'https://dummyimage.com/1024x768/000/fff',
+};
