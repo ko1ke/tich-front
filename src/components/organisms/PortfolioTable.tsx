@@ -33,7 +33,11 @@ declare module '@tanstack/react-table' {
   }
 }
 
-const PortfolioTable = ({ sheet }: { sheet: PortfolioItem[] }) => {
+type Props = {
+  sheet: PortfolioItem[];
+};
+
+const PortfolioTable: React.FC<Props> = ({ sheet }) => {
   const [data, setData] = useState(sheet);
   const [tickers, setTickers] = useState<Ticker[]>([]);
   const currentUser = useSelector((state: RootState) => state.currentUser);

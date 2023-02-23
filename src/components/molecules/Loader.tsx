@@ -14,13 +14,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Loader() {
+type Props = {
+  text?: string;
+};
+
+const Loader: React.FC<Props> = ({ text = 'Loading...' }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <Typography>Loading...</Typography>
+      <Typography>{text}</Typography>
       <LinearProgress />
     </div>
   );
-}
+};
+
+export default Loader;

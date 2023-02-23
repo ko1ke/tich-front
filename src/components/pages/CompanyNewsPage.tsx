@@ -39,7 +39,7 @@ const NewsPage: React.FC = () => {
   return (
     <GenericTemplate title="Company News" ref={scrollRef}>
       <TickerSelect
-        value={queryParams.symbol}
+        selectValue={queryParams.symbol}
         helperText={'Select a symbol to show the related articles'}
         handler={handleChangeSymbol}
       />

@@ -29,7 +29,15 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const KeywordSearchForm = ({ handler }) => {
+type Props = {
+  handler: (value: string) => void;
+  placeholder?: string;
+};
+
+const KeywordSearchForm: React.FC<Props> = ({
+  handler,
+  placeholder = 'Search by keywords',
+}) => {
   const classes = useStyles();
   const location = useLocation();
   const [value, setValue] = useState('');
@@ -49,7 +57,7 @@ const KeywordSearchForm = ({ handler }) => {
     <Paper component="form" className={classes.root} onSubmit={onSubmit}>
       <InputBase
         className={classes.input}
-        placeholder="Search by keywords"
+        placeholder={placeholder}
         inputProps={{ 'aria-label': 'search by keywords' }}
         name="keyword"
         value={value}
