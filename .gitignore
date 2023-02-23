@@ -28,3 +28,4 @@ yarn-error.log*
 # firebase hosting
 .firebaserc
 /.firebase
+build-storybook.log

@@ -8,3 +8,4 @@
 - typescript
 - material-ui
 - firebase (authのみ)
+- storybook(chromaticにデプロイ: https://63f70e753a7e4ef9abfa17b8-vbycwbtcbz.chromatic.com/)

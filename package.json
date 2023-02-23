@@ -38,7 +38,8 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "scaffold": "hygen generator components"
+    "scaffold": "hygen generator components",
+    "chromatic": "npx chromatic --project-token=ec9ab78a73d2"
   },
   "eslintConfig": {
     "extends": [
@@ -89,6 +90,7 @@
     "@types/react-redux": "^7.1.15",
     "@types/react-router-dom": "^5.1.7",
     "babel-plugin-named-exports-order": "^0.0.2",
+    "chromatic": "^6.17.0",
     "hygen": "^6.2.11",
     "msw": "^1.0.1",
     "msw-storybook-addon": "^1.7.0",
@@ -97,5 +99,7 @@
   },
   "msw": {
     "workerDirectory": "public"
-  }
+  },
+  "readme": "ERROR: No README data found!",
+  "_id": "tich@0.1.0"
 }
