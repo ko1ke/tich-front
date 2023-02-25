@@ -19,11 +19,13 @@ import { fetchCurrentUser, removeCurrentUser } from './features/userSlice';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { openDrawer, closeDrawer } from './features/drawerSlice';
+import useElasticSearchEnabled from './hooks/useElasticSearchEnabled';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const downSm = useMediaQuery(theme.breakpoints.down('sm'));
+  const { elasticSearchEnabled } = useElasticSearchEnabled();
 
   useEffect(() => {
     const unSub = auth.onAuthStateChanged((authUser) => {
@@ -67,7 +69,9 @@ const App: React.FC = () => {
       <Route path="/sign_up" component={SignUpPage} exact />
       <Route path="/company_news" component={CompanyNewsPage} exact />
       <Route path="/market_news" component={MarketNewsPage} exact />
-      <Route path="/es_news" component={EsNewsPage} exact />
+      {elasticSearchEnabled && (
+        <Route path="/es_news" component={EsNewsPage} exact />
+      )}
       <PrivateRoute path="/favorite_news" component={FavoriteNewsPage} exact />
       <PrivateRoute path="/portfolio" component={PortfolioPage} exact />
       <PrivateRoute path="/setting" component={SettingPage} exact />
