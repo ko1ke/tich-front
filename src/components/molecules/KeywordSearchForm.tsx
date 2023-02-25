@@ -46,7 +46,7 @@ const KeywordSearchForm: React.FC<Props> = ({
     // fill the value from searchParams 'keyword' when reloaded or accessed directly with url
     const searchParams = new URLSearchParams(location.search);
     setValue(searchParams.get('keyword') || '');
-  }, []);
+  }, [location.search]);
 
   const onSubmit = (event: React.FormEvent<unknown>) => {
     event.preventDefault();
