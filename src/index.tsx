@@ -6,6 +6,8 @@ import { ConnectedRouter } from 'connected-react-router';
 import reportWebVitals from './reportWebVitals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import flagsmith from 'flagsmith';
+import { FlagsmithProvider } from 'flagsmith/react';
 
 const queryClient = new QueryClient();
 
@@ -13,7 +15,15 @@ ReactDOM.render(
   <QueryClientProvider client={queryClient}>
     <ReduxProvider store={store}>
       <ConnectedRouter history={history}>
-        <App />
+        <FlagsmithProvider
+          options={{
+            environmentID:
+              process.env.REACT_APP_ELASTIC_SEARCH_FLAGSMITH_ENV_ID,
+          }}
+          flagsmith={flagsmith}
+        >
+          <App />
+        </FlagsmithProvider>
       </ConnectedRouter>
     </ReduxProvider>
     <ReactQueryDevtools initialIsOpen={false} />

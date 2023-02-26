@@ -17,6 +17,8 @@ import LocationCityIcon from '@material-ui/icons/LocationCity';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import IconButton from '@material-ui/core/IconButton';
+import FindInPageIcon from '@material-ui/icons/FindInPage';
+import useElasticSearchEnabled from '../../hooks/useElasticSearchEnabled';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
@@ -59,6 +61,7 @@ const SideBar: React.FC = () => {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const drawer = useSelector((state: RootState) => state.drawer);
+  const { elasticSearchEnabled } = useElasticSearchEnabled();
 
   return (
     <Drawer
@@ -94,6 +97,15 @@ const SideBar: React.FC = () => {
         >
           <FavoriteIcon />
         </LinkListItem>
+        {elasticSearchEnabled && (
+          <LinkListItem
+            to="/es_news"
+            title="News with ES"
+            disabled={!elasticSearchEnabled}
+          >
+            <FindInPageIcon />
+          </LinkListItem>
+        )}
         <LinkListItem
           to="/portfolio"
           title="Portfolio"
