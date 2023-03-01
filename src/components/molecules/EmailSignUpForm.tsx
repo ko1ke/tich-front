@@ -1,10 +1,9 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@mui/material/Typography';
 import { useDispatch } from 'react-redux';
 import { Form, Field } from 'react-final-form';
 import TextInput from '../atoms/TextInput';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import { createEmailUser } from '../../features/userSlice';
 import { AuthProps } from '../../typings';
 import {
@@ -13,29 +12,23 @@ import {
   minLength,
   composeValidators,
 } from '../../utils/validator';
+import { styled } from '@mui/system';
 
-const useStyles = makeStyles((theme) => ({
-  fields: {
+const EmailSignUpForm: React.FC = () => {
+  const ButtonsWrapper = styled('div')(({ theme }) => ({
     '& > *': {
-      marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(1),
+      margin: theme.spacing(1.75),
     },
-  },
-  buttons: {
+    marginTop: theme.spacing(1.75),
+    marginBottom: theme.spacing(1.75),
+  }));
+
+  const FieldsWrapper = styled('div')(({ theme }) => ({
     '& > *': {
       margin: theme.spacing(1),
     },
-  },
-  container: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: theme.spacing(2.5),
-  },
-}));
+  }));
 
-const EmailSignUpForm: React.FC = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
 
   const onSubmit = async (values: AuthProps) => {
@@ -59,13 +52,14 @@ const EmailSignUpForm: React.FC = () => {
           values,
         }) => (
           <form onSubmit={handleSubmit}>
-            <div className={classes.fields}>
+            <FieldsWrapper>
               <div>
                 <Field<string>
                   validate={composeValidators(required, mustBeEmail)}
                   name="email"
                   component={TextInput}
                   placeholder="Email"
+                  variant="standard"
                 />
               </div>
               <div>
@@ -75,26 +69,31 @@ const EmailSignUpForm: React.FC = () => {
                   type="password"
                   component={TextInput}
                   placeholder="Password"
+                  variant="standard"
                 />
               </div>
-            </div>
-            <div className={classes.buttons}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                disabled={submitting || pristine || !valid}
-              >
-                Submit
-              </Button>
-              <Button
-                variant="contained"
-                onClick={form.reset as () => void}
-                disabled={submitting || pristine}
-              >
-                Reset
-              </Button>
-            </div>
+            </FieldsWrapper>
+            <ButtonsWrapper>
+              <span>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  disabled={submitting || pristine || !valid}
+                >
+                  Submit
+                </Button>
+              </span>
+              <span>
+                <Button
+                  variant="contained"
+                  onClick={form.reset as () => void}
+                  disabled={submitting || pristine}
+                >
+                  Reset
+                </Button>
+              </span>
+            </ButtonsWrapper>
           </form>
         )}
       />
