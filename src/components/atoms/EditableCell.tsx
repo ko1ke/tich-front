@@ -1,20 +1,16 @@
-import React, { useState, useEffect } from 'react';
-// import TextareaAutosize from '@material-ui/core/TextareaAutosize';
-import { makeStyles } from '@material-ui/core/styles';
+import { useState, useEffect } from 'react';
+import { styled } from '@mui/system';
 
-const useStyles = makeStyles(() => ({
-  cell: {
-    border: 0,
-    lineHeight: '1.2rem',
-    backgroundColor: '#fafafa',
-    background: 'transparent',
-    resize: 'none',
-    width: '100%',
-  },
-}));
+const Input = styled('input')({
+  border: 0,
+  lineHeight: '1.2rem',
+  backgroundColor: '#fafafa',
+  background: 'transparent',
+  resize: 'none',
+  width: '100%',
+});
 
 const EditableCell = ({ getValue, row: { index }, column: { id }, table }) => {
-  const classes = useStyles();
   const initialValue = getValue();
 
   // We need to keep and update the state of the cell normally
@@ -36,13 +32,7 @@ const EditableCell = ({ getValue, row: { index }, column: { id }, table }) => {
   }, [initialValue]);
 
   return (
-    <input
-      className={classes.cell}
-      type={inputType}
-      value={value}
-      onChange={onChange}
-      onBlur={onBlur}
-    />
+    <Input type={inputType} value={value} onChange={onChange} onBlur={onBlur} />
   );
 };
 
