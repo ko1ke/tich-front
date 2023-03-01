@@ -1,12 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUser, resetAuthenticationError } from '../../features/userSlice';
-
-function Alert(props: AlertProps) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 const UserSnack: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -41,10 +37,17 @@ const UserSnack: React.FC = () => {
   }, [user]);
 
   return (
-    <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+    <Snackbar
+      open={open}
+      autoHideDuration={3000}
+      onClose={handleClose}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+    >
       <Alert
         onClose={handleClose}
         severity={user.isAuthenticated ? 'success' : 'error'}
+        elevation={6}
+        variant="filled"
       >
         {alertMessage}
       </Alert>
