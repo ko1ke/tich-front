@@ -1,28 +1,33 @@
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 import { FieldRenderProps } from 'react-final-form';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { styled } from '@mui/system';
+import { useTheme } from '@mui/material/styles';
 
-type Props = FieldRenderProps<string, any>;
+type Props = FieldRenderProps<string, any> & {
+  children?: React.ReactNode;
+};
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    error: {
-      color: theme.palette.secondary.dark,
-      height: theme.spacing(1.5),
-    },
-  })
-);
-
-const TextInput: React.FC<Props> = ({ input, meta, ...rest }: Props) => {
-  const classes = useStyles();
+const TextInput: React.FC<Props> = ({
+  input,
+  meta,
+  children,
+  ...rest
+}: Props) => {
+  const theme = useTheme();
+  const ErrorMessage = styled('div')({
+    color: theme.palette.error.dark,
+    height: theme.spacing(1.5),
+  });
 
   return (
     <>
-      <TextField {...input} {...rest} />
-      <div className={classes.error}>
+      <TextField {...input} {...rest}>
+        {rest.select && children}
+      </TextField>
+      <ErrorMessage>
         {meta.error && meta.touched ? meta.error : ''}
-      </div>
+      </ErrorMessage>
     </>
   );
 };
