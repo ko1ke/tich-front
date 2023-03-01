@@ -1,30 +1,23 @@
 import React from 'react';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Chip from '@material-ui/core/Chip';
-import Avatar from '@material-ui/core/Avatar';
+import Button from '@mui/material/Button';
+import Chip from '@mui/material/Chip';
+import Avatar from '@mui/material/Avatar';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store';
 import { removeCurrentUser } from '../../features/userSlice';
+import { styled } from '@mui/system';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    link: {
-      textDecoration: 'none',
-      color: 'inherit',
-    },
-    chip: {
-      backgroundColor: 'white',
-    },
-    user: {
-      display: 'flex',
-    },
-  })
-);
+const FlexDiv = styled('div')({
+  display: 'flex',
+});
+
+const StyledLink = styled(Link)({
+  textDecoration: 'none',
+  color: 'inherit',
+});
 
 const AuthButtonGroup: React.FC = () => {
-  const classes = useStyles();
   const currentUser = useSelector((state: RootState) => state.currentUser);
   const dispatch = useDispatch();
 
@@ -33,16 +26,18 @@ const AuthButtonGroup: React.FC = () => {
   };
 
   return (
-    <div className={classes.user}>
+    <FlexDiv>
       {!currentUser.isAuthenticated && (
-        <Link className={classes.link} to="/login">
+        <StyledLink to="/login">
           <Button color="inherit">Login</Button>
-        </Link>
+        </StyledLink>
       )}
       {currentUser.isAuthenticated && (
         <>
           <Chip
-            className={classes.chip}
+            sx={{
+              backgroundColor: 'white',
+            }}
             avatar={<Avatar alt="avatar" src={currentUser.photoURL || ''} />}
             label={currentUser.displayName}
             variant="outlined"
@@ -52,7 +47,7 @@ const AuthButtonGroup: React.FC = () => {
           </Button>
         </>
       )}
-    </div>
+    </FlexDiv>
   );
 };
 
