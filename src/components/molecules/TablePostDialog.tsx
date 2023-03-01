@@ -20,7 +20,7 @@ type Props = {
   tickers?: Ticker[];
 };
 
-const PostDialog: React.FC<Props> = ({ addHandler, tickers }: Props) => {
+const TablePostDialog: React.FC<Props> = ({ addHandler, tickers }: Props) => {
   const theme = useTheme();
   const FieldsWrapper = styled('div')({
     '& > *': {
@@ -140,4 +140,4 @@ const PostDialog: React.FC<Props> = ({ addHandler, tickers }: Props) => {
   );
 };
 
-export default PostDialog;
+export default TablePostDialog;
