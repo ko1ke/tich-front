@@ -1,9 +1,15 @@
-import { makeStyles } from '@material-ui/core/styles';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Typography from '@material-ui/core/Typography';
+import LinearProgress from '@mui/material/LinearProgress';
+import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
+import { styled } from '@mui/system';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
+type Props = {
+  text?: string;
+};
+
+const Loader: React.FC<Props> = ({ text = 'Loading...' }) => {
+  const theme = useTheme();
+  const Wrapper = styled('div')({
     width: '95%',
     '& > * + *': {
       marginTop: theme.spacing(2),
@@ -11,21 +17,13 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     margin: '35vh auto 0',
     transform: 'translateY(-50%)',
-  },
-}));
-
-type Props = {
-  text?: string;
-};
-
-const Loader: React.FC<Props> = ({ text = 'Loading...' }) => {
-  const classes = useStyles();
+  });
 
   return (
-    <div className={classes.root}>
+    <Wrapper>
       <Typography>{text}</Typography>
       <LinearProgress />
-    </div>
+    </Wrapper>
   );
 };
 
