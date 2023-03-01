@@ -1,4 +1,4 @@
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 import { Provider as ReduxProvider } from 'react-redux';
 import { store, history } from './store';
@@ -10,8 +10,9 @@ import flagsmith from 'flagsmith';
 import { FlagsmithProvider } from 'flagsmith/react';
 
 const queryClient = new QueryClient();
-
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(
   <QueryClientProvider client={queryClient}>
     <ReduxProvider store={store}>
       <ConnectedRouter history={history}>
@@ -27,8 +28,7 @@ ReactDOM.render(
       </ConnectedRouter>
     </ReduxProvider>
     <ReactQueryDevtools initialIsOpen={false} />
-  </QueryClientProvider>,
-  document.getElementById('root')
+  </QueryClientProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
