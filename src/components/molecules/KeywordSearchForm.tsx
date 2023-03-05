@@ -1,33 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import InputBase from '@material-ui/core/InputBase';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      padding: '2px 4px',
-      display: 'flex',
-      alignItems: 'center',
-      marginBottom: theme.spacing(2),
-    },
-    input: {
-      marginLeft: theme.spacing(1),
-      flex: 1,
-    },
-    iconButton: {
-      padding: 10,
-    },
-    divider: {
-      height: 28,
-      margin: 4,
-    },
-  })
-);
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
+import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search';
+import { useTheme } from '@mui/material/styles';
 
 type Props = {
   handler: (value: string) => void;
@@ -38,7 +15,7 @@ const KeywordSearchForm: React.FC<Props> = ({
   handler,
   placeholder = 'Search by keywords',
 }) => {
-  const classes = useStyles();
+  const theme = useTheme();
   const location = useLocation();
   const [value, setValue] = useState('');
 
@@ -54,21 +31,25 @@ const KeywordSearchForm: React.FC<Props> = ({
   };
 
   return (
-    <Paper component="form" className={classes.root} onSubmit={onSubmit}>
+    <Paper
+      component="form"
+      sx={{
+        padding: '2px 4px',
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: theme.spacing(2),
+      }}
+      onSubmit={onSubmit}
+    >
       <InputBase
-        className={classes.input}
+        sx={{ marginLeft: theme.spacing(1), flex: 1 }}
         placeholder={placeholder}
         inputProps={{ 'aria-label': 'search by keywords' }}
         name="keyword"
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
-      <Divider className={classes.divider} orientation="vertical" />
-      <IconButton
-        type="submit"
-        className={classes.iconButton}
-        aria-label="search"
-      >
+      <IconButton type="submit" sx={{ padding: '10px' }} aria-label="search">
         <SearchIcon />
       </IconButton>
     </Paper>
