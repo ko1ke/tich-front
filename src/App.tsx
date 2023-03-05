@@ -16,8 +16,8 @@ import PaymentPage from './components/pages/PaymentPage';
 import { auth } from './firebase';
 import { getIdToken } from './api/firebase';
 import { fetchCurrentUser, removeCurrentUser } from './features/userSlice';
-import { useTheme } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { openDrawer, closeDrawer } from './features/drawerSlice';
 import useElasticSearchEnabled from './hooks/useElasticSearchEnabled';
 
