@@ -1,11 +1,11 @@
 import React from 'react';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import NativeSelect from '@material-ui/core/NativeSelect';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import NativeSelect from '@mui/material/NativeSelect';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../features/userSlice';
 import useQueryTickers from '../../hooks/useQueryTickers';
+import { useTheme } from '@mui/material/styles';
 
 interface TickerSelectProps {
   selectValue: string;
@@ -17,27 +17,24 @@ interface TickerSelectProps {
   ) => void;
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      backgroundColor: theme.palette.background.paper,
-      padding: '4px 8px',
-      marginBottom: theme.spacing(2),
-    },
-  })
-);
-
 const TickerSelect: React.FC<TickerSelectProps> = ({
   selectValue,
   handler,
   helperText,
 }) => {
-  const classes = useStyles();
+  const theme = useTheme();
   const user = useSelector(selectUser);
   const { data: tickers } = useQueryTickers();
 
   return (
-    <FormControl fullWidth className={classes.root}>
+    <FormControl
+      fullWidth
+      sx={{
+        backgroundColor: theme.palette.background.paper,
+        padding: '4px 8px',
+        marginBottom: theme.spacing(2),
+      }}
+    >
       <NativeSelect value={selectValue} onChange={handler}>
         <option value="">All symbols</option>
         <option value="FAVORITES" disabled={!user?.isAuthenticated}>
