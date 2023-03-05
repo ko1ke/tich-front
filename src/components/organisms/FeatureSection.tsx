@@ -1,10 +1,10 @@
 import React from 'react';
-import { Container, Typography } from '@material-ui/core';
+import { Container, Typography } from '@mui/material';
 import FeatureCard from '../molecules/FeatureCard';
-import LocationCityIcon from '@material-ui/icons/LocationCity';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import LabelIcon from '@material-ui/icons/Label';
+import LocationCityIcon from '@mui/icons-material/LocationCity';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import LabelIcon from '@mui/icons-material/Label';
 
 const iconSize = 30;
 const features = [
@@ -51,7 +51,7 @@ const features = [
   },
 ];
 
-const FeatureSection = () => {
+const FeatureSection: React.FC = () => {
   return (
     <>
       <Typography variant="h3" align="center" component="h2">

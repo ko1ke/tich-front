@@ -1,19 +1,10 @@
 import React from 'react';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    link: {
-      textDecoration: 'none',
-      color: theme.palette.text.secondary,
-      cursor: (disabled) => (disabled ? 'default' : 'pointer'),
-    },
-  })
-);
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import { styled } from '@mui/system';
+import { useTheme } from '@mui/material/styles';
 
 export interface LinkListItemProps {
   children: React.ReactNode;
@@ -28,15 +19,21 @@ const LinkListItem: React.FC<LinkListItemProps> = ({
   title,
   disabled = false,
 }) => {
-  const classes = useStyles(disabled);
+  const theme = useTheme();
+
+  const StyledLink = styled(Link)({
+    textDecorationLine: 'none',
+    color: theme.palette.text.secondary,
+    cursor: disabled ? 'default' : 'pointer',
+  });
 
   return (
-    <Link to={disabled ? '#' : to} className={classes.link}>
+    <StyledLink to={disabled ? '#' : to}>
       <ListItem button disabled={disabled}>
         <ListItemIcon>{children}</ListItemIcon>
         <ListItemText primary={title} />
       </ListItem>
-    </Link>
+    </StyledLink>
   );
 };
 

@@ -1,4 +1,4 @@
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 import { Provider as ReduxProvider } from 'react-redux';
 import { store, history } from './store';
@@ -8,10 +8,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import flagsmith from 'flagsmith';
 import { FlagsmithProvider } from 'flagsmith/react';
+import { StyledEngineProvider } from '@mui/material/styles';
 
 const queryClient = new QueryClient();
-
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(
   <QueryClientProvider client={queryClient}>
     <ReduxProvider store={store}>
       <ConnectedRouter history={history}>
@@ -22,13 +24,14 @@ ReactDOM.render(
           }}
           flagsmith={flagsmith}
         >
-          <App />
+          <StyledEngineProvider injectFirst>
+            <App />
+          </StyledEngineProvider>
         </FlagsmithProvider>
       </ConnectedRouter>
     </ReduxProvider>
     <ReactQueryDevtools initialIsOpen={false} />
-  </QueryClientProvider>,
-  document.getElementById('root')
+  </QueryClientProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

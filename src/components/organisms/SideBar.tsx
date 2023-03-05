@@ -3,46 +3,38 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectUser } from '../../features/userSlice';
 import { closeDrawer } from '../../features/drawerSlice';
 import { RootState } from '../../store';
-import clsx from 'clsx';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
+import MuiDrawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import Toolbar from '@mui/material/Toolbar';
 import LinkListItem from '../molecules/LinkListItem';
-import Divider from '@material-ui/core/Divider';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import HomeIcon from '@material-ui/icons/Home';
-import LabelIcon from '@material-ui/icons/Label';
-import SettingsIcon from '@material-ui/icons/Settings';
-import LocationCityIcon from '@material-ui/icons/LocationCity';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import IconButton from '@material-ui/core/IconButton';
-import FindInPageIcon from '@material-ui/icons/FindInPage';
+import Divider from '@mui/material/Divider';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import HomeIcon from '@mui/icons-material/Home';
+import LabelIcon from '@mui/icons-material/Label';
+import SettingsIcon from '@mui/icons-material/Settings';
+import LocationCityIcon from '@mui/icons-material/LocationCity';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import IconButton from '@mui/material/IconButton';
+import FindInPageIcon from '@mui/icons-material/FindInPage';
 import useElasticSearchEnabled from '../../hooks/useElasticSearchEnabled';
+import { useTheme, styled } from '@mui/material/styles';
 
 const drawerWidth = 240;
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      display: 'flex',
-    },
-    toolbarIcon: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-      padding: '0 8px',
-      ...theme.mixins.toolbar,
-    },
-    drawerPaper: {
-      position: 'relative',
-      whiteSpace: 'nowrap',
-      width: drawerWidth,
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
-    drawerPaperClose: {
+
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+  '& .MuiDrawer-paper': {
+    position: 'relative',
+    whiteSpace: 'nowrap',
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    boxSizing: 'border-box',
+    ...(!open && {
       overflowX: 'hidden',
       transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
@@ -52,33 +44,41 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.up('sm')]: {
         width: theme.spacing(9),
       },
-    },
-  })
-);
+    }),
+  },
+}));
 
 const SideBar: React.FC = () => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const drawer = useSelector((state: RootState) => state.drawer);
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
-  const drawer = useSelector((state: RootState) => state.drawer);
   const { elasticSearchEnabled } = useElasticSearchEnabled();
 
+  const IconButtonWrapper = styled('div')({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar,
+  });
+
   return (
-    <Drawer
-      variant="permanent"
-      classes={{
-        paper: clsx(
-          classes.drawerPaper,
-          !drawer.open && classes.drawerPaperClose
-        ),
-      }}
-      open={drawer.open}
-    >
-      <div className={classes.toolbarIcon}>
-        <IconButton onClick={() => dispatch(closeDrawer())}>
-          <ChevronLeftIcon />
-        </IconButton>
-      </div>
+    <Drawer variant="permanent" open={drawer.open}>
+      <Toolbar
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          px: [1],
+        }}
+      >
+        <IconButtonWrapper>
+          <IconButton onClick={() => dispatch(closeDrawer())}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </IconButtonWrapper>
+      </Toolbar>
       <Divider />
       <List>
         <LinkListItem to="/" title="TopPage">

@@ -1,41 +1,38 @@
 import React, { useState } from 'react';
-
-import { makeStyles } from '@material-ui/core/styles';
-import AddIcon from '@material-ui/icons/Add';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
+import AddIcon from '@mui/icons-material/Add';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 import { PortfolioProps } from '../../typings';
 import { Form, Field } from 'react-final-form';
 import TextInput from '../atoms/TextInput';
-import SelectInput from '../atoms/SelectInput';
 import { required, composeValidators } from '../../utils/validator';
-import MenuItem from '@material-ui/core/MenuItem';
+import MenuItem from '@mui/material/MenuItem';
+import { useTheme } from '@mui/material/styles';
+import { styled } from '@mui/system';
+import type { Ticker } from '../../typings';
 
-const useStyles = makeStyles((theme) => ({
-  fields: {
+type Props = {
+  addHandler?: (item: any) => void;
+  tickers?: Ticker[];
+};
+
+const TablePostDialog: React.FC<Props> = ({ addHandler, tickers }: Props) => {
+  const theme = useTheme();
+  const FieldsWrapper = styled('div')({
     '& > *': {
       marginTop: theme.spacing(1),
       marginBottom: theme.spacing(1),
     },
-  },
-  buttons: {
+  });
+  const ButtonsWrapper = styled('div')({
     '& > *': {
       margin: theme.spacing(1),
     },
-  },
-}));
-
-interface Ticker {
-  symbol: string;
-  formalName: string;
-}
-
-const PostDialog: React.FC<Props> = ({ addHandler, tickers }: Props) => {
-  const classes = useStyles();
+  });
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -80,15 +77,17 @@ const PostDialog: React.FC<Props> = ({ addHandler, tickers }: Props) => {
               values,
             }) => (
               <form onSubmit={handleSubmit}>
-                <div className={classes.fields}>
+                <FieldsWrapper>
                   <div>
                     <Field<string>
                       validate={composeValidators(required)}
                       name="symbol"
-                      component={SelectInput}
+                      component={TextInput}
                       placeholder="Symbol"
-                      inputLabel="Symbol"
+                      label="Symbol"
                       fullWidth
+                      select
+                      variant="standard"
                     >
                       {tickers.map((ticker) => (
                         <MenuItem key={ticker.symbol} value={ticker.symbol}>
@@ -105,6 +104,7 @@ const PostDialog: React.FC<Props> = ({ addHandler, tickers }: Props) => {
                       placeholder="Target price"
                       label="Target price"
                       fullWidth
+                      variant="standard"
                     />
                   </div>
                   <div>
@@ -115,10 +115,11 @@ const PostDialog: React.FC<Props> = ({ addHandler, tickers }: Props) => {
                       component={TextInput}
                       placeholder="Note"
                       fullWidth
+                      variant="standard"
                     />
                   </div>
-                </div>
-                <div className={classes.buttons}>
+                </FieldsWrapper>
+                <ButtonsWrapper>
                   <Button
                     type="submit"
                     color="primary"
@@ -129,7 +130,7 @@ const PostDialog: React.FC<Props> = ({ addHandler, tickers }: Props) => {
                   <Button onClick={handleClose} color="secondary">
                     Cancel
                   </Button>
-                </div>
+                </ButtonsWrapper>
               </form>
             )}
           />
@@ -139,9 +140,4 @@ const PostDialog: React.FC<Props> = ({ addHandler, tickers }: Props) => {
   );
 };
 
-type Props = {
-  addHandler?: (item: any) => void;
-  tickers?: Ticker[];
-};
-
-export default PostDialog;
+export default TablePostDialog;

@@ -1,46 +1,34 @@
 import React from 'react';
 import GenericTemplate from '../templates/GenericTemplate';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import EmailSignUpForm from '../molecules/EmailSignUpForm';
 import GoogleLoginForm from '../molecules/GoogleLoginForm';
 import { Link } from 'react-router-dom';
+import { useTheme } from '@mui/material/styles';
 
-const useStyles = makeStyles((theme) => ({
-  fields: {
-    '& > *': {
-      marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(1),
-    },
-  },
-  container: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: theme.spacing(2.5),
-  },
-  item: {
-    alignSelf: 'flex-start',
-  },
-  or: {
-    alignSelf: 'center',
-  },
-}));
-
-const SignUpPage = () => {
-  const classes = useStyles();
+const SignUpPage: React.FC = () => {
+  const theme = useTheme();
 
   return (
     <GenericTemplate title="Sign Up">
-      <Grid container spacing={3} className={classes.container}>
-        <Grid item xs className={classes.item}>
+      <Grid
+        container
+        spacing={3}
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: theme.spacing(2.5),
+        }}
+      >
+        <Grid item xs sx={{ alignSelf: 'flex-start' }}>
           <EmailSignUpForm />
           <Link to="/login">Have you already registered? Please log in</Link>
         </Grid>
-        <Grid item xs={1} className={classes.or}>
+        <Grid item xs={1} sx={{ alignSelf: 'center' }}>
           OR
         </Grid>
-        <Grid item xs className={classes.item}>
+        <Grid item xs sx={{ alignSelf: 'flex-start' }}>
           <GoogleLoginForm />
         </Grid>
       </Grid>

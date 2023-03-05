@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert } from '@material-ui/lab';
+import Alert from '@mui/material/Alert';
 import GenericTemplate from '../templates/GenericTemplate';
 
 const ErrorPage: React.FC = () => {

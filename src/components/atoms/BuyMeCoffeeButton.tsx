@@ -1,8 +1,8 @@
 import React from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import LocalCafeIcon from '@material-ui/icons/LocalCafe';
-import Tooltip from '@material-ui/core/Tooltip';
-import type { PropTypes } from '@material-ui/core';
+import IconButton from '@mui/material/IconButton';
+import LocalCafeIcon from '@mui/icons-material/LocalCafe';
+import Tooltip from '@mui/material/Tooltip';
+import type { PropTypes } from '@mui/material';
 
 type Props = {
   handleChip: () => void;
