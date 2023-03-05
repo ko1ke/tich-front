@@ -1,14 +1,13 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
+import Card from '@mui/material/Card';
+import CardActionArea from '@mui/material/CardActionArea';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../features/userSlice';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import LikeButton from '../atoms/LikeButton';
 import { News } from '../../typings';
 import LazyLoad from 'react-lazyload';
@@ -20,12 +19,6 @@ import {
   RedditShareButton,
   RedditIcon,
 } from 'react-share';
-
-const useStyles = makeStyles({
-  root: {
-    maxWidth: 345,
-  },
-});
 
 interface NewsCardProps extends News {
   handleChangeLike: Function;
@@ -43,7 +36,6 @@ const NewsCard: React.FC<NewsCardProps> = ({
   favoredByCurrentUser,
   handleChangeLike,
 }) => {
-  const classes = useStyles();
   const user = useSelector(selectUser);
 
   const complementAsHtml = (text) => {
@@ -52,10 +44,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
   };
 
   return (
-    <Card
-      className={classes.root}
-      onClick={() => window.open(linkUrl, '_blank')}
-    >
+    <Card sx={{ maxWidth: 345 }} onClick={() => window.open(linkUrl, '_blank')}>
       <CardActionArea>
         {imageUrl && (
           <LazyLoad>
