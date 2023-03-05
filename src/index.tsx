@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import flagsmith from 'flagsmith';
 import { FlagsmithProvider } from 'flagsmith/react';
+import { StyledEngineProvider } from '@mui/material/styles';
 
 const queryClient = new QueryClient();
 const container = document.getElementById('root');
@@ -23,7 +24,9 @@ root.render(
           }}
           flagsmith={flagsmith}
         >
-          <App />
+          <StyledEngineProvider injectFirst>
+            <App />
+          </StyledEngineProvider>
         </FlagsmithProvider>
       </ConnectedRouter>
     </ReduxProvider>
