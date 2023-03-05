@@ -2,21 +2,15 @@ import React from 'react';
 import GenericTemplate from '../templates/GenericTemplate';
 import HeadSection from '../organisms/HeroSection';
 import FeatureSection from '../organisms/FeatureSection';
-import Paper from '@material-ui/core/Paper';
-import { makeStyles, Theme } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    padding: theme.spacing(4),
-  },
-}));
+import Paper from '@mui/material/Paper';
+import { useTheme } from '@mui/material/styles';
 
 const HomePage: React.FC = () => {
-  const classes = useStyles();
+  const theme = useTheme();
 
   return (
     <GenericTemplate>
-      <Paper className={classes.root}>
+      <Paper sx={{ padding: theme.spacing(4) }}>
         <HeadSection />
         <FeatureSection />
       </Paper>

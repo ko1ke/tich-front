@@ -1,57 +1,62 @@
 import React, { Fragment } from 'react';
-import { Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import { Typography } from '@mui/material';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import { useTheme } from '@mui/material/styles';
+import { styled } from '@mui/system';
 
-const useStyles = makeStyles((theme) => ({
-  headWrapper: {
+type Props = {
+  Icon: React.ReactNode;
+  color: string;
+  headline: string;
+  lead: string;
+  body: string[];
+};
+
+const FeatureCard: React.FC<Props> = ({
+  Icon,
+  color,
+  headline,
+  lead,
+  body,
+}) => {
+  const theme = useTheme();
+
+  const IconWrapper = styled('div')({
+    padding: theme.spacing(1.5),
+    color: color,
+    fill: color,
+  });
+
+  const TitleWrapper = styled('div')({
+    paddingTop: theme.spacing(1.5),
+    paddingBottom: theme.spacing(1.5),
+    marginBottom: theme.spacing(0.5),
+  });
+
+  const HeaderWrapper = styled('div')({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  iconWrapper: {
-    padding: theme.spacing(1) * 1.5,
-  },
-  headTypoWrapper: {
-    paddingTop: theme.spacing(1) * 1.5,
-    paddingBottom: theme.spacing(1) * 1.5,
-    marginBottom: theme.spacing(0.5),
-  },
-  lead: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-  },
-  list: {
-    color: theme.palette.text.secondary,
-  },
-}));
+  });
 
-const FeatureCard = (props) => {
-  const { Icon, color, headline, lead, body } = props;
-  const classes = useStyles();
   return (
     <Fragment>
-      <div className={classes.headWrapper}>
-        <div
-          className={classes.iconWrapper}
-          style={{
-            color: color,
-            fill: color,
-          }}
-        >
-          {Icon}
-        </div>
-        <div className={classes.headTypoWrapper}>
+      <HeaderWrapper>
+        <IconWrapper>{Icon}</IconWrapper>
+        <TitleWrapper>
           <Typography variant="h5">{headline}</Typography>
-        </div>
-      </div>
-      <Typography className={classes.lead} variant="subtitle1">
+        </TitleWrapper>
+      </HeaderWrapper>
+      <Typography
+        sx={{ paddingLeft: theme.spacing(2), paddingRight: theme.spacing(2) }}
+        variant="subtitle1"
+      >
         {lead}
       </Typography>
-      <List dense className={classes.list}>
+      <List sx={{ color: theme.palette.text.secondary }} dense>
         {body.map((b, i) => (
           <ListItem key={i}>
             <ArrowRightIcon />
@@ -62,12 +67,5 @@ const FeatureCard = (props) => {
     </Fragment>
   );
 };
-
-// FeatureCard.propTypes = {
-//   Icon: PropTypes.element.isRequired,
-//   color: PropTypes.string.isRequired,
-//   headline: PropTypes.string.isRequired,
-//   lead: PropTypes.string.isRequired,
-// };
 
 export default FeatureCard;
