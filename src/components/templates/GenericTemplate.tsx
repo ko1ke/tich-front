@@ -1,76 +1,69 @@
 import React from 'react';
-import { createMuiTheme } from '@material-ui/core/styles';
-import * as colors from '@material-ui/core/colors';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { blue } from '@mui/material/colors';
+import CssBaseline from '@mui/material/CssBaseline';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 import TopBar from '../organisms/TopBar';
 import SideBar from '../organisms/SideBar';
 import UserSnack from '../molecules/UserSnack';
+import Box from '@mui/material/Box';
+import { useTheme, styled } from '@mui/material/styles';
 
-const theme = createMuiTheme({
-  palette: {
-    primary: { main: colors.blue[800] }, // theme color
-  },
-});
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      display: 'flex',
-    },
-    pageTitle: {
-      marginBottom: theme.spacing(1),
-    },
-    appBarSpacer: theme.mixins.toolbar,
-    content: {
-      flexGrow: 1,
-      height: '100vh',
-      overflow: 'auto',
-    },
-    container: {
-      paddingTop: theme.spacing(4),
-      paddingBottom: theme.spacing(4),
-    },
-  })
-);
-
-export interface GenericTemplateProps {
+type GenericTemplateProps = {
   children: React.ReactNode;
   title?: string;
-}
+};
 
 const GenericTemplate = React.forwardRef(
   (props: GenericTemplateProps, ref?: React.LegacyRef<HTMLElement>) => {
-    const classes = useStyles();
+    const theme = useTheme();
+    const AppBarSpacer = styled(Box)({
+      ...theme.mixins.toolbar,
+    });
+    const TemplateContent = styled('main')({
+      backgroundColor: theme.palette.grey[100],
+      flexGrow: 1,
+      height: '100vh',
+      overflow: 'auto',
+    });
+    const customTheme = createTheme({
+      palette: {
+        primary: { main: blue[800] },
+      },
+    });
 
     return (
-      <ThemeProvider theme={theme}>
-        <div className={classes.root}>
+      <ThemeProvider theme={customTheme}>
+        <Box sx={{ display: 'flex' }}>
           <CssBaseline />
           <TopBar />
           <SideBar />
-          <main className={classes.content} ref={ref}>
-            <div className={classes.appBarSpacer} />
-            <Container maxWidth="lg" className={classes.container}>
+          <TemplateContent ref={ref}>
+            <AppBarSpacer />
+            <Container
+              maxWidth="lg"
+              sx={{
+                paddingTop: theme.spacing(4),
+                paddingBottom: theme.spacing(4),
+              }}
+            >
               {props.title && (
                 <Typography
                   component="h2"
                   variant="h5"
                   color="inherit"
                   noWrap
-                  className={classes.pageTitle}
+                  sx={{ marginBottom: theme.spacing(1) }}
                 >
                   {props.title}
                 </Typography>
               )}
               {props.children}
             </Container>
-          </main>
+          </TemplateContent>
           <UserSnack />
-        </div>
+        </Box>
       </ThemeProvider>
     );
   }
