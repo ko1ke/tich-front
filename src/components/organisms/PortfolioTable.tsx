@@ -6,14 +6,14 @@ import { createPortfolio } from '../../api/portfolio';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { Ticker, PortfolioItem } from '../../typings';
-import MaUTable from '@material-ui/core/Table';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import MaUTable from '@mui/material/Table';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import TableToolbar from '../molecules/TableToolbar';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import TableBody from '@material-ui/core/TableBody';
+import TableBody from '@mui/material/TableBody';
 import {
   ColumnDef,
   createColumnHelper,
