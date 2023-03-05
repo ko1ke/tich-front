@@ -2,10 +2,9 @@ import { useState, useEffect } from 'react';
 import { styled } from '@mui/system';
 
 const Input = styled('input')({
-  border: 0,
-  lineHeight: '1.2rem',
-  backgroundColor: '#fafafa',
-  background: 'transparent',
+  border: '0.1px solid',
+  borderRadius: '3px',
+  backgroundColor: '#fff',
   resize: 'none',
   width: '100%',
 });
