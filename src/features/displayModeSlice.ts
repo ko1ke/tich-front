@@ -6,15 +6,19 @@ type DisplayMode = {
   type: PaletteMode;
 };
 
-const initialState: DisplayMode = { type: 'light' };
+const initialState: DisplayMode = {
+  type: (localStorage.getItem('dark-mode-type') as PaletteMode) || 'light',
+};
 const slice = createSlice({
   name: 'display',
   initialState,
   reducers: {
     toDarkMode: (state) => {
+      localStorage.setItem('dark-mode-type', 'dark');
       state.type = 'dark';
     },
     toLightMode: (state) => {
+      localStorage.setItem('dark-mode-type', 'light');
       state.type = 'light';
     },
   },
