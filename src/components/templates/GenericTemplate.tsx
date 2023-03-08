@@ -26,7 +26,10 @@ const GenericTemplate = React.forwardRef(
       ...theme.mixins.toolbar,
     });
     const TemplateContent = styled('main')({
-      backgroundColor: theme.palette.grey[100],
+      backgroundColor:
+        displayMode.type === 'light'
+          ? theme.palette.grey[100]
+          : theme.palette.grey[800],
       flexGrow: 1,
       height: '100vh',
       overflow: 'auto',
