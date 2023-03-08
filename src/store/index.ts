@@ -4,7 +4,7 @@ import { createBrowserHistory } from 'history';
 
 import { currentUserReducer } from '../features/userSlice';
 import { drawerReducer } from '../features/drawerSlice';
-// import { currentUserReducer } from './modules/currentUser'
+import { displayModeReducer } from '../features/displayModeSlice';
 
 // Connected React Routerで共通のインスタンスを使用する
 // 必要があるためエクスポートしておく
@@ -13,6 +13,7 @@ export const history = createBrowserHistory();
 const reducer = combineReducers({
   router: connectRouter(history),
   drawer: drawerReducer,
+  displayMode: displayModeReducer,
   currentUser: currentUserReducer,
 });
 
