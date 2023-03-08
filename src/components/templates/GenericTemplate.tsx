@@ -9,6 +9,8 @@ import SideBar from '../organisms/SideBar';
 import UserSnack from '../molecules/UserSnack';
 import Box from '@mui/material/Box';
 import { useTheme, styled } from '@mui/material/styles';
+import { useSelector } from 'react-redux';
+import { selectDisplayMode } from '../../features/displayModeSlice';
 
 type GenericTemplateProps = {
   children: React.ReactNode;
@@ -18,11 +20,16 @@ type GenericTemplateProps = {
 const GenericTemplate = React.forwardRef(
   (props: GenericTemplateProps, ref?: React.LegacyRef<HTMLElement>) => {
     const theme = useTheme();
+    const displayMode = useSelector(selectDisplayMode);
+
     const AppBarSpacer = styled(Box)({
       ...theme.mixins.toolbar,
     });
     const TemplateContent = styled('main')({
-      backgroundColor: theme.palette.grey[100],
+      backgroundColor:
+        displayMode.type === 'light'
+          ? theme.palette.grey[100]
+          : theme.palette.grey[800],
       flexGrow: 1,
       height: '100vh',
       overflow: 'auto',
@@ -30,6 +37,7 @@ const GenericTemplate = React.forwardRef(
     const customTheme = createTheme({
       palette: {
         primary: { main: blue[800] },
+        mode: displayMode.type,
       },
     });
 

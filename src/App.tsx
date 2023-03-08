@@ -74,7 +74,7 @@ const App: React.FC = () => {
       )}
       <PrivateRoute path="/favorite_news" component={FavoriteNewsPage} exact />
       <PrivateRoute path="/portfolio" component={PortfolioPage} exact />
-      <PrivateRoute path="/setting" component={SettingPage} exact />
+      <Route path="/setting" component={SettingPage} exact />
       <PrivateRoute path="/payment" component={PaymentPage} exact />
       <Route render={() => <h1>Not Found...</h1>} />
     </Switch>

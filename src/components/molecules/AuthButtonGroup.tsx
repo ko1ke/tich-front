@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store';
 import { removeCurrentUser } from '../../features/userSlice';
-import { styled } from '@mui/system';
+import { useTheme, styled } from '@mui/material/styles';
+import { selectDisplayMode } from '../../features/displayModeSlice';
 
 const FlexDiv = styled('div')({
   display: 'flex',
@@ -18,6 +19,8 @@ const StyledLink = styled(Link)({
 });
 
 const AuthButtonGroup: React.FC = () => {
+  const theme = useTheme();
+  const displayMode = useSelector(selectDisplayMode);
   const currentUser = useSelector((state: RootState) => state.currentUser);
   const dispatch = useDispatch();
 
@@ -36,7 +39,10 @@ const AuthButtonGroup: React.FC = () => {
         <>
           <Chip
             sx={{
-              backgroundColor: 'white',
+              backgroundColor:
+                displayMode.type === 'light'
+                  ? theme.palette.grey[50]
+                  : theme.palette.grey[800],
             }}
             avatar={<Avatar alt="avatar" src={currentUser.photoURL || ''} />}
             label={currentUser.displayName}
