@@ -113,11 +113,7 @@ const SideBar: React.FC = () => {
         >
           <LabelIcon />
         </LinkListItem>
-        <LinkListItem
-          to="/setting"
-          title="Setting"
-          disabled={!user?.isAuthenticated}
-        >
+        <LinkListItem to="/setting" title="Setting">
           <SettingsIcon />
         </LinkListItem>
       </List>
