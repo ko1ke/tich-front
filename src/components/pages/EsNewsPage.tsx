@@ -6,10 +6,14 @@ import GenericTemplate from '../templates/GenericTemplate';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Loader from '../molecules/Loader';
+import Box from '@mui/material/Box';
 import Pagination from '@mui/material/Pagination';
 import KeywordSearchForm from '../molecules/KeywordSearchForm';
 import useEsNews from '../../hooks/useEsNews';
 import ErrorPage from './ErrorPage';
+import EsMatchTypeToggleButton from '../molecules/EsMatchTypeToggleButton';
+import EsOperatorToggleButton from '../molecules/EsOperatorToggleButton copy';
+import { styled } from '@mui/system';
 
 const NewsPage: React.FC = () => {
   const theme = useTheme();
@@ -21,16 +25,26 @@ const NewsPage: React.FC = () => {
     isError,
     scrollRef,
     queryParams,
-    handleChangeKeyword,
+    handleChangeSearchKey,
     handleChangePage,
     toggleLikeMutation,
   } = useEsNews();
+
+  const FlexBox = styled(Box)({
+    display: 'flex',
+    gap: theme.spacing(2),
+  });
 
   if (isError) return <ErrorPage />;
 
   return (
     <GenericTemplate title="News powered by elastic search" ref={scrollRef}>
-      <KeywordSearchForm handler={handleChangeKeyword} />
+      <KeywordSearchForm handler={handleChangeSearchKey} target="keyword" />
+      <FlexBox>
+        <EsMatchTypeToggleButton handler={handleChangeSearchKey} />
+        <EsOperatorToggleButton handler={handleChangeSearchKey} />
+      </FlexBox>
+
       <ImageList
         cols={downSm ? 1 : downMd ? 2 : 3}
         rowHeight="auto"

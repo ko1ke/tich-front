@@ -54,7 +54,14 @@ export interface CompanyNewsQueryParams {
 
 export interface FavoriteNewsQueryParams extends MarketNewsQueryParams {}
 
-export interface EsNewsQueryParams extends MarketNewsQueryParams {}
+export type EsMatchType = 'best_fields' | 'cross_fields' | 'most_fields';
+
+export type EsOperator = 'and' | 'or';
+
+export interface EsNewsQueryParams extends MarketNewsQueryParams {
+  matchType: EsMatchType;
+  operator: EsOperator;
+}
 
 export interface Ticker {
   symbol: string;

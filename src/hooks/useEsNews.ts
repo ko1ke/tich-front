@@ -9,7 +9,9 @@ import { createFavorite, deleteFavorite } from '../api/favorite';
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_KEYWORD = '';
-const SUPPORTED_PARAMS = ['page', 'keyword'];
+const DEFAULT_MATCH_TYPE = 'cross_fields';
+const DEFAULT_OPERATOR = 'and';
+const SUPPORTED_PARAMS = ['page', 'keyword', 'type', 'operator'];
 
 const useEsNews = () => {
   const user = useSelector(selectUser);
@@ -38,6 +40,14 @@ const useEsNews = () => {
       obj.keyword = DEFAULT_KEYWORD;
     }
 
+    if (!keys.includes('type')) {
+      obj.type = DEFAULT_MATCH_TYPE;
+    }
+
+    if (!keys.includes('operator')) {
+      obj.operator = DEFAULT_OPERATOR;
+    }
+
     return obj as EsNewsQueryParams;
   };
 
@@ -50,13 +60,17 @@ const useEsNews = () => {
   }, [urlParams]);
 
   const updateURL = useCallback(() => {
-    // remove explicit page (if default) for cleaner url (getQueryParams() will default to page DEFAULT_PAGE)
     if (urlParams.get('page') === `${DEFAULT_PAGE}`) {
       urlParams.delete('page');
     }
-    // remove explicit keyword (if default) for cleaner url (getQueryParams() will default to limit DEFAULT_KEYWORD)
     if (urlParams.get('keyword') === `${DEFAULT_KEYWORD}`) {
       urlParams.delete('keyword');
+    }
+    if (urlParams.get('type') === `${DEFAULT_MATCH_TYPE}`) {
+      urlParams.delete('type');
+    }
+    if (urlParams.get('operator') === `${DEFAULT_OPERATOR}`) {
+      urlParams.delete('operator');
     }
     history.push({
       pathname: location.pathname,
@@ -76,9 +90,9 @@ const useEsNews = () => {
     [updateURL, urlParams]
   );
 
-  const handleChangeKeyword = useCallback(
-    (value: string) => {
-      urlParams.set('keyword', value);
+  const handleChangeSearchKey = useCallback(
+    (value: string, target: 'keyword' | 'type' | 'operator') => {
+      urlParams.set(target, value);
       // reset page param
       urlParams.set('page', '1');
       updateURL();
@@ -139,7 +153,7 @@ const useEsNews = () => {
     queryParams,
     scrollRef,
     handleChangePage,
-    handleChangeKeyword,
+    handleChangeSearchKey,
     toggleLikeMutation,
   };
 };

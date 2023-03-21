@@ -7,12 +7,14 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useTheme } from '@mui/material/styles';
 
 type Props = {
-  handler: (value: string) => void;
+  handler: (value: string, target?: 'keyword') => void;
+  target?: 'keyword';
   placeholder?: string;
 };
 
 const KeywordSearchForm: React.FC<Props> = ({
   handler,
+  target,
   placeholder = 'Search by keywords',
 }) => {
   const theme = useTheme();
@@ -27,7 +29,7 @@ const KeywordSearchForm: React.FC<Props> = ({
 
   const onSubmit = (event: React.FormEvent<unknown>) => {
     event.preventDefault();
-    handler(value);
+    target ? handler(value, target) : handler(value);
   };
 
   return (
