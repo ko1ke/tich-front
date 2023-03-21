@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import { useTheme } from '@mui/material/styles';
+import useKeywordParam from '../../hooks/useKeywordParam';
 
 type Props = {
   handler: (value: string, target?: 'keyword') => void;
@@ -18,14 +18,13 @@ const KeywordSearchForm: React.FC<Props> = ({
   placeholder = 'Search by keywords',
 }) => {
   const theme = useTheme();
-  const location = useLocation();
-  const [value, setValue] = useState('');
+  const { getKeywordParam } = useKeywordParam();
+  const [value, setValue] = useState(getKeywordParam());
 
   useEffect(() => {
     // fill the value from searchParams 'keyword' when reloaded or accessed directly with url
-    const searchParams = new URLSearchParams(location.search);
-    setValue(searchParams.get('keyword') || '');
-  }, [location.search]);
+    setValue(getKeywordParam());
+  }, [getKeywordParam]);
 
   const onSubmit = (event: React.FormEvent<unknown>) => {
     event.preventDefault();
